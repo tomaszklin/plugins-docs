@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blueprint Subsystems</title>
+<style>
+body { font-family: Georgia, 'Times New Roman', serif; font-size: 11pt;
+       line-height: 1.55; color: #1a1a1a; max-width: 46em;
+       margin: 3em auto; padding: 0 1.5em; }
+h1, h2, h3, h4 { font-family: Arial, Helvetica, sans-serif; line-height: 1.25;
+                 color: #0b3d59; margin: 1.6em 0 0.5em; }
+h1 { font-size: 22pt; border-bottom: 2px solid #0b3d59; padding-bottom: 0.25em; }
+h2 { font-size: 16pt; }
+h3 { font-size: 13pt; }
+h4 { font-size: 11.5pt; }
+p { margin: 0.7em 0; }
+img { max-width: 100%; height: auto; display: block; margin: 1.2em auto;
+      border: 1px solid #d8d8d8; }
+img.banner { border: 0; margin: 1.2em 0 0.9em; }
+p.byline { font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt;
+           color: #444; margin: 0 0 0.4em; }
+table { border-collapse: collapse; margin: 1.2em 0; font-size: 10pt;
+        font-family: Arial, Helvetica, sans-serif; }
+th, td { border: 1px solid #bbb; padding: 5px 9px; text-align: left;
+         vertical-align: top; }
+th { background: #eef3f7; }
+td.yes { background: #e3f3e6; color: #14622b; }
+td.no  { background: #fbe6e4; color: #8c1d18; }
+sup { font-size: 0.7em; line-height: 0; vertical-align: super; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 10pt;
+       background: #f3f3f3; padding: 1px 4px; }
+a { color: #10559a; }
+ul, ol { margin: 0.7em 0; padding-left: 1.6em; }
+li { margin: 0.25em 0; }
+nav.toc { margin: 1.5em 0 2.5em; padding: 0.5em 0 1em; border-top: 1px solid #ddd;
+          border-bottom: 1px solid #ddd; font-family: Arial, Helvetica, sans-serif;
+          font-size: 10pt; }
+nav.toc h2 { font-size: 12pt; margin: 0.6em 0 0.4em; }
+nav.toc ul { list-style: none; padding-left: 0; margin: 0; column-count: 2;
+             column-gap: 2.5em; }
+nav.toc li { margin: 0.15em 0; break-inside: avoid; }
+nav.toc a { text-decoration: none; }
+nav.toc .toc1 { padding-left: 0; font-weight: bold; }
+nav.toc .toc2 { padding-left: 1.2em; }
+nav.toc .toc3 { padding-left: 2.4em; }
+.home { display: flex; align-items: center; gap: 0.75em;
+        font-family: Arial, Helvetica, sans-serif; font-size: 10pt;
+        margin-bottom: 1.5em; }
+.back-button { display: inline-block; padding: 0.45em 0.8em;
+               border: 1px solid #0b3d59; border-radius: 4px;
+               text-decoration: none; }
+.plugin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(18em, 1fr));
+               gap: 1.25em; margin: 1.5em 0; }
+.plugin-card { display: block; overflow: hidden; border: 1px solid #ccd7de;
+               border-radius: 6px; color: #1a1a1a; text-decoration: none;
+               background: #fff; }
+.plugin-card:hover { border-color: #10559a; box-shadow: 0 3px 12px #0002; }
+.plugin-card img { width: 100%; aspect-ratio: 894 / 488; object-fit: cover;
+                   margin: 0; border: 0; }
+.plugin-card-body { display: block; padding: 0.85em 1em 1em; }
+.plugin-card h2 { margin: 0; font-size: 15pt; }
+.plugin-version { display: block; margin-top: 0.35em; color: #555;
+                  font-family: Arial, Helvetica, sans-serif; font-size: 9.5pt; }
+</style>
+</head>
+<body>
+<nav class="home"><a class="back-button" href="../index.html">&#8592; All plugins</a></nav>
+<h1 id="blueprint-subsystems">Blueprint Subsystems</h1>
+<img class="banner" src="images/BlueprintSubsystems/banner.png" alt="Blueprint Subsystems">
+<p class="byline">Author: <strong>Tomasz Klin</strong><br>Version: <strong>1.0.0</strong></p>
+<nav class="toc">
+<h2>Contents</h2>
+<ul>
+<li class="toc1"><a href="#introduction">Introduction</a></li>
+<li class="toc1"><a href="#getting-started">Getting started</a></li>
+<li class="toc1"><a href="#choosing-a-scope">Choosing a scope</a></li>
+<li class="toc2"><a href="#engine">Engine</a></li>
+<li class="toc2"><a href="#editor">Editor</a></li>
+<li class="toc2"><a href="#game-instance">Game Instance</a></li>
+<li class="toc2"><a href="#world-and-tickable-world">World and Tickable World</a></li>
+<li class="toc2"><a href="#local-player">Local Player</a></li>
+<li class="toc1"><a href="#lifecycle">Lifecycle</a></li>
+<li class="toc2"><a href="#scope-specific-events">Scope-specific events</a></li>
+<li class="toc2"><a href="#initialize-dependencies">Initialize dependencies</a></li>
+<li class="toc1"><a href="#discovery-and-packaging">Discovery and packaging</a></li>
+<li class="toc1"><a href="#runtime-registration">Runtime registration</a></li>
+<li class="toc1"><a href="#recompiling-a-subsystem">Recompiling a subsystem</a></li>
+<li class="toc1"><a href="#recipes">Recipes</a></li>
+<li class="toc2"><a href="#keep-session-state-across-level-changes">Keep session state across level changes</a></li>
+<li class="toc2"><a href="#build-a-level-service-without-a-manager-actor">Build a level service without a manager actor</a></li>
+<li class="toc2"><a href="#hold-per-player-state-in-split-screen">Hold per-player state in split screen</a></li>
+<li class="toc2"><a href="#run-editor-validation-for-the-whole-session">Run editor validation for the whole session</a></li>
+<li class="toc1"><a href="#troubleshooting">Troubleshooting</a></li>
+<li class="toc2"><a href="#my-subsystem-works-in-the-editor-but-is-missing-from-a-build">My subsystem works in the editor but is missing from a build</a></li>
+<li class="toc2"><a href="#get-subsystem-returns-no-instance">Get Subsystem returns no instance</a></li>
+<li class="toc2"><a href="#initialize-runs-before-another-subsystem-is-ready">Initialize runs before another subsystem is ready</a></li>
+<li class="toc2"><a href="#recompiling-erased-state">Recompiling erased state</a></li>
+<li class="toc2"><a href="#a-tickable-subsystem-does-not-tick">A tickable subsystem does not tick</a></li>
+<li class="toc1"><a href="#support">Support</a></li>
+</ul>
+</nav>
+<h1 id="introduction">Introduction</h1>
+<p>Subsystems are Unreal Engine&#x27;s answer to services and state that belong to a lifetime rather than to an actor. The engine creates them, destroys them at the right moment and makes them available through a typed Get Subsystem node. They do not need to be placed in a map and callers do not need to keep a reference.</p>
+<p>The engine&#x27;s subsystem classes are normally implemented in C++. Blueprint Subsystems adds Blueprintable bases for all six useful scopes, exposes their lifecycle, discovers the Blueprint classes and makes sure their assets are included in packaged builds.</p>
+<h1 id="getting-started">Getting started</h1>
+<p>Enable <strong>Blueprint Subsystems</strong> in <strong>Edit &gt; Plugins</strong> and restart the editor when requested.</p>
+<p>In the Content Browser choose <strong>Add &gt; Blueprints &gt; Blueprint Subsystem</strong>. Pick the base whose lifetime matches the job, name the new asset, then open it and implement <strong>Initialize</strong>. From any compatible graph, search for <strong>Get</strong> followed by the Blueprint class name to retrieve its current instance.</p>
+<p>Nothing has to be placed in a map. With automatic discovery enabled, saving a supported Blueprint class is enough for the plugin to register it. Restart the editor after changing discovery settings.</p>
+<h1 id="choosing-a-scope">Choosing a scope</h1>
+<p>The most important decision is not what the subsystem does but how long its instance should live.</p>
+<table>
+<tr><th>Scope</th><th>Instances</th><th>Lifetime and typical uses</th></tr>
+<tr><td>Engine</td><td>One per process</td><td>Survives worlds and Play In Editor sessions; process-wide services.</td></tr>
+<tr><td>Editor</td><td>One per editor session</td><td>Editor tools, validation and pipeline state; never exists in a packaged game.</td></tr>
+<tr><td>Game Instance</td><td>One per game instance</td><td>One game session across level changes; progression, saves and matchmaking.</td></tr>
+<tr><td>World</td><td>One per supported world</td><td>One level or world; level managers and world-wide gameplay state.</td></tr>
+<tr><td>Tickable World</td><td>One per supported world</td><td>The World scope plus a Blueprint Tick event.</td></tr>
+<tr><td>Local Player</td><td>One per local player</td><td>Per-seat state that survives travel; input, settings and HUD models.</td></tr>
+</table>
+<h2 id="engine">Engine</h2>
+<p>Choose <strong>Blueprint Engine Subsystem</strong> for state that has to outlive worlds and game instances. It has no world of its own, so it is not the place for actors or level-specific objects.</p>
+<h2 id="editor">Editor</h2>
+<p>Choose <strong>Blueprint Editor Subsystem</strong> for editor-only automation. The class belongs to an Editor module and does not exist in a packaged game. Runtime gameplay must never depend on it.</p>
+<h2 id="game-instance">Game Instance</h2>
+<p>Choose <strong>Blueprint Game Instance Subsystem</strong> for one instance per game session. It survives level travel and receives the owning Game Instance. In Play In Editor, every run receives a fresh instance, so state does not leak into the next run.</p>
+<h2 id="world-and-tickable-world">World and Tickable World</h2>
+<p>Choose <strong>Blueprint World Subsystem</strong> for state tied to one world. A fresh instance is created for each supported world and removed when that world is torn down. The Tickable variant adds Tick and settings that control whether it ticks in editor worlds or while the game is paused.</p>
+<p>World subsystems can also be created for the level open in the editor and for preview worlds. Set <strong>Supported World Types</strong> on the Blueprint defaults to decide which kinds are valid. Gameplay-only subsystems usually exclude Editor and Preview.</p>
+<p>Prefer the non-ticking base when the subsystem only reacts to events. Even an empty Blueprint Tick has a per-frame cost.</p>
+<h2 id="local-player">Local Player</h2>
+<p>Choose <strong>Blueprint Local Player Subsystem</strong> for one instance per local player. A split-screen game has one per seat and a dedicated server has none. The subsystem survives controller replacement and level travel.</p>
+<h1 id="lifecycle">Lifecycle</h1>
+<p>Every base exposes the same core events:</p>
+<ul>
+<li><strong>Should Create Subsystem</strong> runs before an instance exists. Return false to skip creation for that owner. Self is the class default object at this point, so do not read instance state.</li>
+<li><strong>Initialize</strong> runs when the instance is created. Acquire services and bind delegates here.</li>
+<li><strong>Deinitialize</strong> runs immediately before destruction. Release everything acquired by Initialize.</li>
+<li><strong>Is Subsystem Initialized</strong> is true between those two lifecycle calls.</li>
+</ul>
+<h2 id="scope-specific-events">Scope-specific events</h2>
+<p>World and Tickable World subsystems receive <strong>Post Initialize</strong> after every subsystem in that world has been initialized, then <strong>World Begin Play</strong> before Begin Play runs on the world&#x27;s actors. Tickable World adds <strong>Tick</strong> with Delta Time and runtime <strong>Set Tick Enabled</strong> control.</p>
+<p>Local Player subsystems receive <strong>Player Controller Changed</strong> whenever their controller changes. During travel it can be called first with no controller and later with the new one.</p>
+<h2 id="initialize-dependencies">Initialize dependencies</h2>
+<p>Call <strong>Initialize Dependency</strong> only from Initialize when this subsystem needs another subsystem of the same scope immediately. The dependency is created before the current Initialize continues. Without this call, class discovery order does not define initialization order.</p>
+<p>When a dependency is merely used later, retrieve it normally instead of forcing an order.</p>
+<h1 id="discovery-and-packaging">Discovery and packaging</h1>
+<p>Automatic discovery searches the Asset Registry for supported Blueprint subsystem classes and registers them with Unreal Engine. It also supplies those asset packages to the cooker. That second step matters because a subsystem is often intentionally unreferenced; without an explicit cook rule, it can work in the editor and be absent from a packaged build.</p>
+<p>Open <strong>Project Settings &gt; Plugins &gt; Blueprint Subsystems</strong> to configure discovery:</p>
+<ul>
+<li><strong>Auto Discover Blueprint Subsystems</strong> searches for supported Blueprint classes.</li>
+<li><strong>Search Paths</strong> limits automatic discovery to content roots such as <code>/Game/Subsystems</code>. An empty list searches every mounted content root, including plugin content.</li>
+<li><strong>Additional Subsystem Classes</strong> always registers listed classes, including those outside the search paths.</li>
+<li><strong>Register During Module Startup</strong> is an advanced packaged-game option for a Game Instance subsystem that must exist during GameInstance initialization. It loads Blueprint assets before the engine is fully initialized, so leave it off unless that timing is required.</li>
+<li><strong>Log Discovered Subsystems</strong> writes registration and unregistration details to the log.</li>
+<li><strong>Reinitialize On Blueprint Compile</strong> refreshes live instances after a compile in the editor.</li>
+<li><strong>Allow Blueprints to derive from native subsystem classes</strong> is experimental support for a project with an existing native hierarchy. Those Blueprints do not gain the lifecycle events provided by this plugin&#x27;s base classes.</li>
+</ul>
+<p>Changes marked as requiring a restart take effect after restarting the editor.</p>
+<h1 id="runtime-registration">Runtime registration</h1>
+<p>Automatic discovery covers ordinary project and plugin content. The <strong>Blueprint Subsystems</strong> node category also provides manual control for downloadable content, game-mode-specific services or a project that disables automatic discovery:</p>
+<ul>
+<li><strong>Register Blueprint Subsystem</strong> tracks the class and creates instances in matching collections that already exist. Registering the same class twice returns false.</li>
+<li><strong>Unregister Blueprint Subsystem</strong> deinitializes and destroys its live instances and prevents future collections from creating it.</li>
+<li><strong>Is Blueprint Subsystem Registered</strong> checks one class.</li>
+<li><strong>Get Registered Blueprint Subsystems</strong> returns every currently registered class.</li>
+<li><strong>Rescan Blueprint Subsystems</strong> repeats Asset Registry discovery and registers newly found classes.</li>
+</ul>
+<p>Dynamic registration changes live state. Make sure every system that keeps a subsystem reference can also handle that subsystem being unregistered.</p>
+<h1 id="recompiling-a-subsystem">Recompiling a subsystem</h1>
+<p>Engine and Editor subsystem collections normally live for the whole editor session, so recompiling their Blueprint would otherwise leave the old instance running old bytecode. With <strong>Reinitialize On Blueprint Compile</strong> enabled, the plugin deinitializes affected instances and creates them again.</p>
+<p>That refresh deliberately loses transient instance state and runs Initialize again. It is skipped while playing so a compile does not mutate an active Play In Editor session. Disable the setting when preserving editor-session state is more important than applying the new graph immediately.</p>
+<h1 id="recipes">Recipes</h1>
+<h2 id="keep-session-state-across-level-changes">Keep session state across level changes</h2>
+<p>Create a Blueprint Game Instance Subsystem and store the state there. Initialize it once when the game session starts and read it from each world through its Get node. Do not use a World subsystem, because that instance is replaced during travel.</p>
+<h2 id="build-a-level-service-without-a-manager-actor">Build a level service without a manager actor</h2>
+<p>Create a Blueprint World Subsystem, exclude Editor and Preview from Supported World Types when it is gameplay-only, and spawn or discover level objects from World Begin Play. Deinitialize removes bindings and references as the level is torn down.</p>
+<h2 id="hold-per-player-state-in-split-screen">Hold per-player state in split screen</h2>
+<p>Create a Blueprint Local Player Subsystem. Each local player receives a separate instance. React to Player Controller Changed instead of assuming the first controller survives level travel.</p>
+<h2 id="run-editor-validation-for-the-whole-session">Run editor validation for the whole session</h2>
+<p>Create a Blueprint Editor Subsystem, bind the relevant editor delegates from Initialize and unbind them from Deinitialize. Never reference that class from runtime gameplay graphs.</p>
+<h1 id="troubleshooting">Troubleshooting</h1>
+<h2 id="my-subsystem-works-in-the-editor-but-is-missing-from-a-build">My subsystem works in the editor but is missing from a build</h2>
+<p>Confirm that the class is visible to automatic discovery or appears under Additional Subsystem Classes. If Search Paths is non-empty, the asset must be below one of those paths unless explicitly listed. Build from the source plugin rather than copying only editor-generated binaries.</p>
+<h2 id="get-subsystem-returns-no-instance">Get Subsystem returns no instance</h2>
+<p>Check the scope and owner used by the Get node, then check Should Create Subsystem and Supported World Types. For Local Player, remember that a dedicated server has no local players. An Editor subsystem cannot exist in a packaged game.</p>
+<h2 id="initialize-runs-before-another-subsystem-is-ready">Initialize runs before another subsystem is ready</h2>
+<p>Use Initialize Dependency from Initialize when both subsystems use the same scope. For World subsystems that only need all peers ready, move the work to Post Initialize.</p>
+<h2 id="recompiling-erased-state">Recompiling erased state</h2>
+<p>That is the expected result of Reinitialize On Blueprint Compile: the old instance receives Deinitialize and a fresh instance receives Initialize. Disable the setting or move persistent data outside the subsystem while editing.</p>
+<h2 id="a-tickable-subsystem-does-not-tick">A tickable subsystem does not tick</h2>
+<p>Check <strong>Tick Enabled</strong>, the runtime result of <strong>Is Tick Enabled</strong>, Supported World Types and <strong>Tick In Editor</strong>. If the game is paused, <strong>Tick When Paused</strong> must also be enabled.</p>
+<h1 id="support">Support</h1>
+<p>Questions and bug reports: <strong>tomasz.klin@gmail.com</strong>.</p>
+<p>Include the engine version and the plugin version - this manual documents 1.0.0 - plus the subsystem scope and the world type when they are relevant.</p>
+</body>
+</html>

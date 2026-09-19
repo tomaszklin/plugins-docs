@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blueprint Instanced Struct</title>
+<style>
+body { font-family: Georgia, 'Times New Roman', serif; font-size: 11pt;
+       line-height: 1.55; color: #1a1a1a; max-width: 46em;
+       margin: 3em auto; padding: 0 1.5em; }
+h1, h2, h3, h4 { font-family: Arial, Helvetica, sans-serif; line-height: 1.25;
+                 color: #0b3d59; margin: 1.6em 0 0.5em; }
+h1 { font-size: 22pt; border-bottom: 2px solid #0b3d59; padding-bottom: 0.25em; }
+h2 { font-size: 16pt; }
+h3 { font-size: 13pt; }
+h4 { font-size: 11.5pt; }
+p { margin: 0.7em 0; }
+img { max-width: 100%; height: auto; display: block; margin: 1.2em auto;
+      border: 1px solid #d8d8d8; }
+img.banner { border: 0; margin: 1.2em 0 0.9em; }
+p.byline { font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt;
+           color: #444; margin: 0 0 0.4em; }
+table { border-collapse: collapse; margin: 1.2em 0; font-size: 10pt;
+        font-family: Arial, Helvetica, sans-serif; }
+th, td { border: 1px solid #bbb; padding: 5px 9px; text-align: left;
+         vertical-align: top; }
+th { background: #eef3f7; }
+td.yes { background: #e3f3e6; color: #14622b; }
+td.no  { background: #fbe6e4; color: #8c1d18; }
+sup { font-size: 0.7em; line-height: 0; vertical-align: super; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 10pt;
+       background: #f3f3f3; padding: 1px 4px; }
+a { color: #10559a; }
+ul, ol { margin: 0.7em 0; padding-left: 1.6em; }
+li { margin: 0.25em 0; }
+nav.toc { margin: 1.5em 0 2.5em; padding: 0.5em 0 1em; border-top: 1px solid #ddd;
+          border-bottom: 1px solid #ddd; font-family: Arial, Helvetica, sans-serif;
+          font-size: 10pt; }
+nav.toc h2 { font-size: 12pt; margin: 0.6em 0 0.4em; }
+nav.toc ul { list-style: none; padding-left: 0; margin: 0; column-count: 2;
+             column-gap: 2.5em; }
+nav.toc li { margin: 0.15em 0; break-inside: avoid; }
+nav.toc a { text-decoration: none; }
+nav.toc .toc1 { padding-left: 0; font-weight: bold; }
+nav.toc .toc2 { padding-left: 1.2em; }
+nav.toc .toc3 { padding-left: 2.4em; }
+.home { display: flex; align-items: center; gap: 0.75em;
+        font-family: Arial, Helvetica, sans-serif; font-size: 10pt;
+        margin-bottom: 1.5em; }
+.back-button { display: inline-block; padding: 0.45em 0.8em;
+               border: 1px solid #0b3d59; border-radius: 4px;
+               text-decoration: none; }
+.plugin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(18em, 1fr));
+               gap: 1.25em; margin: 1.5em 0; }
+.plugin-card { display: block; overflow: hidden; border: 1px solid #ccd7de;
+               border-radius: 6px; color: #1a1a1a; text-decoration: none;
+               background: #fff; }
+.plugin-card:hover { border-color: #10559a; box-shadow: 0 3px 12px #0002; }
+.plugin-card img { width: 100%; aspect-ratio: 894 / 488; object-fit: cover;
+                   margin: 0; border: 0; }
+.plugin-card-body { display: block; padding: 0.85em 1em 1em; }
+.plugin-card h2 { margin: 0; font-size: 15pt; }
+.plugin-version { display: block; margin-top: 0.35em; color: #555;
+                  font-family: Arial, Helvetica, sans-serif; font-size: 9.5pt; }
+</style>
+</head>
+<body>
+<nav class="home"><a class="back-button" href="../index.html">&#8592; All plugins</a></nav>
+<h1 id="blueprint-instanced-struct">Blueprint Instanced Struct</h1>
+<img class="banner" src="images/BlueprintInstancedStruct/banner.png" alt="Blueprint Instanced Struct">
+<p class="byline">Author: <strong>Tomasz Klin</strong><br>Version: <strong>1.0.0</strong></p>
+<nav class="toc">
+<h2>Contents</h2>
+<ul>
+<li class="toc1"><a href="#introduction">Introduction</a></li>
+<li class="toc1"><a href="#getting-started">Getting started</a></li>
+<li class="toc1"><a href="#core-concepts">Core concepts</a></li>
+<li class="toc2"><a href="#one-value-one-current-type">One value, one current type</a></li>
+<li class="toc2"><a href="#values-are-copied">Values are copied</a></li>
+<li class="toc2"><a href="#native-inheritance-and-blueprint-structs">Native inheritance and Blueprint structs</a></li>
+<li class="toc1"><a href="#creating-values">Creating values</a></li>
+<li class="toc2"><a href="#make-instanced-struct">Make Instanced Struct</a></li>
+<li class="toc2"><a href="#make-default-of-type">Make Default Of Type</a></li>
+<li class="toc1"><a href="#reading-and-writing-values">Reading and writing values</a></li>
+<li class="toc2"><a href="#choose-a-type-on-get-and-set">Choose a type on Get and Set</a></li>
+<li class="toc2"><a href="#get-struct-value">Get Struct Value</a></li>
+<li class="toc2"><a href="#set-struct-value">Set Struct Value</a></li>
+<li class="toc1"><a href="#inspecting-and-comparing">Inspecting and comparing</a></li>
+<li class="toc1"><a href="#saving-and-loading-text">Saving and loading text</a></li>
+<li class="toc1"><a href="#arrays-by-type">Arrays by type</a></li>
+<li class="toc1"><a href="#recipes">Recipes</a></li>
+<li class="toc2"><a href="#build-an-event-queue-with-different-payloads">Build an event queue with different payloads</a></li>
+<li class="toc2"><a href="#store-different-inventory-data-in-one-list">Store different inventory data in one list</a></li>
+<li class="toc2"><a href="#copy-a-value-through-text">Copy a value through text</a></li>
+<li class="toc2"><a href="#create-a-typed-default-from-a-data-driven-selection">Create a typed default from a data-driven selection</a></li>
+<li class="toc1"><a href="#troubleshooting">Troubleshooting</a></li>
+<li class="toc2"><a href="#get-struct-value-takes-the-failure-path">Get Struct Value takes the failure path</a></li>
+<li class="toc2"><a href="#the-wildcard-pin-has-the-wrong-type">The wildcard pin has the wrong type</a></li>
+<li class="toc2"><a href="#an-array-will-not-connect-to-a-wildcard-struct-pin">An array will not connect to a wildcard struct pin</a></li>
+<li class="toc2"><a href="#parsed-text-fails-after-a-type-was-renamed">Parsed text fails after a type was renamed</a></li>
+<li class="toc2"><a href="#i-see-similar-nodes-elsewhere-in-the-menu">I see similar nodes elsewhere in the menu</a></li>
+<li class="toc1"><a href="#support">Support</a></li>
+</ul>
+</nav>
+<h1 id="introduction">Introduction</h1>
+<p>An Instanced Struct is one variable that can hold a value of any struct type chosen at runtime. It is useful wherever entries share a role but not one fixed payload: events, inventory items, configuration records, save data and messages between systems.</p>
+<p>Unreal Engine supplies <code>FInstancedStruct</code> and a small Blueprint surface. Blueprint Instanced Struct adds the tools needed to inspect the held type, choose wildcard pin types before connecting them, query arrays and make a reliable text round trip. It uses the engine&#x27;s existing container rather than introducing a new one.</p>
+<h1 id="getting-started">Getting started</h1>
+<p>Enable <strong>Blueprint Instanced Struct</strong> in <strong>Edit &gt; Plugins</strong> and restart the editor when requested.</p>
+<p>Create a variable whose type is <strong>Instanced Struct</strong>. To put a value into it, use <strong>Make Instanced Struct</strong> or <strong>Set Struct Value</strong>. To read it, place <strong>Get Struct Value</strong>, choose a struct in the picker shown on the node and connect the Instanced Struct value. The success and failure execution outputs make a wrong or empty type explicit.</p>
+<p>All functions appear under the <strong>Instanced Struct</strong> category. The plugin has no project settings, runtime service or actor to place.</p>
+<h1 id="core-concepts">Core concepts</h1>
+<h2 id="one-value-one-current-type">One value, one current type</h2>
+<p>An Instanced Struct is either empty or contains one complete struct value together with its type. Assigning a different type replaces the previous value. Use <strong>Is Valid</strong> to distinguish an empty container and <strong>Get Script Struct</strong> to retrieve the current type.</p>
+<h2 id="values-are-copied">Values are copied</h2>
+<p>Make and Set copy a struct into the container. Get copies it out. Editing the copied output later does not silently modify the container; call Set Struct Value again with the changed struct.</p>
+<h2 id="native-inheritance-and-blueprint-structs">Native inheritance and Blueprint structs</h2>
+<p>For C++ struct hierarchies, <strong>Is Struct Type</strong> accepts a derived value when asked about a base type, and Get Struct Value can copy out the base portion. Blueprint-authored Structure assets cannot inherit from each other, so comparisons between them are exact type matches.</p>
+<h1 id="creating-values">Creating values</h1>
+<h2 id="make-instanced-struct">Make Instanced Struct</h2>
+<p>Connect any single struct value to <strong>Make Instanced Struct</strong>. Its wildcard input adopts the connected type and the result contains a copy of that value.</p>
+<h2 id="make-default-of-type">Make Default Of Type</h2>
+<p>Use <strong>Make Default Of Type</strong> when the struct type is known only at runtime and there is no value to copy. The result contains a default-initialized instance of the selected type. The node is pure, so it can be used directly while constructing an array.</p>
+<p>Passing no valid Struct Type produces an empty value.</p>
+<h1 id="reading-and-writing-values">Reading and writing values</h1>
+<h2 id="choose-a-type-on-get-and-set">Choose a type on Get and Set</h2>
+<p>The plugin&#x27;s <strong>Get Struct Value</strong> and <strong>Set Struct Value</strong> nodes show a struct type picker in the node body. Selecting a type immediately changes the wildcard pin, which means you can split it or drag from it before any other pin is connected.</p>
+<p>The picker only lists struct types that Blueprint variables can hold. When a typed pin is connected, that connection determines the wildcard type and takes precedence over the picker.</p>
+<h2 id="get-struct-value">Get Struct Value</h2>
+<p>Get copies the value into the typed output and routes execution through success when the container holds a compatible type. An empty value or incompatible type routes through failure instead of returning partially interpreted memory.</p>
+<h2 id="set-struct-value">Set Struct Value</h2>
+<p>Set replaces the held value with a copy of the connected struct. The input must be one struct, not an array. Arrays of Instanced Struct containers are handled by the dedicated query nodes.</p>
+<h1 id="inspecting-and-comparing">Inspecting and comparing</h1>
+<ul>
+<li><strong>Is Valid (Instanced Struct)</strong> reports whether a value holds any struct.</li>
+<li><strong>Get Script Struct</strong> returns the held type or none.</li>
+<li><strong>Is Struct Type</strong> checks the held type, including native base types.</li>
+<li><strong>Reset (Instanced Struct)</strong> destroys the held value and leaves the container empty.</li>
+<li><strong>Equal (Instanced Struct)</strong> requires the same type and equal member values.</li>
+<li><strong>Not Equal (Instanced Struct)</strong> is the inverse comparison.</li>
+<li><strong>To String (Instanced Struct)</strong> produces readable type and member text for logging.</li>
+</ul>
+<p>To String is for people reading a log. It is not the persistent round-trip representation.</p>
+<h1 id="saving-and-loading-text">Saving and loading text</h1>
+<p><strong>Export To String</strong> writes the held type and its member values into text that <strong>Parse From String</strong> can reconstruct. Use this pair for configuration, save data, a clipboard workflow or another text channel under your control.</p>
+<p>Parse From String reports failure when the text is invalid or its type cannot be resolved. Treat serialized text as versioned data: renaming a struct or changing its members can require migration in the same way as any other saved Unreal data.</p>
+<h1 id="arrays-by-type">Arrays by type</h1>
+<p>The array nodes take an array of Instanced Struct values and a Struct Type:</p>
+<table>
+<tr><th>Node</th><th>Result</th></tr>
+<tr><td>Find First Of Type</td><td>The first matching value and its index, or -1 when absent.</td></tr>
+<tr><td>Filter By Type</td><td>Every matching value in the original order.</td></tr>
+<tr><td>Contains Type</td><td>Whether at least one matching value exists.</td></tr>
+<tr><td>Count Of Type</td><td>The number of matching entries.</td></tr>
+<tr><td>Remove All Of Type</td><td>Removes matches in place and returns how many were removed.</td></tr>
+</table>
+<p>Matches follow the same native inheritance rule as Is Struct Type. Use Contains Type instead of Filter By Type when only a yes-or-no answer is needed.</p>
+<h1 id="recipes">Recipes</h1>
+<h2 id="build-an-event-queue-with-different-payloads">Build an event queue with different payloads</h2>
+<p>Define one struct per event payload and store Instanced Struct values in an array. A dispatcher can use Is Struct Type to select a handler, then Get Struct Value as that handler&#x27;s expected type. Use a native base struct only when inherited payload matching is required.</p>
+<h2 id="store-different-inventory-data-in-one-list">Store different inventory data in one list</h2>
+<p>Keep common identity fields in the inventory entry and its specialized data in an Instanced Struct. Weapon, potion and quest-item structs can coexist in the same array without a large union struct full of unused members.</p>
+<h2 id="copy-a-value-through-text">Copy a value through text</h2>
+<p>Export To String, store or transmit the result, then Parse From String into a new Instanced Struct. Branch on the Parse result before using the value, then inspect its type or retrieve it with Get Struct Value.</p>
+<h2 id="create-a-typed-default-from-a-data-driven-selection">Create a typed default from a data-driven selection</h2>
+<p>Store a Struct Type in data, pass it to Make Default Of Type and then route the resulting value by type. This is useful when authoring chooses the type but runtime code constructs the payload.</p>
+<h1 id="troubleshooting">Troubleshooting</h1>
+<h2 id="get-struct-value-takes-the-failure-path">Get Struct Value takes the failure path</h2>
+<p>The container is empty or the selected output type is incompatible with the held type. Print the value with To String or inspect Get Script Struct. For Blueprint-authored structs, the selected type must match exactly.</p>
+<h2 id="the-wildcard-pin-has-the-wrong-type">The wildcard pin has the wrong type</h2>
+<p>Check both the node picker and connected pins. A typed connection always wins. Disconnect it before choosing a different type in the picker.</p>
+<h2 id="an-array-will-not-connect-to-a-wildcard-struct-pin">An array will not connect to a wildcard struct pin</h2>
+<p>That is intentional. Get, Set and Make accept one struct value. Use an array of Instanced Struct containers and the array query nodes instead of treating an array as one struct&#x27;s memory.</p>
+<h2 id="parsed-text-fails-after-a-type-was-renamed">Parsed text fails after a type was renamed</h2>
+<p>The exported form includes the struct type. Add the appropriate Unreal redirect or migrate the saved text when a type moves or changes name.</p>
+<h2 id="i-see-similar-nodes-elsewhere-in-the-menu">I see similar nodes elsewhere in the menu</h2>
+<p>The engine also offers several basic Instanced Struct operations. This plugin keeps its own consistent Make, Get, Set, validity, reset and comparison surface under one category alongside the additional nodes.</p>
+<h1 id="support">Support</h1>
+<p>Questions and bug reports: <strong>tomasz.klin@gmail.com</strong>.</p>
+<p>Include the engine version and the plugin version - this manual documents 1.0.0 - plus the held struct type and a screenshot of the relevant graph when possible.</p>
+</body>
+</html>

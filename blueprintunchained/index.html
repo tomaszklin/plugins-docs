@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blueprint Unchained</title>
+<style>
+body { font-family: Georgia, 'Times New Roman', serif; font-size: 11pt;
+       line-height: 1.55; color: #1a1a1a; max-width: 46em;
+       margin: 3em auto; padding: 0 1.5em; }
+h1, h2, h3, h4 { font-family: Arial, Helvetica, sans-serif; line-height: 1.25;
+                 color: #0b3d59; margin: 1.6em 0 0.5em; }
+h1 { font-size: 22pt; border-bottom: 2px solid #0b3d59; padding-bottom: 0.25em; }
+h2 { font-size: 16pt; }
+h3 { font-size: 13pt; }
+h4 { font-size: 11.5pt; }
+p { margin: 0.7em 0; }
+img { max-width: 100%; height: auto; display: block; margin: 1.2em auto;
+      border: 1px solid #d8d8d8; }
+img.banner { border: 0; margin: 1.2em 0 0.9em; }
+p.byline { font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt;
+           color: #444; margin: 0 0 0.4em; }
+table { border-collapse: collapse; margin: 1.2em 0; font-size: 10pt;
+        font-family: Arial, Helvetica, sans-serif; }
+th, td { border: 1px solid #bbb; padding: 5px 9px; text-align: left;
+         vertical-align: top; }
+th { background: #eef3f7; }
+td.yes { background: #e3f3e6; color: #14622b; }
+td.no  { background: #fbe6e4; color: #8c1d18; }
+sup { font-size: 0.7em; line-height: 0; vertical-align: super; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 10pt;
+       background: #f3f3f3; padding: 1px 4px; }
+a { color: #10559a; }
+ul, ol { margin: 0.7em 0; padding-left: 1.6em; }
+li { margin: 0.25em 0; }
+nav.toc { margin: 1.5em 0 2.5em; padding: 0.5em 0 1em; border-top: 1px solid #ddd;
+          border-bottom: 1px solid #ddd; font-family: Arial, Helvetica, sans-serif;
+          font-size: 10pt; }
+nav.toc h2 { font-size: 12pt; margin: 0.6em 0 0.4em; }
+nav.toc ul { list-style: none; padding-left: 0; margin: 0; column-count: 2;
+             column-gap: 2.5em; }
+nav.toc li { margin: 0.15em 0; break-inside: avoid; }
+nav.toc a { text-decoration: none; }
+nav.toc .toc1 { padding-left: 0; font-weight: bold; }
+nav.toc .toc2 { padding-left: 1.2em; }
+nav.toc .toc3 { padding-left: 2.4em; }
+.home { display: flex; align-items: center; gap: 0.75em;
+        font-family: Arial, Helvetica, sans-serif; font-size: 10pt;
+        margin-bottom: 1.5em; }
+.back-button { display: inline-block; padding: 0.45em 0.8em;
+               border: 1px solid #0b3d59; border-radius: 4px;
+               text-decoration: none; }
+.plugin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(18em, 1fr));
+               gap: 1.25em; margin: 1.5em 0; }
+.plugin-card { display: block; overflow: hidden; border: 1px solid #ccd7de;
+               border-radius: 6px; color: #1a1a1a; text-decoration: none;
+               background: #fff; }
+.plugin-card:hover { border-color: #10559a; box-shadow: 0 3px 12px #0002; }
+.plugin-card img { width: 100%; aspect-ratio: 894 / 488; object-fit: cover;
+                   margin: 0; border: 0; }
+.plugin-card-body { display: block; padding: 0.85em 1em 1em; }
+.plugin-card h2 { margin: 0; font-size: 15pt; }
+.plugin-version { display: block; margin-top: 0.35em; color: #555;
+                  font-family: Arial, Helvetica, sans-serif; font-size: 9.5pt; }
+</style>
+</head>
+<body>
+<nav class="home"><a class="back-button" href="../index.html">&#8592; All plugins</a></nav>
+<h1 id="blueprint-unchained">Blueprint Unchained</h1>
+<p class="byline">Author: <strong>Tomasz Klin</strong><br>Version: <strong>1.0.0</strong></p>
+<nav class="toc">
+<h2>Contents</h2>
+<ul>
+<li class="toc1"><a href="#introduction">Introduction</a></li>
+<li class="toc1"><a href="#getting-started">Getting started</a></li>
+<li class="toc1"><a href="#blueprint-quaternion">Blueprint Quaternion</a></li>
+<li class="toc1"><a href="#blueprint-subsystems">Blueprint Subsystems</a></li>
+<li class="toc1"><a href="#blueprint-instanced-struct">Blueprint Instanced Struct</a></li>
+<li class="toc1"><a href="#using-the-toolsets-together">Using the toolsets together</a></li>
+<li class="toc2"><a href="#a-global-event-service">A global event service</a></li>
+<li class="toc2"><a href="#per-world-rotation-commands">Per-world rotation commands</a></li>
+<li class="toc2"><a href="#per-player-orientation-state">Per-player orientation state</a></li>
+<li class="toc1"><a href="#packaging-and-platforms">Packaging and platforms</a></li>
+<li class="toc1"><a href="#troubleshooting">Troubleshooting</a></li>
+<li class="toc2"><a href="#unreal-reports-a-duplicate-module-or-class">Unreal reports a duplicate module or class</a></li>
+<li class="toc2"><a href="#i-only-need-one-of-the-three-toolsets">I only need one of the three toolsets</a></li>
+<li class="toc2"><a href="#a-problem-belongs-to-one-toolset">A problem belongs to one toolset</a></li>
+<li class="toc1"><a href="#support">Support</a></li>
+</ul>
+</nav>
+<h1 id="introduction">Introduction</h1>
+<p>Blueprint Unchained collects three engine capabilities whose useful surface normally stops at the C++ boundary: quaternion rotation math, engine-managed subsystems and Instanced Struct data. The package contains the complete Blueprint Quaternion, Blueprint Subsystems and Blueprint Instanced Struct toolsets in one plugin.</p>
+<p>Use any toolset independently or combine them. A subsystem can own an event queue made from Instanced Struct payloads; those payloads can carry quaternion rotations; quaternion nodes can run inside an Animation Blueprint&#x27;s thread-safe update. No common framework or base actor ties the three together.</p>
+<h1 id="getting-started">Getting started</h1>
+<p>Enable <strong>Blueprint Unchained</strong> in <strong>Edit &gt; Plugins</strong> and restart the editor when requested. That is the complete installation.</p>
+<p>The package contains the same modules as the three standalone products. Do not install a standalone copy of Blueprint Quaternion, Blueprint Subsystems or Blueprint Instanced Struct beside Blueprint Unchained in the same project: duplicate module and reflected class names prevent the project from loading.</p>
+<p>Choose the toolset that matches the task below. Each linked manual contains its full setup, reference, recipes and troubleshooting guide.</p>
+<h1 id="blueprint-quaternion">Blueprint Quaternion</h1>
+<p>Use Blueprint Quaternion when a rotation should stay a quaternion from input to output. Its 85 pure nodes cover construction, axes, conversion, composition, interpolation, swing and twist, queries, random rotations and raw component math.</p>
+<p>Typical uses include shortest-arc aiming, interpolation without unwanted flipping, joint limits, surface alignment, smooth rotation paths and processing noisy tracking input. Every angle pin uses degrees and rotation operations normalize their inputs. The library is <code>BlueprintThreadSafe</code>.</p>
+<p>The editor module also replaces the default quaternion property row with Euler, axis-angle and raw component views. The override can be disabled per user.</p>
+<p>Read the <a href="../blueprintquaternion/BlueprintQuaternion.html">Blueprint Quaternion manual</a>.</p>
+<h1 id="blueprint-subsystems">Blueprint Subsystems</h1>
+<p>Use Blueprint Subsystems for services and state that should belong to an engine-managed lifetime instead of an actor. Create Engine, Editor, Game Instance, World, Tickable World and Local Player subsystems as Blueprint assets and implement their lifecycle as events.</p>
+<p>The plugin discovers these classes, registers them with the engine and keeps otherwise-unreferenced assets in packaged builds. Project settings control search paths and explicit classes, while Blueprint nodes allow dynamic registration and rescanning.</p>
+<p>Read the <a href="../blueprintsubsystems/BlueprintSubsystems.html">Blueprint Subsystems manual</a>.</p>
+<h1 id="blueprint-instanced-struct">Blueprint Instanced Struct</h1>
+<p>Use Blueprint Instanced Struct when one variable or array must carry values of different struct types. The toolset operates on Unreal Engine&#x27;s own <code>FInstancedStruct</code>; it does not add a replacement container.</p>
+<p>Typed wildcard Get and Set nodes include a struct picker. Other nodes inspect the held type, create a default from a runtime type, compare and print values, export and parse text, and search or filter arrays by type. Native and Blueprint-authored structs are supported.</p>
+<p>Read the <a href="../blueprintinstancedstruct/BlueprintInstancedStruct.html">Blueprint Instanced Struct manual</a>.</p>
+<h1 id="using-the-toolsets-together">Using the toolsets together</h1>
+<h2 id="a-global-event-service">A global event service</h2>
+<p>Create a Game Instance subsystem to own an array of Instanced Struct values. Each system adds its own payload struct, and the service dispatches values according to their held type. The service survives level travel without a manager actor.</p>
+<h2 id="per-world-rotation-commands">Per-world rotation commands</h2>
+<p>Create a World subsystem that receives Instanced Struct command payloads. One payload can hold a target quaternion, another an axis and angle, and a third interpolation settings. Quaternion nodes apply each command without converting the rotation through Rotator.</p>
+<h2 id="per-player-orientation-state">Per-player orientation state</h2>
+<p>Keep each local player&#x27;s orientation preferences or calibrated tracking state in a Local Player subsystem. Use quaternion smoothing for incoming device rotations and Instanced Struct values when different devices provide different calibration records.</p>
+<h1 id="packaging-and-platforms">Packaging and platforms</h1>
+<p>The bundled plugin declares Windows, macOS and Linux as development platforms. Runtime modules also target Win64, macOS, Linux and Android. Editor and UncookedOnly modules stay out of cooked games.</p>
+<p>Blueprint Subsystems adds discovered subsystem assets to the cook. The other two toolsets contain code and no assets that need manual cook rules. The package includes no example project or Blueprint assets.</p>
+<h1 id="troubleshooting">Troubleshooting</h1>
+<h2 id="unreal-reports-a-duplicate-module-or-class">Unreal reports a duplicate module or class</h2>
+<p>Remove the standalone copies of the included plugins. Keep either Blueprint Unchained or the standalone products, never both sets in one project.</p>
+<h2 id="i-only-need-one-of-the-three-toolsets">I only need one of the three toolsets</h2>
+<p>Using one part does not require using the others. If installation size or separate purchasing is important, use its standalone product. Functionality inside the bundle is not reduced.</p>
+<h2 id="a-problem-belongs-to-one-toolset">A problem belongs to one toolset</h2>
+<p>Open that toolset&#x27;s linked manual and follow its Troubleshooting section. Include the toolset name, engine version and plugin version when reporting the issue.</p>
+<h1 id="support">Support</h1>
+<p>Questions, bug reports and feature requests: <strong>tomasz.klin+blueprintunchained@gmail.com</strong>.</p>
+<p>Include the engine version and the plugin version - this manual documents 1.0.0 - and say which of the three toolsets is involved.</p>
+</body>
+</html>
