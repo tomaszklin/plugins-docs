@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blueprint Quaternion</title>
+<style>
+body { font-family: Georgia, 'Times New Roman', serif; font-size: 11pt;
+       line-height: 1.55; color: #1a1a1a; max-width: 46em;
+       margin: 3em auto; padding: 0 1.5em; }
+h1, h2, h3, h4 { font-family: Arial, Helvetica, sans-serif; line-height: 1.25;
+                 color: #0b3d59; margin: 1.6em 0 0.5em; }
+h1 { font-size: 22pt; border-bottom: 2px solid #0b3d59; padding-bottom: 0.25em; }
+h2 { font-size: 16pt; }
+h3 { font-size: 13pt; }
+h4 { font-size: 11.5pt; }
+p { margin: 0.7em 0; }
+img { max-width: 100%; height: auto; display: block; margin: 1.2em auto;
+      border: 1px solid #d8d8d8; }
+img.banner { border: 0; margin: 1.2em 0 0.9em; }
+p.byline { font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt;
+           color: #444; margin: 0 0 0.4em; }
+table { border-collapse: collapse; margin: 1.2em 0; font-size: 10pt;
+        font-family: Arial, Helvetica, sans-serif; }
+th, td { border: 1px solid #bbb; padding: 5px 9px; text-align: left;
+         vertical-align: top; }
+th { background: #eef3f7; }
+td.yes { background: #e3f3e6; color: #14622b; }
+td.no  { background: #fbe6e4; color: #8c1d18; }
+sup { font-size: 0.7em; line-height: 0; vertical-align: super; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 10pt;
+       background: #f3f3f3; padding: 1px 4px; }
+a { color: #10559a; }
+ul, ol { margin: 0.7em 0; padding-left: 1.6em; }
+li { margin: 0.25em 0; }
+nav.toc { margin: 1.5em 0 2.5em; padding: 0.5em 0 1em; border-top: 1px solid #ddd;
+          border-bottom: 1px solid #ddd; font-family: Arial, Helvetica, sans-serif;
+          font-size: 10pt; }
+nav.toc h2 { font-size: 12pt; margin: 0.6em 0 0.4em; }
+nav.toc ul { list-style: none; padding-left: 0; margin: 0; column-count: 2;
+             column-gap: 2.5em; }
+nav.toc li { margin: 0.15em 0; break-inside: avoid; }
+nav.toc a { text-decoration: none; }
+nav.toc .toc1 { padding-left: 0; font-weight: bold; }
+nav.toc .toc2 { padding-left: 1.2em; }
+nav.toc .toc3 { padding-left: 2.4em; }
+.home { font-family: Arial, Helvetica, sans-serif; font-size: 10pt;
+        margin-bottom: 1.5em; }
+
+@media print {
+  /* A screenshot split across a page break is worse than a short page, and a
+     heading stranded at the foot of one is worse still. */
+  /* A browser drops background colours when printing unless told not to, and
+     the comparison table is the one place here where the colour is the
+     content: without it every cell prints the same shade of nothing. */
+  body { margin: 0; max-width: none; font-size: 10.5pt;
+         print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  h1, h2, h3, h4 { break-after: avoid; page-break-after: avoid; }
+  img, table, tr { break-inside: avoid; page-break-inside: avoid; }
+  h1 { break-before: page; page-break-before: page; }
+  h1:first-of-type { break-before: auto; page-break-before: auto; }
+  a { color: #10559a; text-decoration: none; }
+  .home { display: none; }
+}
+@page { margin: 18mm 16mm; }
+</style>
+</head>
+<body>
+<h1 id="blueprint-quaternion">Blueprint Quaternion</h1>
+<img class="banner" src="images/BlueprintQuaternion/banner.png" alt="Blueprint Quaternion">
+<p class="byline">Author: <strong>Tomasz Klin</strong><br>Version: <strong>1.0.0</strong></p>
+<nav class="toc">
+<h2>Contents</h2>
+<ul>
+<li class="toc1"><a href="#introduction">Introduction</a></li>
+<li class="toc1"><a href="#getting-started">Getting started</a></li>
+<li class="toc1"><a href="#the-rules-every-node-follows">The rules every node follows</a></li>
+<li class="toc2"><a href="#angles-are-degrees">Angles are degrees</a></li>
+<li class="toc2"><a href="#compose-a-b-applies-b-then-a">Compose (A, B) applies B, then A</a></li>
+<li class="toc2"><a href="#rotations-in-are-normalized-rotations-out-are-normalized">Rotations in are normalized, rotations out are normalized</a></li>
+<li class="toc2"><a href="#equality-compares-rotations-not-numbers">Equality compares rotations, not numbers</a></li>
+<li class="toc1"><a href="#the-nodes">The nodes</a></li>
+<li class="toc2"><a href="#construction">Construction</a></li>
+<li class="toc2"><a href="#conversion">Conversion</a></li>
+<li class="toc2"><a href="#composition">Composition</a></li>
+<li class="toc2"><a href="#applying">Applying</a></li>
+<li class="toc2"><a href="#interpolation">Interpolation</a></li>
+<li class="toc2"><a href="#decomposition">Decomposition</a></li>
+<li class="toc2"><a href="#queries">Queries</a></li>
+<li class="toc2"><a href="#random">Random</a></li>
+<li class="toc2"><a href="#components">Components</a></li>
+<li class="toc1"><a href="#editing-quaternion-properties">Editing quaternion properties</a></li>
+<li class="toc2"><a href="#what-the-row-shows">What the row shows</a></li>
+<li class="toc2"><a href="#turning-the-row-off">Turning the row off</a></li>
+<li class="toc1"><a href="#recipes">Recipes</a></li>
+<li class="toc2"><a href="#aim-a-turret-at-a-target-at-a-turn-rate">Aim a turret at a target, at a turn rate</a></li>
+<li class="toc2"><a href="#limit-a-joint-without-stopping-it-turning">Limit a joint without stopping it turning</a></li>
+<li class="toc2"><a href="#align-something-to-a-surface">Align something to a surface</a></li>
+<li class="toc2"><a href="#ask-how-far-something-is-from-facing-you">Ask how far something is from facing you</a></li>
+<li class="toc2"><a href="#smooth-a-rotation-that-arrives-noisy">Smooth a rotation that arrives noisy</a></li>
+<li class="toc2"><a href="#animate-more-than-half-a-turn">Animate more than half a turn</a></li>
+<li class="toc2"><a href="#print-a-rotation-while-debugging">Print a rotation while debugging</a></li>
+<li class="toc1"><a href="#troubleshooting">Troubleshooting</a></li>
+<li class="toc2"><a href="#the-rotation-is-right-but-everything-turns-in-the-wrong-frame">The rotation is right but everything turns in the wrong frame</a></li>
+<li class="toc2"><a href="#an-angle-is-out-by-a-factor-of-about-57">An angle is out by a factor of about 57</a></li>
+<li class="toc2"><a href="#two-rotations-look-identical-but-nearly-equal-says-no">Two rotations look identical but Nearly Equal says no</a></li>
+<li class="toc2"><a href="#interpolation-jumps-or-goes-the-long-way-round">Interpolation jumps, or goes the long way round</a></li>
+<li class="toc2"><a href="#a-rotation-became-nan-somewhere">A rotation became NaN somewhere</a></li>
+<li class="toc2"><a href="#a-value-in-the-details-panel-reads-150">A value in the details panel reads `15.0... °`</a></li>
+<li class="toc2"><a href="#the-details-panel-shows-the-engines-row-not-this-one">The details panel shows the engine&#x27;s row, not this one</a></li>
+<li class="toc1"><a href="#support">Support</a></li>
+</ul>
+</nav>
+<h1 id="introduction">Introduction</h1>
+<p>A Blueprint can already hold a quaternion. What it cannot do is much with one.</p>
+<p>The engine&#x27;s Blueprint math exposes a handful of quaternion nodes and stops. Everything past them — the shortest arc between two directions, swing and twist, the angle between two rotations, interpolation that does not flip or take the long way round — means a round trip through Rotator, or opening Visual Studio. That round trip through Rotator is where gimbal lock and interpolation artefacts come from.</p>
+<p>Blueprint Quaternion is 85 nodes that close the gap: every function Rotator already has, on quaternions, plus the operations only a quaternion can do. They are pure functions, they sit in the palette next to the engine&#x27;s own, and there is nothing to place, initialise or configure.</p>
+<h1 id="getting-started">Getting started</h1>
+<p>Enable <strong>Blueprint Quaternion</strong> in <strong>Edit &gt; Plugins</strong> and restart the editor when it asks. That is the whole installation.</p>
+<p>Every node is in the palette under <strong>Math &gt; Quaternion</strong>, in the nine groups that make up <a href="#the-nodes">The nodes</a>. Right-click in a graph and type part of a name — the nodes carry keywords, so <code>shortest arc</code> finds Find Between Vectors and <code>swing</code> finds the decomposition.</p>
+<p>Nothing ticks, nothing is registered at runtime, and nothing is added to your packaged build beyond the functions themselves. The library is marked <code>BlueprintThreadSafe</code>, so its nodes are offered in an Animation Blueprint&#x27;s thread-safe update as well as on the game thread.</p>
+<p>There is one setting, and it belongs to the editor rather than to the game: see <a href="#turning-the-row-off">Turning the row off</a>.</p>
+<h1 id="the-rules-every-node-follows">The rules every node follows</h1>
+<p>Four rules hold the whole set together. They are worth two minutes now, because each is a decision that could have gone the other way, and three of the four are invisible when you get them wrong.</p>
+<h2 id="angles-are-degrees">Angles are degrees</h2>
+<p>Every angle pin, in and out, is degrees — including the ones the engine&#x27;s own nodes hand back in radians. <code>Angular Distance</code>, <code>Get Angle</code>, <code>Get Twist Angle</code> and the length of a rotation vector are all degrees here.</p>
+<p>If you mix these nodes with the engine&#x27;s quaternion nodes, that is the one difference to watch.</p>
+<h2 id="compose-a-b-applies-b-then-a">Compose (A, B) applies B, then A</h2>
+<p>The same order as the engine&#x27;s own quaternion multiply, and as matrix multiplication: the right-hand rotation happens first, and the left-hand one then rotates the result.</p>
+<p>This is the rule that hides. Reverse it and every node still runs, every graph still compiles, and every value is wrong in a way that reads like a tuning problem. The node&#x27;s tooltip says so, and the pins are named <code>A</code> and <code>B</code> in that order for the same reason.</p>
+<h2 id="rotations-in-are-normalized-rotations-out-are-normalized">Rotations in are normalized, rotations out are normalized</h2>
+<p>Every node that takes a quaternion <strong>as a rotation</strong> normalizes it first. A zero-length or NaN value becomes Identity — a rotation that does nothing — instead of running on through the frame as a NaN and surfacing three systems later.</p>
+<p>The <strong>Components</strong> group is the documented exception. Those nodes exist to treat a quaternion as four numbers, and normalizing there would defeat the purpose.</p>
+<h2 id="equality-compares-rotations-not-numbers">Equality compares rotations, not numbers</h2>
+<p>A quaternion and its negation are the same orientation. <code>Nearly Equal</code> says so, because that is the question people are actually asking.</p>
+<p>When the question really is about the four stored numbers — comparing against something serialized, or debugging your own math — <code>Equals Componentwise</code> is there for it.</p>
+<h1 id="the-nodes">The nodes</h1>
+<p>85 nodes, all pure, under <strong>Math &gt; Quaternion</strong>. The names below are the names in the palette.</p>
+<h2 id="construction">Construction</h2>
+<p>Building a rotation from whatever you have.</p>
+<table>
+<tr><th>Node</th><th>What it does</th></tr>
+<tr><td>Identity (Quaternion)</td><td>The rotation that does nothing.</td></tr>
+<tr><td>Make Quaternion (Axis and Angle)</td><td>A rotation of an angle about an axis. A zero-length axis gives Identity.</td></tr>
+<tr><td>Make Quaternion (Euler)</td><td>From Euler angles, X = Roll, Y = Pitch, Z = Yaw.</td></tr>
+<tr><td>Make Quaternion (Roll, Pitch, Yaw)</td><td>The Make Rotator constructor, on a quaternion.</td></tr>
+<tr><td>Make Quaternion (Rotation Vector)</td><td>Direction is the axis, length is the angle. The form that adds and scales like a vector.</td></tr>
+<tr><td>Make Quaternion From X</td><td>Points its forward axis along the vector.</td></tr>
+<tr><td>Make Quaternion From Y</td><td>Points its right axis along the vector.</td></tr>
+<tr><td>Make Quaternion From Z</td><td>Points its up axis along the vector.</td></tr>
+<tr><td>Make Quaternion From XY</td><td>Forward from the first vector, right as close to the second as it can be.</td></tr>
+<tr><td>Make Quaternion From XZ</td><td>Forward from the first, up as close to the second as it can be.</td></tr>
+<tr><td>Make Quaternion From YX</td><td>Right from the first, forward as close to the second as it can be.</td></tr>
+<tr><td>Make Quaternion From YZ</td><td>Right from the first, up as close to the second as it can be.</td></tr>
+<tr><td>Make Quaternion From ZX</td><td>Up from the first, forward as close to the second as it can be.</td></tr>
+<tr><td>Make Quaternion From ZY</td><td>Up from the first, right as close to the second as it can be.</td></tr>
+<tr><td>Make Quaternion From Axes</td><td>From all three axis vectors at once.</td></tr>
+<tr><td>Find Look At Quaternion</td><td>The rotation that looks from one point towards another.</td></tr>
+<tr><td>Find Relative Look At Quaternion</td><td>The same, expressed in another transform&#x27;s space.</td></tr>
+<tr><td>Find Between Vectors</td><td>The shortest rotation taking one direction to another.</td></tr>
+<tr><td>Find Between Normals</td><td>The same, for vectors already known to be unit length.</td></tr>
+<tr><td>Break Quaternion (Axis and Angle)</td><td>Back to an axis and an angle in degrees.</td></tr>
+<tr><td>Break Quaternion (Roll, Pitch, Yaw)</td><td>Back to three angles, matching Break Rotator.</td></tr>
+</table>
+<h2 id="conversion">Conversion</h2>
+<p>To and from everything else a rotation gets stored as.</p>
+<table>
+<tr><th>Node</th><th>What it does</th></tr>
+<tr><td>To Euler (Quaternion)</td><td>Euler angles as X = Roll, Y = Pitch, Z = Yaw.</td></tr>
+<tr><td>To Rotation Vector (Quaternion)</td><td>The axis scaled by the angle in degrees.</td></tr>
+<tr><td>To Rotator (Quaternion)</td><td>The engine&#x27;s Rotator, for anything that still takes one.</td></tr>
+<tr><td>To Quaternion (Rotator)</td><td>The way back.</td></tr>
+<tr><td>To Vector (Quaternion)</td><td>The forward direction of the rotation.</td></tr>
+<tr><td>To Transform (Quaternion)</td><td>A transform with this rotation, no translation and unit scale.</td></tr>
+<tr><td>To Matrix (Quaternion)</td><td>The rotation as a matrix.</td></tr>
+<tr><td>To Quaternion (Matrix)</td><td>A rotation read back out of a matrix.</td></tr>
+<tr><td>To String (Quaternion)</td><td>Text, so Print String has something to say about a quaternion.</td></tr>
+</table>
+<p>The engine ships no quaternion-to-string node, which is why a quaternion printed anywhere before now came out empty.</p>
+<h2 id="composition">Composition</h2>
+<p>Combining rotations, and undoing the combination.</p>
+<table>
+<tr><th>Node</th><th>What it does</th></tr>
+<tr><td>Compose Quaternions</td><td>Applies B, then A. See <a href="#compose-a-b-applies-b-then-a">Compose (A, B) applies B, then A</a>.</td></tr>
+<tr><td>Inverse (Quaternion)</td><td>The rotation that undoes this one.</td></tr>
+<tr><td>Delta (Quaternion)</td><td>The rotation that takes A to B.</td></tr>
+<tr><td>Scale Angle (Quaternion)</td><td>A fraction of a rotation, about the same axis.</td></tr>
+<tr><td>Get Shortest Arc With</td><td>The same orientation, signed so that it interpolates the short way to a reference.</td></tr>
+</table>
+<h2 id="applying">Applying</h2>
+<p>Using a rotation on something.</p>
+<table>
+<tr><th>Node</th><th>What it does</th></tr>
+<tr><td>Rotate Vector (Quaternion)</td><td>Rotates a vector by the rotation.</td></tr>
+<tr><td>Unrotate Vector (Quaternion)</td><td>Rotates it back.</td></tr>
+<tr><td>Get Forward Vector (Quaternion)</td><td>The rotation&#x27;s forward axis.</td></tr>
+<tr><td>Get Right Vector (Quaternion)</td><td>Its right axis.</td></tr>
+<tr><td>Get Up Vector (Quaternion)</td><td>Its up axis.</td></tr>
+<tr><td>Get Axes (Quaternion)</td><td>All three at once, for when you need the basis.</td></tr>
+<tr><td>Transform Quaternion</td><td>Applies a transform&#x27;s rotation to a rotation.</td></tr>
+<tr><td>Inverse Transform Quaternion</td><td>The way back.</td></tr>
+<tr><td>Make Transform (Quaternion)</td><td>A transform from location, this rotation and scale.</td></tr>
+<tr><td>Break Transform (Quaternion)</td><td>A transform apart, with the rotation as a quaternion.</td></tr>
+</table>
+<p>Make and Break Transform matter more than they look: they are how a transform gets built and taken apart without a Rotator in the middle, which is where a rotation picks up gimbal lock.</p>
+<h2 id="interpolation">Interpolation</h2>
+<p>The group most people come for.</p>
+<img src="images/BlueprintQuaternion/nodes-interpolation.png" alt="The ten interpolation nodes">
+<table>
+<tr><th>Node</th><th>What it does</th></tr>
+<tr><td>Slerp (Quaternion)</td><td>Constant angular speed between two rotations, with a shortest-path pin.</td></tr>
+<tr><td>Lerp (Quaternion)</td><td>The cheap one, normalized, also with a shortest-path pin.</td></tr>
+<tr><td>Ease (Quaternion)</td><td>The easing curves you already use on floats, on a rotation.</td></tr>
+<tr><td>Quaternion Interp To</td><td>Chases a target, frame by frame, at a speed.</td></tr>
+<tr><td>Quaternion Interp To Constant</td><td>The same at a fixed angular rate, so it arrives predictably.</td></tr>
+<tr><td>Rotate Towards (Quaternion)</td><td>Steps towards a target by at most a given angle.</td></tr>
+<tr><td>Squad (Quaternion)</td><td>A smooth path through a series of key rotations rather than a corner at each.</td></tr>
+<tr><td>Calc Tangent (Quaternion)</td><td>The tangents Squad needs, from three consecutive keys.</td></tr>
+<tr><td>Weighted Moving Average (Quaternion)</td><td>Smooths a noisy rotation with a fixed weight.</td></tr>
+<tr><td>Dynamic Weighted Moving Average (Quaternion)</td><td>The same, with a weight that rises the further apart two samples are.</td></tr>
+</table>
+<p>The <strong>shortest path</strong> pin is worth knowing about. Any pair of orientations can be described two ways, one of which interpolates the short way round and one the long way. Left on, you get the short way, which is what a turret or a camera wants. Turned off deliberately, the long way is the only way to animate more than half a turn.</p>
+<h2 id="decomposition">Decomposition</h2>
+<p>Taking a rotation apart. Most of this group has no Rotator equivalent at all.</p>
+<img src="images/BlueprintQuaternion/nodes-decomposition.png" alt="The six decomposition nodes">
+<table>
+<tr><th>Node</th><th>What it does</th></tr>
+<tr><td>Swing and Twist (Quaternion)</td><td>Splits a rotation into a twist about an axis and the swing that is left.</td></tr>
+<tr><td>Get Twist Angle (Quaternion)</td><td>Just the twist, in degrees, when the swing is not wanted.</td></tr>
+<tr><td>Get Angle (Quaternion)</td><td>How far this rotation turns, in degrees.</td></tr>
+<tr><td>Get Rotation Axis (Quaternion)</td><td>What it turns about.</td></tr>
+<tr><td>Log (Quaternion)</td><td>The rotation in a form that adds and scales.</td></tr>
+<tr><td>Exp (Quaternion)</td><td>The way back from that form.</td></tr>
+</table>
+<p>Swing and twist is the one operation a Rotator cannot express. Aim offsets, joint limits, a spine that twists without leaning, a steering wheel that turns without tilting — all of them are this node.</p>
+<h2 id="queries">Queries</h2>
+<p>Asking about a rotation.</p>
+<table>
+<tr><th>Node</th><th>What it does</th></tr>
+<tr><td>Angular Distance (Quaternion)</td><td>The angle between two rotations, in degrees.</td></tr>
+<tr><td>Normalize (Quaternion)</td><td>A unit-length copy.</td></tr>
+<tr><td>Is Normalized (Quaternion)</td><td>Whether it already is one.</td></tr>
+<tr><td>Nearly Equal (Quaternion)</td><td>Whether two rotations are the same orientation, within a tolerance.</td></tr>
+<tr><td>Not Nearly Equal (Quaternion)</td><td>The negation, so a branch reads the way it should.</td></tr>
+<tr><td>Is Identity (Quaternion)</td><td>Whether it is the rotation that does nothing.</td></tr>
+<tr><td>Is Finite (Quaternion)</td><td>Whether every component is a number.</td></tr>
+<tr><td>Select Quaternion</td><td>One of two rotations, on a condition.</td></tr>
+</table>
+<p>Angular Distance answers &quot;how far is this from facing the player&quot; in one node, in degrees, with no dot products and no vectors on the way.</p>
+<h2 id="random">Random</h2>
+<table>
+<tr><th>Node</th><th>What it does</th></tr>
+<tr><td>Random Quaternion</td><td>A random rotation, matching what the engine&#x27;s Random Rotator produces.</td></tr>
+<tr><td>Random Quaternion From Stream</td><td>The same, from a random stream.</td></tr>
+<tr><td>Random Quaternion (Uniform)</td><td>A genuinely uniform random rotation, evenly spread over all orientations.</td></tr>
+<tr><td>Random Quaternion (Uniform) From Stream</td><td>The same, from a random stream.</td></tr>
+<tr><td>Random Quaternion In Cone</td><td>A random rotation within a cone, for spread and scatter.</td></tr>
+</table>
+<p>There are two of them because the engine&#x27;s Random Rotator is not uniform: it draws its angles independently, which clusters the results towards the poles. Random Quaternion matches it, quirks and all, so a rotation that already looks right keeps looking right. Random Quaternion (Uniform) is the one to reach for when the spread itself matters.</p>
+<p>The stream versions are what to use for anything that has to replay identically — a seeded run, a replay, a deterministic test.</p>
+<h2 id="components">Components</h2>
+<p>The four numbers underneath, for anyone writing their own math. This group is the documented exception to normalization: it does not normalize anything.</p>
+<table>
+<tr><th>Node</th><th>What it does</th></tr>
+<tr><td>Make Quaternion (Components)</td><td>From raw X, Y, Z and W.</td></tr>
+<tr><td>Break Quaternion (Components)</td><td>Back to the four numbers.</td></tr>
+<tr><td>To Vector4 (Quaternion)</td><td>The four numbers as a vector.</td></tr>
+<tr><td>To Quaternion (Vector4)</td><td>The way back.</td></tr>
+<tr><td>Add (Quaternion)</td><td>Componentwise addition.</td></tr>
+<tr><td>Subtract (Quaternion)</td><td>Componentwise subtraction.</td></tr>
+<tr><td>Scale Components (Quaternion)</td><td>Every component times a number.</td></tr>
+<tr><td>Dot (Quaternion)</td><td>The dot product, which is also how aligned two rotations are.</td></tr>
+<tr><td>Size (Quaternion)</td><td>Its length.</td></tr>
+<tr><td>Size Squared (Quaternion)</td><td>Its length squared, for comparisons.</td></tr>
+<tr><td>Equals Componentwise (Quaternion)</td><td>Whether the stored numbers match, sign and all.</td></tr>
+</table>
+<h1 id="editing-quaternion-properties">Editing quaternion properties</h1>
+<p>A quaternion property in the details panel is normally four numbers nobody types. This plugin replaces that row.</p>
+<img src="images/BlueprintQuaternion/details-panel.png" alt="A quaternion property, with a Rotator below it for comparison">
+<h2 id="what-the-row-shows">What the row shows</h2>
+<p>The header shows <strong>Euler angles</strong>, the way a Rotator reads. Open the row and there is <strong>axis and angle</strong> below it, and the <strong>raw X, Y, Z and W</strong> in a group of their own — for when a value looks wrong and you want to see what is actually stored.</p>
+<p>Drag a field to change it, the way you drag a Transform. The fields are the same width as a Transform&#x27;s, the coloured letter sits inside the field, and the tooltip names the axis it belongs to. If your project renames its axes to Forward, Left and Up, the row reads that way too, because it takes its names, tooltips and colours from the place the engine&#x27;s own rows take them.</p>
+<p>Text pasted onto the row is accepted, either as a Rotator or as raw quaternion components.</p>
+<p>And the row works with <strong>more than one object selected</strong>, which the engine&#x27;s own quaternion row does not: that one reads its value only when exactly one object is selected, and goes blank otherwise.</p>
+<h2 id="turning-the-row-off">Turning the row off</h2>
+<p>The plugin takes over how every quaternion property in the project is drawn, engine assets included. That is intrusive enough to deserve a switch, and &quot;uninstall the plugin&quot; is not an acceptable way to get the old row back.</p>
+<p><strong>Editor Preferences &gt; Plugins &gt; Blueprint Quaternion &gt; Override the quaternion details panel row</strong> turns it off and puts the engine&#x27;s row back immediately, with no restart.</p>
+<p>The setting is per user, not per project. Turning it off is your preference, and it does not change what a teammate sees.</p>
+<h1 id="recipes">Recipes</h1>
+<p>Short answers to the things people open a quaternion library for.</p>
+<h2 id="aim-a-turret-at-a-target-at-a-turn-rate">Aim a turret at a target, at a turn rate</h2>
+<p>Find Look At Quaternion from the turret to the target, then Rotate Towards from the turret&#x27;s current rotation with the maximum degrees for this frame. Rotate Towards never overshoots, so the turret stops when it arrives instead of oscillating around the target.</p>
+<p>Quaternion Interp To Constant does the same job when you would rather think in degrees per second than degrees per frame.</p>
+<h2 id="limit-a-joint-without-stopping-it-turning">Limit a joint without stopping it turning</h2>
+<p>Swing and Twist about the joint&#x27;s own axis. Clamp the twist angle, leave the swing alone, and Compose the two back together — remembering that Compose applies B then A. A Rotator cannot express that split at all, which is why joint limits built on Rotators fight the animation.</p>
+<h2 id="align-something-to-a-surface">Align something to a surface</h2>
+<p>Find Between Normals, from the object&#x27;s up axis to the surface normal, gives the shortest rotation that lays it flat. Compose that with the object&#x27;s existing rotation to keep its facing. The same node aligns a decal to a wall, a foot to a slope, or a ship to its velocity.</p>
+<h2 id="ask-how-far-something-is-from-facing-you">Ask how far something is from facing you</h2>
+<p>Angular Distance between the two rotations. One node, degrees out.</p>
+<h2 id="smooth-a-rotation-that-arrives-noisy">Smooth a rotation that arrives noisy</h2>
+<p>Weighted Moving Average, or the dynamic one when the input speeds up and slows down — head and hand tracking, a camera following a physics body, anything arriving over the network.</p>
+<h2 id="animate-more-than-half-a-turn">Animate more than half a turn</h2>
+<p>Turn the shortest-path pin <strong>off</strong> on Slerp. With it on, a rotation past 180 degrees takes the short way round and appears to go backwards, which is correct and not what was asked for.</p>
+<h2 id="print-a-rotation-while-debugging">Print a rotation while debugging</h2>
+<p>To String (Quaternion) into Print String. The engine has no node for this, so until now a quaternion was the one value that could not be looked at.</p>
+<h1 id="troubleshooting">Troubleshooting</h1>
+<h2 id="the-rotation-is-right-but-everything-turns-in-the-wrong-frame">The rotation is right but everything turns in the wrong frame</h2>
+<p>Swap the pins on Compose. <code>Compose(A, B)</code> applies <strong>B, then A</strong>. This is the most common mistake with quaternions in any engine, and the symptom is always the same: everything works, every value is wrong, and it reads like a tuning problem.</p>
+<h2 id="an-angle-is-out-by-a-factor-of-about-57">An angle is out by a factor of about 57</h2>
+<p>Degrees against radians. Every pin in this plugin is degrees; several of the engine&#x27;s own quaternion nodes return radians. One radian is 57.2958 degrees, so a value that is 57 times too large or too small has been through one node of the other kind.</p>
+<h2 id="two-rotations-look-identical-but-nearly-equal-says-no">Two rotations look identical but Nearly Equal says no</h2>
+<p><code>Nearly Equal</code> compares orientations and already treats a quaternion and its negation as equal, so a false answer means the orientations really do differ. Check the tolerance pin before suspecting the node.</p>
+<p>If the question is about stored numbers rather than orientations, use <code>Equals Componentwise</code>.</p>
+<h2 id="interpolation-jumps-or-goes-the-long-way-round">Interpolation jumps, or goes the long way round</h2>
+<p>The shortest-path pin, or a rotation that is not signed consistently with the one it is interpolated against. Get Shortest Arc With re-signs one rotation against a reference, which is the fix when the keys come from somewhere you do not control.</p>
+<h2 id="a-rotation-became-nan-somewhere">A rotation became NaN somewhere</h2>
+<p>Not in these nodes: every one taking a quaternion as a rotation normalizes it first, and a zero-length or NaN input becomes Identity rather than propagating. Is Finite tells you whether the value arriving in a node is already broken, and the Components group is the one place that passes a bad value through, by design.</p>
+<h2 id="a-value-in-the-details-panel-reads-150">A value in the details panel reads <code>15.0... °</code></h2>
+<p>The three dots are the editor&#x27;s own way of saying the number shown is rounded — every numeric field in the editor does it, and the field is not too narrow. A quaternion has no exact Euler angles, only infinitely many equivalent sets, so a rotation built from 15 degrees reads back as 15.000000000000004. The row shows three decimals, which is a thousandth of a degree, and marks the rest as dropped.</p>
+<p>Open the <strong>Components</strong> group if you want to see exactly what is stored.</p>
+<h2 id="the-details-panel-shows-the-engines-row-not-this-one">The details panel shows the engine&#x27;s row, not this one</h2>
+<p>Check <strong>Editor Preferences &gt; Plugins &gt; Blueprint Quaternion</strong>. The override is on by default, and it is a per-user setting, so it can be off on one machine and on for the rest of the team.</p>
+<h1 id="support">Support</h1>
+<p>Questions, bug reports and feature requests: <strong>tomasz.klin+blueprintquaternion@gmail.com</strong>.</p>
+<p>Include the engine version and the plugin version — this manual documents 1.0.0 — and, where it applies, a screenshot of the graph. A Blueprint that reproduces the problem is worth more than any description of it.</p>
+</body>
+</html>
