@@ -44,28 +44,28 @@ nav.toc a { text-decoration: none; }
 nav.toc .toc1 { padding-left: 0; font-weight: bold; }
 nav.toc .toc2 { padding-left: 1.2em; }
 nav.toc .toc3 { padding-left: 2.4em; }
-.home { font-family: Arial, Helvetica, sans-serif; font-size: 10pt;
+.home { display: flex; align-items: center; gap: 0.75em;
+        font-family: Arial, Helvetica, sans-serif; font-size: 10pt;
         margin-bottom: 1.5em; }
-
-@media print {
-  /* A screenshot split across a page break is worse than a short page, and a
-     heading stranded at the foot of one is worse still. */
-  /* A browser drops background colours when printing unless told not to, and
-     the comparison table is the one place here where the colour is the
-     content: without it every cell prints the same shade of nothing. */
-  body { margin: 0; max-width: none; font-size: 10.5pt;
-         print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-  h1, h2, h3, h4 { break-after: avoid; page-break-after: avoid; }
-  img, table, tr { break-inside: avoid; page-break-inside: avoid; }
-  h1 { break-before: page; page-break-before: page; }
-  h1:first-of-type { break-before: auto; page-break-before: auto; }
-  a { color: #10559a; text-decoration: none; }
-  .home { display: none; }
-}
-@page { margin: 18mm 16mm; }
+.back-button { display: inline-block; padding: 0.45em 0.8em;
+               border: 1px solid #0b3d59; border-radius: 4px;
+               text-decoration: none; }
+.plugin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(18em, 1fr));
+               gap: 1.25em; margin: 1.5em 0; }
+.plugin-card { display: block; overflow: hidden; border: 1px solid #ccd7de;
+               border-radius: 6px; color: #1a1a1a; text-decoration: none;
+               background: #fff; }
+.plugin-card:hover { border-color: #10559a; box-shadow: 0 3px 12px #0002; }
+.plugin-card img { width: 100%; aspect-ratio: 894 / 488; object-fit: cover;
+                   margin: 0; border: 0; }
+.plugin-card-body { display: block; padding: 0.85em 1em 1em; }
+.plugin-card h2 { margin: 0; font-size: 15pt; }
+.plugin-version { display: block; margin-top: 0.35em; color: #555;
+                  font-family: Arial, Helvetica, sans-serif; font-size: 9.5pt; }
 </style>
 </head>
 <body>
+<nav class="home"><a class="back-button" href="../index.html">&#8592; All plugins</a></nav>
 <h1 id="blueprint-quaternion">Blueprint Quaternion</h1>
 <img class="banner" src="images/BlueprintQuaternion/banner.png" alt="Blueprint Quaternion">
 <p class="byline">Author: <strong>Tomasz Klin</strong><br>Version: <strong>1.0.0</strong></p>

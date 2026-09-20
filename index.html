@@ -6,72 +6,82 @@
 <title>Plugin documentation</title>
 <style>
 body { font-family: Georgia, 'Times New Roman', serif; font-size: 11pt;
-       line-height: 1.55; color: #1a1a1a; max-width: 40em;
-       margin: 4em auto; padding: 0 1.5em; }
-h1 { font-family: Arial, Helvetica, sans-serif; font-size: 22pt; color: #0b3d59;
-     border-bottom: 2px solid #0b3d59; padding-bottom: 0.25em; }
-ul { list-style: none; padding-left: 0; }
-li { margin: 1.1em 0; }
-a { color: #10559a; font-family: Arial, Helvetica, sans-serif; font-size: 13pt;
-    text-decoration: none; }
-a:hover { text-decoration: underline; }
-p.about { color: #555; font-size: 10.5pt; margin: 0.2em 0 0; }
+       line-height: 1.55; color: #1a1a1a; max-width: 46em;
+       margin: 3em auto; padding: 0 1.5em; }
+h1, h2, h3, h4 { font-family: Arial, Helvetica, sans-serif; line-height: 1.25;
+                 color: #0b3d59; margin: 1.6em 0 0.5em; }
+h1 { font-size: 22pt; border-bottom: 2px solid #0b3d59; padding-bottom: 0.25em; }
+h2 { font-size: 16pt; }
+h3 { font-size: 13pt; }
+h4 { font-size: 11.5pt; }
+p { margin: 0.7em 0; }
+img { max-width: 100%; height: auto; display: block; margin: 1.2em auto;
+      border: 1px solid #d8d8d8; }
+img.banner { border: 0; margin: 1.2em 0 0.9em; }
+p.byline { font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt;
+           color: #444; margin: 0 0 0.4em; }
+table { border-collapse: collapse; margin: 1.2em 0; font-size: 10pt;
+        font-family: Arial, Helvetica, sans-serif; }
+th, td { border: 1px solid #bbb; padding: 5px 9px; text-align: left;
+         vertical-align: top; }
+th { background: #eef3f7; }
+td.yes { background: #e3f3e6; color: #14622b; }
+td.no  { background: #fbe6e4; color: #8c1d18; }
+sup { font-size: 0.7em; line-height: 0; vertical-align: super; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 10pt;
+       background: #f3f3f3; padding: 1px 4px; }
+a { color: #10559a; }
+ul, ol { margin: 0.7em 0; padding-left: 1.6em; }
+li { margin: 0.25em 0; }
+nav.toc { margin: 1.5em 0 2.5em; padding: 0.5em 0 1em; border-top: 1px solid #ddd;
+          border-bottom: 1px solid #ddd; font-family: Arial, Helvetica, sans-serif;
+          font-size: 10pt; }
+nav.toc h2 { font-size: 12pt; margin: 0.6em 0 0.4em; }
+nav.toc ul { list-style: none; padding-left: 0; margin: 0; column-count: 2;
+             column-gap: 2.5em; }
+nav.toc li { margin: 0.15em 0; break-inside: avoid; }
+nav.toc a { text-decoration: none; }
+nav.toc .toc1 { padding-left: 0; font-weight: bold; }
+nav.toc .toc2 { padding-left: 1.2em; }
+nav.toc .toc3 { padding-left: 2.4em; }
+.home { display: flex; align-items: center; gap: 0.75em;
+        font-family: Arial, Helvetica, sans-serif; font-size: 10pt;
+        margin-bottom: 1.5em; }
+.back-button { display: inline-block; padding: 0.45em 0.8em;
+               border: 1px solid #0b3d59; border-radius: 4px;
+               text-decoration: none; }
+.plugin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(18em, 1fr));
+               gap: 1.25em; margin: 1.5em 0; }
+.plugin-card { display: block; overflow: hidden; border: 1px solid #ccd7de;
+               border-radius: 6px; color: #1a1a1a; text-decoration: none;
+               background: #fff; }
+.plugin-card:hover { border-color: #10559a; box-shadow: 0 3px 12px #0002; }
+.plugin-card img { width: 100%; aspect-ratio: 894 / 488; object-fit: cover;
+                   margin: 0; border: 0; }
+.plugin-card-body { display: block; padding: 0.85em 1em 1em; }
+.plugin-card h2 { margin: 0; font-size: 15pt; }
+.plugin-version { display: block; margin-top: 0.35em; color: #555;
+                  font-family: Arial, Helvetica, sans-serif; font-size: 9.5pt; }
 </style>
 </head>
 <body>
 <h1>Plugin documentation</h1>
-
-<ul>
-  <li>
-    <a href="blueprintinstancedstruct/">Blueprint Instanced Struct</a>
-    <p class="about">Store any struct in one Blueprint variable, choose wildcard
-    pin types on the node, inspect values and query arrays by type.</p>
-  </li>
-  <li>
-    <a href="blueprintquaternion/">Blueprint Quaternion</a>
-    <p class="about">Use quaternion math directly in Blueprints: 85 nodes for
-    interpolation, swing and twist, shortest-arc alignment and rotation math.</p>
-  </li>
-  <li>
-    <a href="blueprintsubsystems/">Blueprint Subsystems</a>
-    <p class="about">Create all six Unreal Engine subsystem scopes in Blueprint,
-    with lifecycle events, discovery and packaged-build support.</p>
-  </li>
-  <li>
-    <a href="blueprintunchained/">Blueprint Unchained</a>
-    <p class="about">Quaternion math, Blueprint-defined subsystems and flexible
-    Instanced Struct data in one plugin.</p>
-  </li>
-  <li>
-    <a href="collisiondisabler/">Collision Disabler</a>
-    <p class="about">Turn off the collision between one specific pair of bodies,
-    leaving both of them colliding normally with everything else.</p>
-  </li>
-  <li>
-    <a href="componenttimeline/">Component Timeline</a>
-    <p class="about">Place Timeline nodes straight into component blueprints,
-    with everything the Actor version does.</p>
-  </li>
-  <li>
-    <a href="editorwebbrowser/">Editor Web Browser</a>
-    <p class="about">Browse the web in a docked editor tab that stays signed in
-    to your sites from one editor session to the next.</p>
-  </li>
-  <li>
-    <a href="ladybugtracker/">LadyBug Tracker</a>
-    <p class="about">Report and browse issues from inside Unreal Engine, against
-    the tracker you already use.</p>
-  </li>
-  <li>
-    <a href="autoreimport/">Smart Auto Reimport</a>
-    <p class="about">Save a source file in your art tool and Unreal reimports
-    the asset and redraws it, without waiting for you to switch back.</p>
-  </li>
-  <li>
-    <a href="ultimatetodolist/">Ultimate To-Do List</a>
-    <p class="about">Plan and track tasks from inside Unreal Engine, on sticky
-    notes in the level and in the service your team already uses.</p>
-  </li>
-</ul>
+<div class="plugin-grid">
+<a class="plugin-card" href="blueprintquaternion/">
+<img src="images/BlueprintQuaternion/featured.jpg" alt="Blueprint Quaternion">
+<span class="plugin-card-body"><h2>Blueprint Quaternion</h2><span class="plugin-version">Version 1.0.0</span></span>
+</a>
+<a class="plugin-card" href="blueprintsubsystems/">
+<img src="images/BlueprintSubsystems/featured.jpg" alt="Blueprint Subsystems">
+<span class="plugin-card-body"><h2>Blueprint Subsystems</h2><span class="plugin-version">Version 1.0.0</span></span>
+</a>
+<a class="plugin-card" href="blueprintinstancedstruct/">
+<img src="images/BlueprintInstancedStruct/featured.jpg" alt="Blueprint Instanced Struct">
+<span class="plugin-card-body"><h2>Blueprint Instanced Struct</h2><span class="plugin-version">Version 1.0.0</span></span>
+</a>
+<a class="plugin-card" href="blueprintunchained/">
+<span class="plugin-card-body"><h2>Blueprint Unchained</h2><span class="plugin-version">Version 1.0.0</span></span>
+</a>
+</div>
 </body>
 </html>
