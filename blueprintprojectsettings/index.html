@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blueprint Project Settings</title>
+<style>
+body { font-family: Georgia, 'Times New Roman', serif; font-size: 11pt;
+       line-height: 1.55; color: #1a1a1a; max-width: 46em;
+       margin: 3em auto; padding: 0 1.5em; }
+h1, h2, h3, h4 { font-family: Arial, Helvetica, sans-serif; line-height: 1.25;
+                 color: #0b3d59; margin: 1.6em 0 0.5em; }
+h1 { font-size: 22pt; border-bottom: 2px solid #0b3d59; padding-bottom: 0.25em; }
+h2 { font-size: 16pt; }
+h3 { font-size: 13pt; }
+h4 { font-size: 11.5pt; }
+p { margin: 0.7em 0; }
+img { max-width: 100%; height: auto; display: block; margin: 1.2em auto;
+      border: 1px solid #d8d8d8; }
+img.banner { border: 0; margin: 1.2em 0 0.9em; }
+p.byline { font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt;
+           color: #444; margin: 0 0 0.4em; }
+table { border-collapse: collapse; margin: 1.2em 0; font-size: 10pt;
+        font-family: Arial, Helvetica, sans-serif; }
+th, td { border: 1px solid #bbb; padding: 5px 9px; text-align: left;
+         vertical-align: top; }
+th { background: #eef3f7; }
+td.yes { background: #e3f3e6; color: #14622b; }
+td.no  { background: #fbe6e4; color: #8c1d18; }
+sup { font-size: 0.7em; line-height: 0; vertical-align: super; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 10pt;
+       background: #f3f3f3; padding: 1px 4px; }
+a { color: #10559a; }
+ul, ol { margin: 0.7em 0; padding-left: 1.6em; }
+li { margin: 0.25em 0; }
+nav.toc { margin: 1.5em 0 2.5em; padding: 0.5em 0 1em; border-top: 1px solid #ddd;
+          border-bottom: 1px solid #ddd; font-family: Arial, Helvetica, sans-serif;
+          font-size: 10pt; }
+nav.toc h2 { font-size: 12pt; margin: 0.6em 0 0.4em; }
+nav.toc ul { list-style: none; padding-left: 0; margin: 0; column-count: 2;
+             column-gap: 2.5em; }
+nav.toc li { margin: 0.15em 0; break-inside: avoid; }
+nav.toc a { text-decoration: none; }
+nav.toc .toc1 { padding-left: 0; font-weight: bold; }
+nav.toc .toc2 { padding-left: 1.2em; }
+nav.toc .toc3 { padding-left: 2.4em; }
+.home { display: flex; align-items: center; gap: 0.75em;
+        font-family: Arial, Helvetica, sans-serif; font-size: 10pt;
+        margin-bottom: 1.5em; }
+.back-button { display: inline-block; padding: 0.45em 0.8em;
+               border: 1px solid #0b3d59; border-radius: 4px;
+               text-decoration: none; }
+.plugin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(18em, 1fr));
+               gap: 1.25em; margin: 1.5em 0; }
+.plugin-card { display: block; overflow: hidden; border: 1px solid #ccd7de;
+               border-radius: 6px; color: #1a1a1a; text-decoration: none;
+               background: #fff; }
+.plugin-card:hover { border-color: #10559a; box-shadow: 0 3px 12px #0002; }
+.plugin-card img { width: 100%; aspect-ratio: 894 / 488; object-fit: cover;
+                   margin: 0; border: 0; }
+.plugin-card-body { display: block; padding: 0.85em 1em 1em; }
+.plugin-card h2 { margin: 0; font-size: 15pt; }
+.plugin-version { display: block; margin-top: 0.35em; color: #555;
+                  font-family: Arial, Helvetica, sans-serif; font-size: 9.5pt; }
+</style>
+</head>
+<body>
+<nav class="home"><a class="back-button" href="../index.html">&#8592; All plugins</a></nav>
+<h1 id="blueprint-project-settings">Blueprint Project Settings</h1>
+<img class="banner" src="images/BlueprintProjectSettings/banner.png" alt="Blueprint Project Settings">
+<p class="byline">Author: <strong>Tomasz Klin</strong><br>Version: <strong>1.0.0</strong></p>
+<nav class="toc">
+<h2>Contents</h2>
+<ul>
+<li class="toc1"><a href="#introduction">Introduction</a></li>
+<li class="toc1"><a href="#your-first-settings-page">Your first settings page</a></li>
+<li class="toc2"><a href="#1-create-the-settings-blueprint">1. Create the settings Blueprint</a></li>
+<li class="toc2"><a href="#2-add-the-variables">2. Add the variables</a></li>
+<li class="toc2"><a href="#3-name-the-page">3. Name the page</a></li>
+<li class="toc2"><a href="#4-compile-and-save">4. Compile and save</a></li>
+<li class="toc2"><a href="#5-read-the-values-in-any-blueprint">5. Read the values in any Blueprint</a></li>
+<li class="toc1"><a href="#beyond-the-basics">Beyond the basics</a></li>
+<li class="toc2"><a href="#what-the-ini-files-give-you">What the ini files give you</a></li>
+<li class="toc2"><a href="#where-the-values-are-stored">Where the values are stored</a></li>
+<li class="toc2"><a href="#pages-for-your-editor-tools">Pages for your editor tools</a></li>
+<li class="toc2"><a href="#saving-from-a-blueprint">Saving from a Blueprint</a></li>
+<li class="toc2"><a href="#the-section-name">The section name</a></li>
+<li class="toc2"><a href="#the-page">The page</a></li>
+<li class="toc2"><a href="#reset-to-defaults">Reset to Defaults</a></li>
+<li class="toc2"><a href="#reacting-to-values">Reacting to values</a></li>
+<li class="toc2"><a href="#config-variables-on-any-object">Config variables on any object</a></li>
+<li class="toc2"><a href="#packaging">Packaging</a></li>
+<li class="toc1"><a href="#troubleshooting">Troubleshooting</a></li>
+<li class="toc2"><a href="#the-page-is-not-in-the-settings-panel">The page is not in the settings panel</a></li>
+<li class="toc2"><a href="#get-settings-has-no-variables-to-drag-off">Get Settings has no variables to drag off</a></li>
+<li class="toc2"><a href="#save-settings-returns-false-in-the-editor">Save Settings returns false in the editor</a></li>
+<li class="toc2"><a href="#my-settings-work-in-the-editor-and-are-missing-from-a-build">My settings work in the editor and are missing from a build</a></li>
+<li class="toc2"><a href="#saving-does-nothing-in-a-packaged-game">Saving does nothing in a packaged game</a></li>
+<li class="toc2"><a href="#values-are-back-to-the-defaults-after-i-moved-the-asset">Values are back to the defaults after I moved the asset</a></li>
+<li class="toc2"><a href="#reset-to-defaults-does-nothing">Reset to Defaults does nothing</a></li>
+<li class="toc1"><a href="#support">Support</a></li>
+</ul>
+</nav>
+<h1 id="introduction">Introduction</h1>
+<p>Some values belong to a whole project rather than to any actor or level in it: the address of the server your game connects to, how often it autosaves, a switch for the debug overlay, the options of a system you reuse from game to game. Others belong to the editor: the preferences of your Editor Utility Widgets and in-house tools. Unreal Engine keeps both kinds on a settings page — Project Settings for the project, Editor Preferences for the editor — and stores every value in an ini file. A page of your own there normally takes a C++ class deriving from <code>UDeveloperSettings</code>.</p>
+<p>Blueprint Project Settings makes that page from a Blueprint. The variables you add to a settings Blueprint become a page in Project Settings or Editor Preferences, with the values you gave them. The values are stored in ini files, the way the engine stores its own settings, and any Blueprint reads them with one node: <strong>Get Settings</strong>.</p>
+<img src="images/BlueprintProjectSettings/settings-page.png" alt="The Game Config page this manual builds, in Project Settings">
+<p><a href="#your-first-settings-page">Your first settings page</a> builds that page step by step, and it is all most projects need. What the ini files give you, pages for your editor tools, saving from a Blueprint and what happens in a packaged game come after it, under <a href="#beyond-the-basics">Beyond the basics</a>.</p>
+<h1 id="your-first-settings-page">Your first settings page</h1>
+<p>The example is a page called <strong>Game Config</strong>, holding how a small online game is set up: where it connects, how it saves, and what a development build shows.</p>
+<h2 id="1-create-the-settings-blueprint">1. Create the settings Blueprint</h2>
+<p>Enable <strong>Blueprint Project Settings</strong> in <strong>Edit &gt; Plugins</strong> and restart the editor when it asks.</p>
+<p>In the Content Browser choose <strong>Add &gt; Blueprint &gt; Blueprint Project Settings</strong>. Keep <strong>Blueprint Project Settings</strong> as the parent class and name the new asset <code>BP_GameConfig</code>.</p>
+<h2 id="2-add-the-variables">2. Add the variables</h2>
+<p>Open <code>BP_GameConfig</code> and add a variable for each value, the way you would in any Blueprint. Then, in each variable&#x27;s details, tick <strong>Config Variable</strong> under <strong>Advanced</strong>. That checkbox is the engine&#x27;s own, and it is what marks a variable as a stored setting.</p>
+<table>
+<tr><th>Variable</th><th>Type</th><th>Category</th><th>Default value</th></tr>
+<tr><td>ServerAddress</td><td>String</td><td>Online</td><td>play.example.com</td></tr>
+<tr><td>ServerPort</td><td>Integer</td><td>Online</td><td>7777</td></tr>
+<tr><td>bUseStagingServer</td><td>Boolean</td><td>Online</td><td>unticked</td></tr>
+<tr><td>AutosaveInterval</td><td>Float</td><td>Saving</td><td>300</td></tr>
+<tr><td>AutosaveSlots</td><td>Integer</td><td>Saving</td><td>3</td></tr>
+<tr><td>bShowDebugOverlay</td><td>Boolean</td><td>Debug</td><td>ticked</td></tr>
+<tr><td>bEnableCheats</td><td>Boolean</td><td>Debug</td><td>unticked</td></tr>
+<tr><td>DebugTextColor</td><td>Linear Color</td><td>Debug</td><td>a red</td></tr>
+</table>
+<p>The rest of a variable&#x27;s details works as it does on any Blueprint, and it shapes the page: <strong>Category</strong> groups the rows, <strong>Description</strong> is what hovering a row says, and <strong>Slider Range</strong> gives a number a slider. Set the default values in <strong>Class Defaults</strong>, or as each variable&#x27;s <strong>Default Value</strong>.</p>
+<img src="images/BlueprintProjectSettings/settings-blueprint.png" alt="BP_GameConfig: its variables, and the details of AutosaveInterval with Config Variable ticked">
+<h2 id="3-name-the-page">3. Name the page</h2>
+<p>In <strong>Class Defaults</strong>, under <strong>Settings Page</strong>, set <strong>Settings Display Name</strong> to <code>Game Config</code> and write a sentence in <strong>Settings Description</strong> — it is shown under the page&#x27;s title. <strong>Settings Category</strong> is the group the page is listed under in Project Settings. <code>Game</code> is the default, and a name of your own creates a group.</p>
+<p>Left empty, the page is named after the Blueprint. Nothing under <strong>Settings Storage</strong> needs to change: by default the values are stored in the project&#x27;s <code>Config/DefaultGame.ini</code>, which is where a project&#x27;s own settings belong.</p>
+<h2 id="4-compile-and-save">4. Compile and save</h2>
+<p>The page is in <strong>Project Settings &gt; Game &gt; Game Config</strong> straight away: your variables, in their categories, with the values you set.</p>
+<p>A value changed on the page is written to <code>Config/DefaultGame.ini</code>, the file the engine keeps its own game settings in, under a section of the settings&#x27; own — one line per value:</p>
+<p>``<code>ini [BP_GameConfig] ServerAddress=play.example.com ServerPort=7777 bUseStagingServer=False AutosaveInterval=600.000000 AutosaveSlots=3 bShowDebugOverlay=True bEnableCheats=False DebugTextColor=(R=1.000000,G=0.147027,B=0.219526,A=1.000000) </code>``</p>
+<p>The file is checked in with the project, and it ships with the game. The values in <strong>Class Defaults</strong> stay what the Blueprint was authored with: the page&#x27;s <strong>Reset to Defaults</strong> button goes back to them.</p>
+<h2 id="5-read-the-values-in-any-blueprint">5. Read the values in any Blueprint</h2>
+<p>In any graph, add <strong>Get Settings</strong> and pick <code>BP_GameConfig</code> in its <strong>Settings Class</strong> pin. The node returns your Blueprint&#x27;s own type, so its variables can be dragged straight off <strong>Return Value</strong> — there is no cast.</p>
+<p>The game mode below starts its autosave timer at the interval set on the page, and turns the frame timings on when <strong>Show Debug Overlay</strong> is ticked:</p>
+<img src="images/BlueprintProjectSettings/read-settings.png" alt="A game mode reading AutosaveInterval and bShowDebugOverlay on Begin Play">
+<p>There is exactly one settings object per settings Blueprint, and every node reads and writes that same object. That is why nothing has to be spawned, kept in a variable or passed around, and why <strong>Get Settings</strong> needs no world and no game instance. It works in any Blueprint — an actor, a widget, a game mode, an Editor Utility Widget, an Animation Blueprint — at any time, and the stored values are already in it before any Blueprint runs.</p>
+<p>That is the whole setup.</p>
+<h1 id="beyond-the-basics">Beyond the basics</h1>
+<h2 id="what-the-ini-files-give-you">What the ini files give you</h2>
+<p>Nothing is stored in a format of the plugin&#x27;s own. The values of a settings Blueprint are lines in the engine&#x27;s ini files, beside the engine&#x27;s own settings, and that is worth more than a place to keep them:</p>
+<ul>
+<li><strong>They are plain text.</strong> Open the file in any text editor to read a value or to change one; the project reads the change the next time it starts.</li>
+<li><strong>Source control sees them.</strong> A changed setting is a changed line, so a diff shows which value moved and from what, and two people changing two settings merge like any other text. The same values in a Data Asset would be a binary file only one person can safely change at a time.</li>
+<li><strong>The engine&#x27;s layers apply.</strong> A developer can override a project value for themselves in <code>Config/UserGame.ini</code>, which is not checked in, and a platform can override one in its own ini — <code>Config/Android/AndroidGame.ini</code> for Android — exactly as for the engine&#x27;s own settings.</li>
+</ul>
+<h2 id="where-the-values-are-stored">Where the values are stored</h2>
+<p>Two choices decide it, and they are independent.</p>
+<p><strong>Config File</strong> is which ini file. Game is the usual answer for a project&#x27;s own settings. Engine and Input exist for settings that belong beside the engine&#x27;s own, and the two editor files for the settings of the editor itself — see <a href="#pages-for-your-editor-tools">Pages for your editor tools</a>. Custom gives the settings a file of their own, named by the project.</p>
+<p><strong>Storage</strong> is which copy of that file a save writes to.</p>
+<table>
+<tr><th>Storage</th><th>File</th><th>Who it belongs to</th></tr>
+<tr><td>Project Default</td><td><code>Config/DefaultGame.ini</code></td><td>The project. Checked in, shipped with the game, the same for everyone.</td></tr>
+<tr><td>Project User</td><td><code>Config/UserGame.ini</code></td><td>One developer working on the project. Not checked in.</td></tr>
+<tr><td>Global User</td><td>The user settings directory</td><td>One developer, across every project on the machine.</td></tr>
+<tr><td>Saved</td><td><code>Saved/Config/&lt;Platform&gt;/Game.ini</code></td><td>This installation. The copy a running game may write.</td></tr>
+</table>
+<p><strong>Project Default is the one a project&#x27;s settings want</strong>: it is checked in, the same for everyone, and it ships with the game. It is a design-time value, though. The file belongs to the project&#x27;s <code>Config</code> directory, which is source rather than part of the installed game, so a packaged build asking to save one is refused rather than writing somewhere nothing will read back; the refusal is reported in the log and <strong>Save Settings</strong> returns false. The two editor files exist only in the editor, and a packaged game refuses to save to them the same way. Of the four copies, Saved is the only one an installed game can write.</p>
+<p><strong>Stored In</strong>, under <strong>Settings Storage</strong> in Class Defaults, shows the file the two choices add up to.</p>
+<img src="images/BlueprintProjectSettings/page-and-storage.png" alt="The page and storage choices of BP_GameConfig, in Class Defaults">
+<h2 id="pages-for-your-editor-tools">Pages for your editor tools</h2>
+<p>Editor tools have settings too: the folder an exporter writes to, the grid a placement tool snaps to, the colour it highlights with. Set <strong>Container</strong> to <strong>Editor Preferences</strong> and the page is listed there instead of in Project Settings, under any group you name — one of your own included.</p>
+<img src="images/BlueprintProjectSettings/editor-preferences-page.png" alt="The Level Design page of a studio&#x27;s own tools, in Editor Preferences">
+<p>Which file those settings go in decides who shares them:</p>
+<ul>
+<li><strong>Each developer their own.</strong> Set <strong>Config File</strong> to <strong>Editor Per Project User Settings</strong> and <strong>Storage</strong> to <strong>Saved</strong>, for one value per developer in this project, or to <strong>Global User</strong>, for one value per developer across every project on the machine. Neither copy is checked in.</li>
+<li><strong>The whole team the same.</strong> Set <strong>Config File</strong> to <strong>Editor</strong> and leave <strong>Storage</strong> at <strong>Project Default</strong>: the values go in <code>Config/DefaultEditor.ini</code>, checked in with the project.</li>
+</ul>
+<p>An Editor Utility Widget or an editor script reads them with <strong>Get Settings</strong>, like any other Blueprint. The editor&#x27;s ini files exist only in the editor, so these settings are for the editor alone: a packaged game does not read them.</p>
+<h2 id="saving-from-a-blueprint">Saving from a Blueprint</h2>
+<p>The settings page saves what is changed on it. A Blueprint that sets a value itself saves it with <strong>Save Settings</strong>, into the file and the copy the settings Blueprint chose:</p>
+<ol>
+<li><strong>Get Settings</strong>, and set the variable on the object it returns.</li>
+<li>Call <strong>Save Settings</strong> on the same object.</li>
+</ol>
+<p>The graph below is an editor tool keeping its own option: when the grid size is changed in the tool&#x27;s window, it is stored in the Level Design settings, for this developer alone.</p>
+<img src="images/BlueprintProjectSettings/save-setting.png" alt="An editor tool storing the grid size it was given">
+<p><strong>Save Settings</strong> returns false when nothing was written, and the log says why — see <a href="#where-the-values-are-stored">Where the values are stored</a>. A running game saves the same way, into the one copy an installed game can write: set <strong>Storage</strong> to <strong>Saved</strong> for settings the game itself changes.</p>
+<p>To discard changes that were not saved, call <strong>Reload Settings</strong>. It starts from the values the Blueprint was authored with and reads the stored ones over them, so a change to a value that was never saved is discarded as well.</p>
+<h2 id="the-section-name">The section name</h2>
+<p>Values are stored under a section name, and by default the engine uses the generated class&#x27;s path — <code>[/Game/Settings/BP_GameConfig.BP_GameConfig_C]</code>. Moving or renaming the asset changes that name, and every stored value is orphaned with no error anywhere.</p>
+<p>Set <strong>Section Id</strong> in Class Defaults and the values are filed under that name instead. Choose it once, before the first release, and the asset can be moved and renamed afterwards without losing a stored value.</p>
+<p>Left empty, the section is the Blueprint&#x27;s name without the generated class suffix, which already survives the asset being moved but not renamed. A slash in <strong>Section Id</strong> is stored as a dot.</p>
+<p>Two settings Blueprints stored under the same section read and overwrite each other&#x27;s values — two assets with the same name and no <strong>Section Id</strong>, or a Blueprint that inherits its parent&#x27;s <strong>Section Id</strong> instead of setting one of its own. The log warns when that happens.</p>
+<h2 id="the-page">The page</h2>
+<p><strong>Container</strong> puts the page in Project Settings or in Editor Preferences. <strong>Settings Category</strong> is the group it is listed under — Game, Engine, Plugins, Editor, or a name of your own, which creates a group. <strong>Settings Display Name</strong> and <strong>Settings Description</strong> are the title and the sentence under it; left empty they fall back to the Blueprint&#x27;s own name and description.</p>
+<p>The page shows the variables you added and nothing else. The choices that built the page are authored in Class Defaults and deliberately absent from the page itself. A change made on the page is saved the way <strong>Save Settings</strong> saves it, to the file and copy the Blueprint chose, and the page&#x27;s <strong>Reset to Defaults</strong> button is the same reset as the node.</p>
+<p>A value set on the page is a setting, not a default. The defaults are what you set in the Blueprint&#x27;s <strong>Class Defaults</strong>, or as a variable&#x27;s <strong>Default Value</strong>, and saving the Blueprint writes those — never the values stored on your machine, whatever the page or a running game has set since. A duplicate of the Blueprint starts from the same defaults.</p>
+<p>Untick <strong>Show a page in the settings panel</strong> to keep the values working everywhere while the page is not listed.</p>
+<h2 id="reset-to-defaults">Reset to Defaults</h2>
+<p><strong>Reset Settings To Defaults</strong> restores the values the Blueprint was authored with — its class defaults as they were loaded, before anything stored was applied over them, and as edited in <strong>Class Defaults</strong> since — not the last thing saved. The stored copy is rewritten to match, so nothing comes back on the next run. The <strong>Reset to Defaults</strong> button on the settings page does the same.</p>
+<p>It returns false when there is nothing to restore, which is the case for a settings class written in C++: its class defaults read the stored values while they are built, so what it was authored with is never seen. It also returns false when the reset could not be written — for any of the reasons <strong>Save Settings</strong> gives — and the values are then reset for this session only.</p>
+<h2 id="reacting-to-values">Reacting to values</h2>
+<p>A settings Blueprint can implement two events:</p>
+<ul>
+<li><strong>On Settings Loaded</strong> — the values have been read from disk. Anything that has to be applied somewhere, such as switching the debug overlay on, is applied here. A packaged game reads the values before the engine starts, so that everything reads the stored ones, and runs this event once the engine is up.</li>
+<li><strong>On Settings Saved</strong> — the values have been written.</li>
+</ul>
+<p><strong>On Settings Changed</strong> is a delegate on the settings object, so a widget can bind to it and follow a value without polling.</p>
+<h2 id="config-variables-on-any-object">Config variables on any object</h2>
+<p><strong>Save Config Variables</strong> and <strong>Reload Config Variables</strong> work on any object whose class has config variables — the engine&#x27;s own <strong>Config Variable</strong> checkbox, on any Blueprint, not only on a settings class. They are the write half the engine never exposed.</p>
+<h2 id="packaging">Packaging</h2>
+<p>Nothing in a project references a settings Blueprint, and the cooker keeps only what is referenced, so without help a settings class would work in the editor and simply be missing from the packaged game. The plugin adds the settings Blueprints it finds to the cook.</p>
+<p>A cook writes the values each Blueprint was authored with, not the ones stored on the machine that cooks it — whether the build is cooked from the editor or by a build script.</p>
+<p>Which ones it finds is under <strong>Project Settings &gt; Plugins &gt; Blueprint Unchained — Project Settings</strong>. The search covers every mounted content root by default, or the paths you list. <strong>Additional Settings Classes</strong> names classes to configure regardless — for settings that arrive in downloadable content, or a project that would rather keep the search off.</p>
+<h1 id="troubleshooting">Troubleshooting</h1>
+<h2 id="the-page-is-not-in-the-settings-panel">The page is not in the settings panel</h2>
+<p>Check <strong>Show a page in the settings panel</strong>, and that the Blueprint compiles. A settings Blueprint that has never been compiled has no generated class for the plugin to find. Check <strong>Container</strong> too: it decides whether the page is in Project Settings or in Editor Preferences.</p>
+<h2 id="get-settings-has-no-variables-to-drag-off">Get Settings has no variables to drag off</h2>
+<p>Pick the settings Blueprint in the <strong>Settings Class</strong> pin itself. The node takes its return type from the class picked there, or from the type of a wire plugged into the pin — and a wire typed as any Blueprint Project Settings class returns a Blueprint Project Settings, which has none of your variables until it is cast.</p>
+<h2 id="save-settings-returns-false-in-the-editor">Save Settings returns false in the editor</h2>
+<p>Check that the variables have <strong>Config Variable</strong> ticked. A settings Blueprint without a single config variable has nothing to store, and the log says so.</p>
+<h2 id="my-settings-work-in-the-editor-and-are-missing-from-a-build">My settings work in the editor and are missing from a build</h2>
+<p>Check that the settings Blueprint is inside one of the search paths, or listed under <strong>Additional Settings Classes</strong>. If automatic discovery is off, only the listed classes are configured.</p>
+<h2 id="saving-does-nothing-in-a-packaged-game">Saving does nothing in a packaged game</h2>
+<p>Check <strong>Storage</strong>. Project Default cannot be written by an installed game and is refused; the log says so. Use Saved for settings the game itself changes. Check <strong>Config File</strong> too: the two editor files do not exist in a packaged game.</p>
+<h2 id="values-are-back-to-the-defaults-after-i-moved-the-asset">Values are back to the defaults after I moved the asset</h2>
+<p>The values were filed under the asset&#x27;s old path. Set <strong>Section Id</strong> so the section is a name you chose rather than a path, and move the stored values to that section by hand once.</p>
+<h2 id="reset-to-defaults-does-nothing">Reset to Defaults does nothing</h2>
+<p>It returns false when the class has no recorded defaults, which is the case for a settings class written in C++, and when the reset could not be saved. Check the log for the warning naming the class.</p>
+<h1 id="support">Support</h1>
+<p>Questions and bug reports: <strong>tomasz.klin@gmail.com</strong>.</p>
+<p>Include the engine version and the plugin version - this manual documents 1.0.0 - plus the storage mode and the config file when they are relevant.</p>
+</body>
+</html>

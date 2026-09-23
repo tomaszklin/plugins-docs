@@ -67,6 +67,7 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <body>
 <nav class="home"><a class="back-button" href="../index.html">&#8592; All plugins</a></nav>
 <h1 id="blueprint-unchained">Blueprint Unchained</h1>
+<img class="banner" src="images/BlueprintUnchained/banner.png" alt="Blueprint Unchained">
 <p class="byline">Author: <strong>Tomasz Klin</strong><br>Version: <strong>1.0.0</strong></p>
 <nav class="toc">
 <h2>Contents</h2>
@@ -76,24 +77,26 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <li class="toc1"><a href="#blueprint-quaternion">Blueprint Quaternion</a></li>
 <li class="toc1"><a href="#blueprint-subsystems">Blueprint Subsystems</a></li>
 <li class="toc1"><a href="#blueprint-instanced-struct">Blueprint Instanced Struct</a></li>
+<li class="toc1"><a href="#blueprint-project-settings">Blueprint Project Settings</a></li>
 <li class="toc1"><a href="#using-the-toolsets-together">Using the toolsets together</a></li>
 <li class="toc2"><a href="#a-global-event-service">A global event service</a></li>
 <li class="toc2"><a href="#per-world-rotation-commands">Per-world rotation commands</a></li>
 <li class="toc2"><a href="#per-player-orientation-state">Per-player orientation state</a></li>
+<li class="toc2"><a href="#a-service-configured-in-project-settings">A service configured in Project Settings</a></li>
 <li class="toc1"><a href="#packaging-and-platforms">Packaging and platforms</a></li>
 <li class="toc1"><a href="#troubleshooting">Troubleshooting</a></li>
 <li class="toc2"><a href="#unreal-reports-a-duplicate-module-or-class">Unreal reports a duplicate module or class</a></li>
-<li class="toc2"><a href="#i-only-need-one-of-the-three-toolsets">I only need one of the three toolsets</a></li>
+<li class="toc2"><a href="#i-only-need-one-of-the-four-toolsets">I only need one of the four toolsets</a></li>
 <li class="toc2"><a href="#a-problem-belongs-to-one-toolset">A problem belongs to one toolset</a></li>
 <li class="toc1"><a href="#support">Support</a></li>
 </ul>
 </nav>
 <h1 id="introduction">Introduction</h1>
-<p>Blueprint Unchained collects three engine capabilities whose useful surface normally stops at the C++ boundary: quaternion rotation math, engine-managed subsystems and Instanced Struct data. The package contains the complete Blueprint Quaternion, Blueprint Subsystems and Blueprint Instanced Struct toolsets in one plugin.</p>
-<p>Use any toolset independently or combine them. A subsystem can own an event queue made from Instanced Struct payloads; those payloads can carry quaternion rotations; quaternion nodes can run inside an Animation Blueprint&#x27;s thread-safe update. No common framework or base actor ties the three together.</p>
+<p>Blueprint Unchained collects four engine capabilities whose useful surface normally stops at the C++ boundary: quaternion rotation math, engine-managed subsystems, Instanced Struct data and settings stored in config files. The package contains the complete Blueprint Quaternion, Blueprint Subsystems, Blueprint Instanced Struct and Blueprint Project Settings toolsets in one plugin.</p>
+<p>Use any toolset independently or combine them. A subsystem can own an event queue made from Instanced Struct payloads; those payloads can carry quaternion rotations; quaternion nodes can run inside an Animation Blueprint&#x27;s thread-safe update; a settings Blueprint can hold the values a subsystem is tuned with and put them on a page in Project Settings. No common framework or base actor ties the four together.</p>
 <h1 id="getting-started">Getting started</h1>
 <p>Enable <strong>Blueprint Unchained</strong> in <strong>Edit &gt; Plugins</strong> and restart the editor when requested. That is the complete installation.</p>
-<p>The package contains the same modules as the three standalone products. Do not install a standalone copy of Blueprint Quaternion, Blueprint Subsystems or Blueprint Instanced Struct beside Blueprint Unchained in the same project: duplicate module and reflected class names prevent the project from loading.</p>
+<p>The package contains the same modules as the four standalone products. Do not install a standalone copy of Blueprint Quaternion, Blueprint Subsystems, Blueprint Instanced Struct or Blueprint Project Settings beside Blueprint Unchained in the same project: duplicate module and reflected class names prevent the project from loading.</p>
 <p>Choose the toolset that matches the task below. Each linked manual contains its full setup, reference, recipes and troubleshooting guide.</p>
 <h1 id="blueprint-quaternion">Blueprint Quaternion</h1>
 <p>Use Blueprint Quaternion when a rotation should stay a quaternion from input to output. Its 85 pure nodes cover construction, axes, conversion, composition, interpolation, swing and twist, queries, random rotations and raw component math.</p>
@@ -108,6 +111,11 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <p>Use Blueprint Instanced Struct when one variable or array must carry values of different struct types. The toolset operates on Unreal Engine&#x27;s own <code>FInstancedStruct</code>; it does not add a replacement container.</p>
 <p>Typed wildcard Get and Set nodes include a struct picker. Other nodes inspect the held type, create a default from a runtime type, compare and print values, export and parse text, and search or filter arrays by type. Native and Blueprint-authored structs are supported.</p>
 <p>Read the <a href="../blueprintinstancedstruct/BlueprintInstancedStruct.html">Blueprint Instanced Struct manual</a>.</p>
+<h1 id="blueprint-project-settings">Blueprint Project Settings</h1>
+<p>Use Blueprint Project Settings for values that belong to a whole project or to its editor tools: how the project is set up, and the preferences of your in-house tools. Make a Blueprint from <strong>Blueprint Project Settings</strong>, add variables with <strong>Config Variable</strong> ticked, and they become a page of your own in Project Settings or Editor Preferences, with your values in your categories. Every value is kept in an ini file, like the engine&#x27;s own settings: plain text, and one line in a diff. Any graph reads them with <strong>Get Settings</strong>: pick the settings Blueprint and drag its variables straight off the node, with no cast and nothing to spawn.</p>
+<p>The rest is there when a project needs it. Class Defaults choose the ini file and which copy of it a save writes to: the project&#x27;s, one developer&#x27;s, or the copy a running game may write. Values are stored under a section name you choose, so the asset can be moved or renamed without orphaning them. Save Settings, Reload Settings and Reset Settings To Defaults store, discard and restore the values from any Blueprint.</p>
+<p>The plugin discovers settings Blueprints and adds them to the cook. Project settings control the search paths and additional classes.</p>
+<p>Read the <a href="../blueprintprojectsettings/BlueprintProjectSettings.html">Blueprint Project Settings manual</a>.</p>
 <h1 id="using-the-toolsets-together">Using the toolsets together</h1>
 <h2 id="a-global-event-service">A global event service</h2>
 <p>Create a Game Instance subsystem to own an array of Instanced Struct values. Each system adds its own payload struct, and the service dispatches values according to their held type. The service survives level travel without a manager actor.</p>
@@ -115,18 +123,20 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <p>Create a World subsystem that receives Instanced Struct command payloads. One payload can hold a target quaternion, another an axis and angle, and a third interpolation settings. Quaternion nodes apply each command without converting the rotation through Rotator.</p>
 <h2 id="per-player-orientation-state">Per-player orientation state</h2>
 <p>Keep each local player&#x27;s orientation preferences or calibrated tracking state in a Local Player subsystem. Use quaternion smoothing for incoming device rotations and Instanced Struct values when different devices provide different calibration records.</p>
+<h2 id="a-service-configured-in-project-settings">A service configured in Project Settings</h2>
+<p>Keep what a service is configured with - the server it talks to, how often it retries, whether it logs - in a settings Blueprint, on a page in Project Settings. A Game Instance subsystem reads the values with Get Settings when it initializes and binds On Settings Changed, so a change made on the page reaches the service without a reference being passed around, and the values sit in DefaultGame.ini, one line each, where a review can see them change.</p>
 <h1 id="packaging-and-platforms">Packaging and platforms</h1>
 <p>The bundled plugin declares Windows, macOS and Linux as development platforms. Runtime modules also target Win64, macOS, Linux and Android. Editor and UncookedOnly modules stay out of cooked games.</p>
-<p>Blueprint Subsystems adds discovered subsystem assets to the cook. The other two toolsets contain code and no assets that need manual cook rules. The package includes no example project or Blueprint assets.</p>
+<p>Blueprint Subsystems and Blueprint Project Settings add the subsystem and settings Blueprints they discover to the cook. The other two toolsets contain code and no assets that need manual cook rules. The package includes no example project or Blueprint assets.</p>
 <h1 id="troubleshooting">Troubleshooting</h1>
 <h2 id="unreal-reports-a-duplicate-module-or-class">Unreal reports a duplicate module or class</h2>
-<p>Remove the standalone copies of the included plugins. Keep either Blueprint Unchained or the standalone products, never both sets in one project.</p>
-<h2 id="i-only-need-one-of-the-three-toolsets">I only need one of the three toolsets</h2>
+<p>Remove the standalone copies of the included plugins: Blueprint Quaternion, Blueprint Subsystems, Blueprint Instanced Struct and Blueprint Project Settings. Keep either Blueprint Unchained or the standalone products, never both sets in one project.</p>
+<h2 id="i-only-need-one-of-the-four-toolsets">I only need one of the four toolsets</h2>
 <p>Using one part does not require using the others. If installation size or separate purchasing is important, use its standalone product. Functionality inside the bundle is not reduced.</p>
 <h2 id="a-problem-belongs-to-one-toolset">A problem belongs to one toolset</h2>
 <p>Open that toolset&#x27;s linked manual and follow its Troubleshooting section. Include the toolset name, engine version and plugin version when reporting the issue.</p>
 <h1 id="support">Support</h1>
 <p>Questions, bug reports and feature requests: <strong>tomasz.klin+blueprintunchained@gmail.com</strong>.</p>
-<p>Include the engine version and the plugin version - this manual documents 1.0.0 - and say which of the three toolsets is involved.</p>
+<p>Include the engine version and the plugin version - this manual documents 1.0.0 - and say which of the four toolsets is involved.</p>
 </body>
 </html>
