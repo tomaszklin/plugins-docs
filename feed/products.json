@@ -62,5 +62,13 @@
         "ProductUrl": "https://www.fab.com/listings/01a79625-6dfa-4fa6-85fc-fc671bede016",
         "Price": "9.99",
         "Sale": null
+    },
+    {
+        "Name": "Blueprint Instanced Struct",
+        "ImageUrl": "https://media.fab.com/image_previews/gallery_images/51784833-1157-48fc-b782-76a1af419876/8457497d-528c-4d0b-bd16-a16acdc8d10f.jpg",
+        "FeaturedUrl": "https://media.fab.com/image_previews/gallery_images/51784833-1157-48fc-b782-76a1af419876/fa137078-9918-49ce-847c-130503cc736c.jpg",
+        "ProductUrl": "https://www.fab.com/listings/70ce228c-980c-4c0b-a415-597ddc0952e1",
+        "Price": "9.99",
+        "Sale": null
     }
 ]
