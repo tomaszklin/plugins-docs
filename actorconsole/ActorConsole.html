@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Actor Console</title>
+<style>
+body { font-family: Georgia, 'Times New Roman', serif; font-size: 11pt;
+       line-height: 1.55; color: #1a1a1a; max-width: 46em;
+       margin: 3em auto; padding: 0 1.5em; }
+h1, h2, h3, h4 { font-family: Arial, Helvetica, sans-serif; line-height: 1.25;
+                 color: #0b3d59; margin: 1.6em 0 0.5em; }
+h1 { font-size: 22pt; border-bottom: 2px solid #0b3d59; padding-bottom: 0.25em; }
+h2 { font-size: 16pt; }
+h3 { font-size: 13pt; }
+h4 { font-size: 11.5pt; }
+p { margin: 0.7em 0; }
+img { max-width: 100%; height: auto; display: block; margin: 1.2em auto;
+      border: 1px solid #d8d8d8; }
+img.banner { border: 0; margin: 1.2em 0 0.9em; }
+p.byline { font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt;
+           color: #444; margin: 0 0 0.4em; }
+table { border-collapse: collapse; margin: 1.2em 0; font-size: 10pt;
+        font-family: Arial, Helvetica, sans-serif; }
+th, td { border: 1px solid #bbb; padding: 5px 9px; text-align: left;
+         vertical-align: top; }
+th { background: #eef3f7; }
+td.yes { background: #e3f3e6; color: #14622b; }
+td.no  { background: #fbe6e4; color: #8c1d18; }
+sup { font-size: 0.7em; line-height: 0; vertical-align: super; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 10pt;
+       background: #f3f3f3; padding: 1px 4px; }
+a { color: #10559a; }
+ul, ol { margin: 0.7em 0; padding-left: 1.6em; }
+li { margin: 0.25em 0; }
+nav.toc { margin: 1.5em 0 2.5em; padding: 0.5em 0 1em; border-top: 1px solid #ddd;
+          border-bottom: 1px solid #ddd; font-family: Arial, Helvetica, sans-serif;
+          font-size: 10pt; }
+nav.toc h2 { font-size: 12pt; margin: 0.6em 0 0.4em; }
+nav.toc ul { list-style: none; padding-left: 0; margin: 0; column-count: 2;
+             column-gap: 2.5em; }
+nav.toc li { margin: 0.15em 0; break-inside: avoid; }
+nav.toc a { text-decoration: none; }
+nav.toc .toc1 { padding-left: 0; font-weight: bold; }
+nav.toc .toc2 { padding-left: 1.2em; }
+nav.toc .toc3 { padding-left: 2.4em; }
+.home { display: flex; align-items: center; gap: 0.75em;
+        font-family: Arial, Helvetica, sans-serif; font-size: 10pt;
+        margin-bottom: 1.5em; }
+.back-button { display: inline-block; padding: 0.45em 0.8em;
+               border: 1px solid #0b3d59; border-radius: 4px;
+               text-decoration: none; }
+.plugin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(18em, 1fr));
+               gap: 1.25em; margin: 1.5em 0; }
+.plugin-card { display: block; overflow: hidden; border: 1px solid #ccd7de;
+               border-radius: 6px; color: #1a1a1a; text-decoration: none;
+               background: #fff; }
+.plugin-card:hover { border-color: #10559a; box-shadow: 0 3px 12px #0002; }
+.plugin-card img { width: 100%; aspect-ratio: 894 / 488; object-fit: cover;
+                   margin: 0; border: 0; }
+.plugin-card-body { display: block; padding: 0.85em 1em 1em; }
+.plugin-card h2 { margin: 0; font-size: 15pt; }
+.plugin-version { display: block; margin-top: 0.35em; color: #555;
+                  font-family: Arial, Helvetica, sans-serif; font-size: 9.5pt; }
+</style>
+</head>
+<body>
+<nav class="home"><a class="back-button" href="../index.html">&#8592; All plugins</a></nav>
+<h1 id="actor-console">Actor Console</h1>
+<img class="banner" src="images/ActorConsole/banner.png" alt="Actor Console">
+<p class="byline">Author: <strong>Tomasz Klin</strong><br>Version: <strong>1.0.0</strong></p>
+<nav class="toc">
+<h2>Contents</h2>
+<ul>
+<li class="toc1"><a href="#introduction">Introduction</a></li>
+<li class="toc1"><a href="#getting-started">Getting started</a></li>
+<li class="toc1"><a href="#reference">Reference</a></li>
+<li class="toc2"><a href="#a-line">A line</a></li>
+<li class="toc2"><a href="#classes-and-actors">Classes and actors</a></li>
+<li class="toc2"><a href="#paths">Paths</a></li>
+<li class="toc2"><a href="#reading">Reading</a></li>
+<li class="toc2"><a href="#writing">Writing</a></li>
+<li class="toc2"><a href="#calling-functions">Calling functions</a></li>
+<li class="toc2"><a href="#watching-values">Watching values</a></li>
+<li class="toc2"><a href="#where-you-can-type-a-line">Where you can type a line</a></li>
+<li class="toc2"><a href="#autocomplete-and-hints">Autocomplete and hints</a></li>
+<li class="toc2"><a href="#the-editor-is-read-only-outside-pie">The editor is read-only outside PIE</a></li>
+<li class="toc2"><a href="#templates-and-assets-are-protected">Templates and assets are protected</a></li>
+<li class="toc2"><a href="#multiplayer">Multiplayer</a></li>
+<li class="toc2"><a href="#packaged-builds">Packaged builds</a></li>
+<li class="toc2"><a href="#settings">Settings</a></li>
+<li class="toc2"><a href="#for-programmers">For programmers</a></li>
+<li class="toc1"><a href="#support">Support</a></li>
+</ul>
+</nav>
+<h1 id="introduction">Introduction</h1>
+<p>Unreal&#x27;s console can already change a property on every instance of a class and call a function on an object - if you know the engine&#x27;s internal names by heart. It never shows what a call returned, it quietly reports success when a value did not parse, and nothing helps you find the class, the actor, the variable or the function you are looking for. So checking something in a running game usually means adding a throwaway Blueprint node, compiling and playing again.</p>
+<p>Actor Console gives you one short line for all of it, while the game runs: read a value, change it, or call a function on a class or on one actor you name - <code>@Player.GetActorLocation()</code>, <code>APawn.bHidden true</code> - and see the result printed back. Autocomplete suggests every part of the line as you type and tells you what each suggestion is: a variable&#x27;s type and current value, a function&#x27;s parameters and what it returns. It works in the in-game console, in its own editor tab and in the Output Log, in Play In Editor and in Development and Test builds of your game.</p>
+<h1 id="getting-started">Getting started</h1>
+<p>Enable <strong>Actor Console</strong> in <strong>Edit &gt; Plugins</strong> and restart the editor when it asks. That is the whole installation.</p>
+<ol>
+<li>Press <strong>Play</strong>, then open the console with the <strong>~</strong> key.</li>
+<li>Type <code>@</code> - the actors of the level are listed. Pick one with the arrow keys and <strong>Tab</strong>.</li>
+<li>Type <code>.</code> - its variables, components and functions are listed, each with its type or signature. Pick <code>bHidden</code> and press <strong>Enter</strong>. The console prints its value: <code>bHidden = false</code>.</li>
+<li>Now type the same line followed by a value, <code>@MyActor.bHidden true</code>, and press <strong>Enter</strong>. The actor disappears, and the console prints <code>bHidden: false -&gt; true</code>.</li>
+<li>Call a function: <code>@MyActor.GetActorLocation()</code> prints the location it returned.</li>
+</ol>
+<p>After <code>@</code>, the list holds the actors of the level, each with its class:</p>
+<img src="images/ActorConsole/autocomplete-actors.png" alt="The actors of the level listed after @, each with its class">
+<p>After the actor and a <code>.</code>, it holds what the actor has - each variable with its type and current value, each function with its signature:</p>
+<img src="images/ActorConsole/autocomplete-members.png" alt="The variables and functions of an actor listed after a dot, with types, values and signatures">
+<p>The same lines work in the <strong>Actor Console</strong> tab (<strong>Tools &gt; Actor Console</strong>) and in the Output Log once <strong>Actor</strong> is chosen in the drop-down beside its command field.</p>
+<h1 id="reference">Reference</h1>
+<h2 id="a-line">A line</h2>
+<p>A line starts with what it works on - a class, or one actor after <code>@</code> - walks on through variables and components with <code>.</code>, and ends in one of three ways:</p>
+<table>
+<tr><th>Line</th><th>What it does</th></tr>
+<tr><td><code>@Player.CharacterMovement.MaxWalkSpeed</code></td><td>Reads a variable of the actor named Player.</td></tr>
+<tr><td><code>@Player.CharacterMovement.MaxWalkSpeed 1200</code></td><td>Writes it. <code>= 1200</code> works too.</td></tr>
+<tr><td><code>ACharacter.CharacterMovement.MaxWalkSpeed 1200</code></td><td>Writes it on every character in the world.</td></tr>
+<tr><td><code>@Player.GetActorLocation()</code></td><td>Calls a function and prints what it returned.</td></tr>
+<tr><td><code>@Player.SetActorLocation(NewLocation=0 0 300, bTeleport=true)</code></td><td>Calls with named arguments.</td></tr>
+<tr><td><code>KismetSystemLibrary.PrintString(&quot;Hello&quot;)</code></td><td>Calls a static function; no actor is needed.</td></tr>
+<tr><td><code>@&quot;Point Light 2&quot;.LightComponent.Intensity 5000</code></td><td>Names an actor whose label has spaces in it.</td></tr>
+<tr><td><code>@Player.Tags[0] Boss</code></td><td>Writes an element of an array. <code>@Shop.Prices[Sword]</code> reaches a map entry.</td></tr>
+<tr><td><code>@Player.RootComponent.RelativeLocation.Z 300</code></td><td>Writes one member of a struct - and the component moves.</td></tr>
+</table>
+<p>Names ignore case. A name that is not a plain identifier is written in quotes, <code>@&quot;Point Light 2&quot;</code>, with <code>\&quot;</code> and <code>\\</code> as the only escapes.</p>
+<p>Here is what a few lines print in the in-game console: a read, a write and the value before and after it, a call and what it returned, a write on a class reported for each instance, and a value that does not fit, refused with what was expected:</p>
+<img src="images/ActorConsole/console-lines.png" alt="A read, a write, a call, a write on a class and a refused value, with what each printed">
+<h2 id="classes-and-actors">Classes and actors</h2>
+<ul>
+<li><strong>A class</strong> is typed by its name with or without the C++ prefix - <code>Pawn</code> or <code>APawn</code> - and a Blueprint with or without <code>_C</code>: <code>BP_Enemy</code>, <code>BP_Enemy_C</code>. It means every live instance of that class and its subclasses in the world, components and other objects included: <code>StaticMeshComponent.CastShadow false</code> changes every static mesh component in the level. A class line that reads prints at most 100 objects - the <strong>Max Printed Instances</strong> setting - and says how many it left out. A write or a call on a class reports every instance, so no change goes unseen.</li>
+<li><strong>An actor</strong> is <code>@</code> and its name: the label you see in the Outliner, or its object name, which autocomplete also lists. A runtime-spawned actor - the player&#x27;s pawn among them - is named by the engine, <code>@BP_Player_C_0</code>. No name is reserved: <code>@Player</code> is the actor called Player. A name that more than one actor has is an error listing all of them.</li>
+<li>Only classes that are already loaded can be used, and nothing is ever loaded to find one.</li>
+<li>A line whose first word is one of the engine&#x27;s own console variables or commands - <code>stat fps</code>, <code>r.ScreenPercentage 50</code> - still goes to the engine, and works as it always did.</li>
+</ul>
+<h2 id="paths">Paths</h2>
+<p>After the class or the actor, each <code>.name</code> is looked up in this order: a <strong>variable</strong>, then - on an actor - a <strong>component</strong> with that name, then a <strong>function</strong> when <code>(</code> follows. The path continues through object references, components, structs, arrays and maps: <code>@Player.Controller.PlayerCameraManager.DefaultFOV</code>. A component is reachable both by the variable that holds it and by its own name. A reference that is <code>None</code> stops the line with a message naming it.</p>
+<h2 id="reading">Reading</h2>
+<p><code>@Player.CharacterMovement.MaxWalkSpeed</code> prints the object, the path and the value - its type was already beside the suggestion you picked:</p>
+<p>``<code> BP_Player_C_0.CharacterMovement.MaxWalkSpeed = 600.0 </code>``</p>
+<p>A read shows the value stored in the variable, never the result of a getter function.</p>
+<h2 id="writing">Writing</h2>
+<p>Values are written the way the engine writes them, <code>(X=0.0,Y=0.0,Z=300.0)</code>, and in shorter forms:</p>
+<table>
+<tr><th>Type</th><th>You can write</th></tr>
+<tr><td><code>bool</code></td><td><code>true</code>, <code>false</code>, <code>1</code>, <code>0</code></td></tr>
+<tr><td>a struct of numbers</td><td>the numbers in order, separated by spaces or commas: <code>0 0 300</code> for a vector, <code>0 90 0</code> for a rotator (Pitch, Yaw, Roll)</td></tr>
+<tr><td>an enum</td><td><code>MOVE_Walking</code>, <code>Walking</code>, or its number</td></tr>
+<tr><td>an object</td><td><code>None</code>, an actor as <code>@Name</code>, or the path of an object already in memory</td></tr>
+<tr><td>a string or a name</td><td>quoted, or simply the rest of the line</td></tr>
+</table>
+<ul>
+<li><strong>A write takes effect.</strong> The value goes in through the variable&#x27;s setter where there is one, and engine variables whose field alone changes nothing - <code>bHidden</code>, <code>RelativeLocation</code>, a light&#x27;s <code>Intensity</code>, a mesh component&#x27;s <code>StaticMesh</code> - are applied through the function that makes them show.</li>
+<li><strong>The echo reads the value back</strong>, so a setter that clamped it shows what really happened: <code>MaxWalkSpeed: 600.0 -&gt; 1200.0</code>.</li>
+<li><strong>Nothing is written unless everything is valid.</strong> On a class, every instance is checked first; if the value does not fit one of them, nothing is written and the message names the expected type.</li>
+<li><strong>A struct member or a container element</strong> is written through its whole variable, so setters and replication see the change.</li>
+</ul>
+<h2 id="calling-functions">Calling functions</h2>
+<ul>
+<li>Arguments are separated by commas. Named arguments skip the ones in between: <code>SetActorLocation(NewLocation=0 0 300, bTeleport=true)</code>.</li>
+<li>Any argument can be left out: it takes its default value in the editor and PIE, and its type&#x27;s zero value in a packaged game. The echo always prints every argument that was passed.</li>
+<li>A call can be left open at the end of the line: <code>@Player.GetActorLocation(</code> runs as <code>@Player.GetActorLocation()</code>, so a function picked from autocomplete runs as soon as you press <strong>Enter</strong>.</li>
+<li>Output parameters are not typed. They are printed on the call&#x27;s line, after its arguments: <code>-&gt; ReturnValue=true, SweepHitResult=(...)</code>. A reference parameter you pass in is printed there too, with its final value.</li>
+<li>The world context parameter of a function such as <code>GetCurrentLevelName</code> is filled in for you.</li>
+<li>A function is found by its name without <code>K2_</code> - <code>GetActorLocation</code> - and, in the editor and PIE, by the name its Blueprint node shows.</li>
+<li>Static functions run once, without an actor. A function on a class runs once per instance.</li>
+<li>Latent functions - those with a delay, such as <code>Delay</code> - cannot be called from a line.</li>
+</ul>
+<h2 id="watching-values">Watching values</h2>
+<p>Put <code>+</code> in front of a path and its value stays at the top of the game viewport, kept current while you play; <code>++</code> draws it over time as well. <code>-</code> stops watching it, and <code>-</code> alone stops every watch.</p>
+<table>
+<tr><th>Line</th><th>What it does</th></tr>
+<tr><td><code>+@Player.CharacterMovement.MaxWalkSpeed</code></td><td>Shows the value, updated every frame.</td></tr>
+<tr><td><code>++@Player.RootComponent.RelativeLocation</code></td><td>Shows it and draws the last 10 seconds of it - one line each for X, Y and Z.</td></tr>
+<tr><td><code>-@Player.CharacterMovement.MaxWalkSpeed</code></td><td>Stops watching it.</td></tr>
+<tr><td><code>-</code></td><td>Stops every watch.</td></tr>
+</table>
+<p>A watch is typed like any other line. Here <code>++@FastBobber.bAboveRest</code> is being added to two watches already running - a graphed number and a value on its own:</p>
+<img src="images/ActorConsole/watch-add.png" alt="A watch line typed in the console, with two watches already at the top of the viewport">
+<p>With the console closed they stay where they are: a row for each watch, and under it a graph for what <code>++</code> draws - a number, a <code>bool</code> between false and true, and a vector one line per member:</p>
+<img src="images/ActorConsole/watches.png" alt="Four watches over the game: a number, a value, a bool and a vector, three of them graphed">
+<ul>
+<li>Watches stay on screen whether the console is open or closed, and from one Play In Editor session to the next. With several PIE clients, each window shows its own value.</li>
+<li>A class shows a row for each instance: <code>+APawn.bHidden</code>.</li>
+<li>A graph draws numbers, <code>bool</code> values between false and true, and vectors, rotators and colours one line per member. Text and objects show their value only.</li>
+<li>A watch only reads: it never writes and never calls a function.</li>
+<li>After <code>-</code>, autocomplete lists what you are watching, each marked graphed or watched:</li>
+</ul>
+<img src="images/ActorConsole/watch-remove.png" alt="After a minus, the watches listed, each marked graphed or watched">
+<h2 id="where-you-can-type-a-line">Where you can type a line</h2>
+<table>
+<tr><th>Where</th><th>Available</th><th>Hints</th></tr>
+<tr><td><strong>The in-game console</strong>, <strong>~</strong></td><td>PIE and Debug, Development and Test games</td><td>in the second column, beside each suggestion; the signature of the function being called and how to write the value in the first rows</td></tr>
+<tr><td><strong>The Actor Console tab</strong>, <strong>Tools &gt; Actor Console</strong></td><td>the editor</td><td>columns for the hint and the current value; the signature of the function being called and how to write the value under the line</td></tr>
+<tr><td><strong>The Output Log</strong>, with <strong>Actor</strong> chosen</td><td>the editor</td><td>in the tooltip</td></tr>
+<tr><td><strong><code>ExecuteConsoleCommand</code></strong>, <strong><code>-ExecCmds</code></strong>, the engine&#x27;s console</td><td>wherever the plugin runs</td><td>none</td></tr>
+</table>
+<ul>
+<li>In the in-game console, <strong>Tab</strong> accepts a suggestion, the arrow keys move through the list, and a line that is not Actor Console&#x27;s goes to the engine as before. One history holds both. <strong>Tab</strong> on a function that takes parameters goes straight to its first argument, with the values it takes.</li>
+<li>In the Actor Console tab, <strong>Tab</strong> and <strong>Enter</strong> accept a suggestion, <strong>Up</strong> on an empty line recalls history, and <strong>Esc</strong> closes the list. The tab always shows which world the lines run in.</li>
+<li>From a Blueprint&#x27;s <code>ExecuteConsoleCommand</code> or from <code>-ExecCmds</code>, start the line with <code>ActorConsole</code> - <code>ActorConsole APawn.bHidden true</code> - so that it reaches Actor Console whatever the engine&#x27;s own handlers make of it.</li>
+<li>A project that already sets its own console class keeps it. Actor Console says so in the log; derive that class from <code>UActorConsoleGameConsole</code> to have both.</li>
+</ul>
+<h2 id="autocomplete-and-hints">Autocomplete and hints</h2>
+<table>
+<tr><th>After</th><th>Suggested</th><th>Hint</th></tr>
+<tr><td><code>@</code></td><td>the actors of the world, by label and by object name</td><td>the actor&#x27;s class</td></tr>
+<tr><td>the first word</td><td>classes with live instances, then classes with static functions</td><td><code>12 in world</code>, or <code>static functions</code></td></tr>
+<tr><td><code>.</code></td><td>variables, components and functions</td><td>a variable&#x27;s type and current value, a component&#x27;s class, a function&#x27;s signature</td></tr>
+<tr><td><code>[</code></td><td>the indices or keys that exist</td><td>the element&#x27;s type and value</td></tr>
+<tr><td>a variable and a space</td><td><code>true</code> / <code>false</code>, an enum&#x27;s entries, <code>None</code> and actors</td><td>the type and how to write it</td></tr>
+<tr><td><code>(</code> or <code>,</code></td><td>values for the current parameter</td><td>the signature, with the current parameter marked, and the parameter&#x27;s type and how to write it</td></tr>
+</table>
+<p>A variable&#x27;s hint can also say <code>replicated</code> - on a client, the server will overwrite a change - <code>read-only</code> - Blueprint cannot write it, though the console can - and <code>setter</code>. A function&#x27;s signature reads like its Blueprint node: <code>(FVector NewLocation, bool bSweep, bool bTeleport) -&gt; bool, FHitResult SweepHitResult</code>. Matching ignores case and finds word starts: <code>gal</code> finds <code>GetActorLocation</code>.</p>
+<p>The list shows what a suggestion puts in - <code>true</code>, <code>@Player</code>, <code>CharacterMovement</code> - and accepting it completes the line around it. While you type a value, the hint says how one of its type is written, even where there is nothing to pick from: <code>FVector  (X=0,Y=0,Z=0) or 0 0 0</code>. After an enum variable and a space, that is its entries:</p>
+<img src="images/ActorConsole/autocomplete-values.png" alt="The entries of an enum listed after a variable and a space, with how to write one">
+<p>Inside a call&#x27;s parentheses the signature is written over the function&#x27;s name, with the parameter being typed marked, and above it the values that parameter takes:</p>
+<img src="images/ActorConsole/autocomplete-signature.png" alt="The signature of a function being called, its first parameter marked, and the values it takes">
+<p>In the in-game console and the Actor Console tab, the line you type, the suggestions, their hints and what your lines print are coloured by what each part is: classes and types, actors, variables and components, functions, and values each have a colour of their own, tags and notes such as <code>replicated</code> stay faded, and errors and warnings are printed in colours of their own. A part is coloured by where it stands in the line, so a misspelt name is coloured too - the line says what is wrong when you run it. The colours are in the settings below.</p>
+<h2 id="the-editor-is-read-only-outside-pie">The editor is read-only outside PIE</h2>
+<p>With no Play In Editor session running, a line only reads: every write and every function call is refused with <em>The editor is read-only outside PIE. Writes and calls run in PIE or in a game.</em> - so a line typed at the wrong moment can never change your level. Autocomplete works as usual. During PIE, lines work on the PIE world, and nothing in the level is changed when PIE ends.</p>
+<p>In the Actor Console tab: outside PIE a read answers while a write and a call are refused; in PIE the same write and call are made; and under them the suggestions for the line being typed, with their hints:</p>
+<img src="images/ActorConsole/editor-tab.png" alt="The Actor Console tab refusing a write and a call outside PIE, making them in PIE, and suggesting">
+<h2 id="templates-and-assets-are-protected">Templates and assets are protected</h2>
+<p>A class default object, a component template of a Blueprint and the template actor of a Child Actor component change every instance created after them, and in the editor the Blueprint that gets saved. A mesh, a material or a data asset is shared by everything that uses it, and a change made in PIE outlives PIE. So Actor Console never writes to them or calls a function on them, wherever a path leads - such a line is refused and names the object. A template is never suggested or accepted as a value; an asset is, so <code>@Rock.StaticMeshComponent.StaticMesh /Game/Meshes/SM_Boulder.SM_Boulder</code> gives the component another mesh without changing any asset. Reading them is allowed.</p>
+<p>Functions you call are your own code and are not restricted: one that changes an asset still does.</p>
+<h2 id="multiplayer">Multiplayer</h2>
+<ul>
+<li>A write on a client to a replicated variable says in the echo that the server will overwrite it. On a server the variable is marked for replication.</li>
+<li>Server, Client and Multicast functions follow the engine&#x27;s rules. The echo says whether the call ran on this machine, was handed to the engine to be sent, or was rejected and why - for example a Server function on an actor this client does not own. Delivery to the other machine is never claimed.</li>
+</ul>
+<h2 id="packaged-builds">Packaged builds</h2>
+<table>
+<tr><th></th><th>Editor and PIE</th><th>Debug, Development</th><th>Test</th><th>Shipping</th></tr>
+<tr><td>Actor Console</td><td class="yes">yes</td><td class="yes">yes</td><td class="yes">yes</td><td>not included</td></tr>
+<tr><td><code>@</code> by label</td><td class="yes">yes</td><td class="yes">yes</td><td>object names only</td><td>-</td></tr>
+<tr><td>Default argument values, Blueprint node names</td><td class="yes">yes</td><td class="no">no</td><td class="no">no</td><td>-</td></tr>
+</table>
+<ul>
+<li>Nothing has to be set up for a packaged game: while the project is cooked, Actor Console records which parameter of each function is its world context, and the game reads that record. If a build lacks it or it does not match the build, a function that might take a world context is refused with the reason rather than called with its arguments in the wrong places - package the game again with the plugin enabled.</li>
+<li>A C++ module of yours that uses Actor Console must leave it out of Shipping builds - see below.</li>
+</ul>
+<h2 id="settings">Settings</h2>
+<p><strong>Project Settings &gt; Plugins &gt; Actor Console</strong>:</p>
+<table>
+<tr><th>Setting</th><th>Default</th><th>Meaning</th></tr>
+<tr><td>Max Printed Instances</td><td>100</td><td>how many objects a read on a class prints before it says how many it left out; a write or a call reports every instance</td></tr>
+<tr><td>Max Value Length</td><td>200</td><td>longer values are shortened in the console; the log always has them whole</td></tr>
+<tr><td>Max Suggestions</td><td>200</td><td>how many suggestions autocomplete returns at most</td></tr>
+<tr><td>Replace Game Console</td><td>on</td><td>use Actor Console&#x27;s in-game console, unless the project sets its own</td></tr>
+<tr><td>Color Syntax</td><td>on</td><td>colour the line, the suggestions, their hints and what lines print; off, the consoles keep their own colours</td></tr>
+<tr><td>Class Color</td><td>teal</td><td>classes, and the types in hints and signatures</td></tr>
+<tr><td>Actor Color</td><td>orchid</td><td>actors, <code>@Player</code>, and the object a printed line is about</td></tr>
+<tr><td>Property Color</td><td>light blue</td><td>variables, components, and the names of parameters, arguments and results</td></tr>
+<tr><td>Function Color</td><td>pale yellow</td><td>functions</td></tr>
+<tr><td>Value Color</td><td>orange</td><td>numbers, text, <code>true</code>, <code>None</code>, enum entries, indices and keys, and default values</td></tr>
+<tr><td>Error Color</td><td>red</td><td>errors a line prints</td></tr>
+<tr><td>Warning Color</td><td>yellow</td><td>warnings a line prints</td></tr>
+</table>
+<h2 id="for-programmers">For programmers</h2>
+<p>Add <code>ActorConsoleRuntime</code> to your module&#x27;s dependencies outside Shipping only, and keep the code that uses it out of Shipping too:</p>
+<p>``<code>csharp if (Target.Configuration != UnrealTargetConfiguration.Shipping) { PrivateDependencyModuleNames.Add(&quot;ActorConsoleRuntime&quot;); } </code>``</p>
+<ul>
+<li><strong>Run a line</strong> and read the structured result - every object, value, argument and output:</li>
+</ul>
+<p>```cpp #if !UE_BUILD_SHIPPING #include &quot;ActorConsole.h&quot;</p>
+<p>FActorConsoleResult Result = FActorConsole::Execute(TEXT(&quot;APawn.bHidden true&quot;), FActorConsoleContext(GetWorld())); #endif ```</p>
+<p><code>FActorConsole::Complete</code> returns the suggestions for a line and a cursor position, for a front end of your own.</p>
+<ul>
+<li><strong>Make a write take effect</strong> for a variable of your own whose field does nothing on its own:</li>
+</ul>
+<p>``<code>cpp FActorConsoleEffects::RegisterFunction(UMyLampComponent::StaticClass(), TEXT(&quot;Brightness&quot;), TEXT(&quot;SetBrightness&quot;)); </code>``</p>
+<p><code>FActorConsoleEffects::Register</code> takes a function of your own instead, for anything else.</p>
+<ul>
+<li><strong>Keep your own in-game console class</strong> and derive it from <code>UActorConsoleGameConsole</code>.</li>
+</ul>
+<h1 id="support">Support</h1>
+<p>Questions and bug reports: tomasz.klin+actorconsole@gmail.com</p>
+</body>
+</html>
