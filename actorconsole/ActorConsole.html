@@ -95,7 +95,7 @@ nav.toc .toc3 { padding-left: 2.4em; }
 </nav>
 <h1 id="introduction">Introduction</h1>
 <p>Unreal&#x27;s console can already change a property on every instance of a class and call a function on an object - if you know the engine&#x27;s internal names by heart. It never shows what a call returned, it quietly reports success when a value did not parse, and nothing helps you find the class, the actor, the variable or the function you are looking for. So checking something in a running game usually means adding a throwaway Blueprint node, compiling and playing again.</p>
-<p>Actor Console gives you one short line for all of it, while the game runs: read a value, change it, or call a function on a class or on one actor you name - <code>@Player.GetActorLocation()</code>, <code>APawn.bHidden true</code> - and see the result printed back. Autocomplete suggests every part of the line as you type and tells you what each suggestion is: a variable&#x27;s type and current value, a function&#x27;s parameters and what it returns. It works in the in-game console, in its own editor tab and in the Output Log, in Play In Editor and in Development and Test builds of your game.</p>
+<p>Actor Console gives you one short line for all of it, while the game runs: read a value, change it, or call a function on a class or on one actor you name - <code>@Player.GetActorLocation()</code>, <code>APawn.bHidden true</code> - and see the result printed back. Autocomplete suggests every part of the line as you type and tells you what each suggestion is: a variable&#x27;s type and current value, a function&#x27;s parameters and what it returns. It works in the in-game console, in its own editor tab and in the Output Log, in Play In Editor and in Debug and Development builds of your game.</p>
 <h1 id="getting-started">Getting started</h1>
 <p>Enable <strong>Actor Console</strong> in <strong>Edit &gt; Plugins</strong> and restart the editor when it asks. That is the whole installation.</p>
 <ol>
@@ -192,7 +192,7 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <h2 id="where-you-can-type-a-line">Where you can type a line</h2>
 <table>
 <tr><th>Where</th><th>Available</th><th>Hints</th></tr>
-<tr><td><strong>The in-game console</strong>, <strong>~</strong></td><td>PIE and Debug, Development and Test games</td><td>in the second column, beside each suggestion; the signature of the function being called and how to write the value in the first rows</td></tr>
+<tr><td><strong>The in-game console</strong>, <strong>~</strong></td><td>PIE and Debug and Development games</td><td>in the second column, beside each suggestion; the signature of the function being called and how to write the value in the first rows</td></tr>
 <tr><td><strong>The Actor Console tab</strong>, <strong>Tools &gt; Actor Console</strong></td><td>the editor</td><td>columns for the hint and the current value; the signature of the function being called and how to write the value under the line</td></tr>
 <tr><td><strong>The Output Log</strong>, with <strong>Actor</strong> chosen</td><td>the editor</td><td>in the tooltip</td></tr>
 <tr><td><strong><code>ExecuteConsoleCommand</code></strong>, <strong><code>-ExecCmds</code></strong>, the engine&#x27;s console</td><td>wherever the plugin runs</td><td>none</td></tr>
@@ -233,10 +233,10 @@ nav.toc .toc3 { padding-left: 2.4em; }
 </ul>
 <h2 id="packaged-builds">Packaged builds</h2>
 <table>
-<tr><th></th><th>Editor and PIE</th><th>Debug, Development</th><th>Test</th><th>Shipping</th></tr>
-<tr><td>Actor Console</td><td class="yes">yes</td><td class="yes">yes</td><td class="yes">yes</td><td>not included</td></tr>
-<tr><td><code>@</code> by label</td><td class="yes">yes</td><td class="yes">yes</td><td>object names only</td><td>-</td></tr>
-<tr><td>Default argument values, Blueprint node names</td><td class="yes">yes</td><td class="no">no</td><td class="no">no</td><td>-</td></tr>
+<tr><th></th><th>Editor and PIE</th><th>Debug, Development</th><th>Shipping</th></tr>
+<tr><td>Actor Console</td><td class="yes">yes</td><td class="yes">yes</td><td>not included</td></tr>
+<tr><td><code>@</code> by label</td><td class="yes">yes</td><td class="yes">yes</td><td>-</td></tr>
+<tr><td>Default argument values, Blueprint node names</td><td class="yes">yes</td><td class="no">no</td><td>-</td></tr>
 </table>
 <ul>
 <li>Nothing has to be set up for a packaged game: while the project is cooked, Actor Console records which parameter of each function is its world context, and the game reads that record. If a build lacks it or it does not match the build, a function that might take a world context is refused with the reason rather than called with its arguments in the wrong places - package the game again with the plugin enabled.</li>
@@ -277,6 +277,6 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <li><strong>Keep your own in-game console class</strong> and derive it from <code>UActorConsoleGameConsole</code>.</li>
 </ul>
 <h1 id="support">Support</h1>
-<p>Questions and bug reports: tomasz.klin+actorconsole@gmail.com</p>
+<p>Ask questions, report bugs and suggest features in #actor-console, the plugin&#x27;s own channel on <a href="https://discord.gg/4eVzdqJAPE">Discord</a>.</p>
 </body>
 </html>
