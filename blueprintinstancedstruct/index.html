@@ -103,80 +103,106 @@ nav.toc .toc3 { padding-left: 2.4em; }
 </ul>
 </nav>
 <h1 id="introduction">Introduction</h1>
-<p>An Instanced Struct is one variable that can hold a value of any struct type chosen at runtime. It is useful wherever entries share a role but not one fixed payload: events, inventory items, configuration records, save data and messages between systems.</p>
-<p>Unreal Engine supplies <code>FInstancedStruct</code> and a small Blueprint surface. Blueprint Instanced Struct adds the tools needed to inspect the held type, choose wildcard pin types before connecting them, query arrays and make a reliable text round trip. It uses the engine&#x27;s existing container rather than introducing a new one.</p>
+<p>Blueprint Instanced Struct helps you read, change and find values that use different struct types. For example, you can keep weapon and potion data in the same inventory array.</p>
+<p>Unreal Engine&#x27;s <strong>Instanced Struct</strong> type holds one struct value at a time. You can replace it with a value of another struct type while the game runs. An array of Instanced Struct values can hold a different type in each entry.</p>
+<p>This plugin adds nodes to choose types, check values, search arrays and convert data to text and back. It uses the engine&#x27;s existing <code>FInstancedStruct</code> type. You can use it entirely in Blueprint.</p>
 <h1 id="getting-started">Getting started</h1>
-<p>Enable <strong>Blueprint Instanced Struct</strong> in <strong>Edit &gt; Plugins</strong> and restart the editor when requested.</p>
-<p>Create a variable whose type is <strong>Instanced Struct</strong>. To put a value into it, use <strong>Make Instanced Struct</strong> or <strong>Set Struct Value</strong>. To read it, place <strong>Get Struct Value</strong>, choose a struct in the picker shown on the node and connect the Instanced Struct value. The success and failure execution outputs make a wrong or empty type explicit.</p>
-<p>All functions appear under the <strong>Instanced Struct</strong> category. The plugin has no project settings, runtime service or actor to place.</p>
+<ol>
+<li>Enable <strong>Blueprint Instanced Struct</strong> in <strong>Edit &gt; Plugins</strong>. Restart the editor if prompted.</li>
+<li>Create a variable of type <strong>Instanced Struct</strong>.</li>
+<li>Connect your struct to <strong>Make Instanced Struct</strong> and assign the result to the variable.</li>
+<li>Add <strong>Get Struct Value</strong> and choose the expected struct type in the node&#x27;s picker.</li>
+<li>Connect your Instanced Struct value. Use the success output to work with the result.</li>
+</ol>
+<p>The failure output runs if the value is empty or has the wrong type. Use <strong>Set Struct Value</strong> when you want to replace the value already stored in the variable.</p>
+<p>Find all nodes under <strong>Instanced Struct</strong> in the Blueprint menu. You can use them without placing an actor or changing Project Settings.</p>
 <h1 id="core-concepts">Core concepts</h1>
 <h2 id="one-value-one-current-type">One value, one current type</h2>
-<p>An Instanced Struct is either empty or contains one complete struct value together with its type. Assigning a different type replaces the previous value. Use <strong>Is Valid</strong> to distinguish an empty container and <strong>Get Script Struct</strong> to retrieve the current type.</p>
+<p>An Instanced Struct is either empty or contains one complete struct value and its type. Setting a new value replaces the previous value.</p>
+<p>Use <strong>Is Valid</strong> to check whether it contains a struct. Use <strong>Get Script Struct</strong> to get its type.</p>
 <h2 id="values-are-copied">Values are copied</h2>
-<p>Make and Set copy a struct into the container. Get copies it out. Editing the copied output later does not silently modify the container; call Set Struct Value again with the changed struct.</p>
+<p>Make and Set copy a struct into the Instanced Struct value. Get copies it out. Changing the output from Get does not change the stored value. Call <strong>Set Struct Value</strong> with your edited struct to store the change.</p>
 <h2 id="native-inheritance-and-blueprint-structs">Native inheritance and Blueprint structs</h2>
-<p>For C++ struct hierarchies, <strong>Is Struct Type</strong> accepts a derived value when asked about a base type, and Get Struct Value can copy out the base portion. Blueprint-authored Structure assets cannot inherit from each other, so comparisons between them are exact type matches.</p>
+<p>C++ structs can have parent and child types. <strong>Is Struct Type</strong> accepts a child value when you check for its parent type. <strong>Get Struct Value</strong> can read the fields defined by that parent.</p>
+<p>Structs made in Blueprint cannot inherit from each other. Their types must match exactly.</p>
 <h1 id="creating-values">Creating values</h1>
 <h2 id="make-instanced-struct">Make Instanced Struct</h2>
-<p>Connect any single struct value to <strong>Make Instanced Struct</strong>. Its wildcard input adopts the connected type and the result contains a copy of that value.</p>
+<p>Connect one struct value to <strong>Make Instanced Struct</strong>. The input pin takes the connected struct&#x27;s type, and the result holds a copy of its value. This kind of pin is called a wildcard pin.</p>
 <h2 id="make-default-of-type">Make Default Of Type</h2>
-<p>Use <strong>Make Default Of Type</strong> when the struct type is known only at runtime and there is no value to copy. The result contains a default-initialized instance of the selected type. The node is pure, so it can be used directly while constructing an array.</p>
-<p>Passing no valid Struct Type produces an empty value.</p>
+<p>Use <strong>Make Default Of Type</strong> when you choose the type while the game runs and have no value to copy. It creates a value with that struct&#x27;s defaults.</p>
+<p>The node is pure, so it needs no execution wire and can be used while building an array. An empty or invalid <strong>Struct Type</strong> input produces an empty Instanced Struct value.</p>
 <h1 id="reading-and-writing-values">Reading and writing values</h1>
 <h2 id="choose-a-type-on-get-and-set">Choose a type on Get and Set</h2>
-<p>The plugin&#x27;s <strong>Get Struct Value</strong> and <strong>Set Struct Value</strong> nodes show a struct type picker in the node body. Selecting a type immediately changes the wildcard pin, which means you can split it or drag from it before any other pin is connected.</p>
-<p>The picker only lists struct types that Blueprint variables can hold. When a typed pin is connected, that connection determines the wildcard type and takes precedence over the picker.</p>
+<p><strong>Get Struct Value</strong> and <strong>Set Struct Value</strong> show a type picker on the node. Choose a struct to set the pin&#x27;s type. You can then split the pin into fields or connect it to other nodes.</p>
+<p>The picker lists structs that Blueprint variables can use. A connected struct pin sets the type automatically and overrides the picker. Disconnect that pin before choosing another type.</p>
+<p>This choice is made while editing the graph. It determines the pin type when the Blueprint compiles.</p>
 <h2 id="get-struct-value">Get Struct Value</h2>
-<p>Get copies the value into the typed output and routes execution through success when the container holds a compatible type. An empty value or incompatible type routes through failure instead of returning partially interpreted memory.</p>
+<p>Get copies the stored value into its typed output. The success execution output runs if the stored type is compatible with the selected type. An empty value or a different, incompatible type runs the failure output. Use the copied value only after success.</p>
 <h2 id="set-struct-value">Set Struct Value</h2>
-<p>Set replaces the held value with a copy of the connected struct. The input must be one struct, not an array. Arrays of Instanced Struct containers are handled by the dedicated query nodes.</p>
+<p>Set replaces the stored value with a copy of the connected struct. The input accepts one struct. For an array, store Instanced Struct values as its entries and use the array nodes below.</p>
 <h1 id="inspecting-and-comparing">Inspecting and comparing</h1>
 <ul>
-<li><strong>Is Valid (Instanced Struct)</strong> reports whether a value holds any struct.</li>
-<li><strong>Get Script Struct</strong> returns the held type or none.</li>
-<li><strong>Is Struct Type</strong> checks the held type, including native base types.</li>
-<li><strong>Reset (Instanced Struct)</strong> destroys the held value and leaves the container empty.</li>
-<li><strong>Equal (Instanced Struct)</strong> requires the same type and equal member values.</li>
-<li><strong>Not Equal (Instanced Struct)</strong> is the inverse comparison.</li>
-<li><strong>To String (Instanced Struct)</strong> produces readable type and member text for logging.</li>
+<li><strong>Is Valid (Instanced Struct)</strong> checks whether a value contains a struct.</li>
+<li><strong>Get Script Struct</strong> returns the stored type, or none if the value is empty.</li>
+<li><strong>Is Struct Type</strong> checks the type, including parent types for C++ structs.</li>
+<li><strong>Reset (Instanced Struct)</strong> clears the stored value.</li>
+<li><strong>Equal (Instanced Struct)</strong> checks for the same type and equal field values.</li>
+<li><strong>Not Equal (Instanced Struct)</strong> returns the opposite result.</li>
+<li><strong>To String (Instanced Struct)</strong> creates readable text for logs and debugging.</li>
 </ul>
-<p>To String is for people reading a log. It is not the persistent round-trip representation.</p>
+<p>To save a value as text and read it back later, use <strong>Export To String</strong> and <strong>Parse From String</strong>.</p>
 <h1 id="saving-and-loading-text">Saving and loading text</h1>
-<p><strong>Export To String</strong> writes the held type and its member values into text that <strong>Parse From String</strong> can reconstruct. Use this pair for configuration, save data, a clipboard workflow or another text channel under your control.</p>
-<p>Parse From String reports failure when the text is invalid or its type cannot be resolved. Treat serialized text as versioned data: renaming a struct or changing its members can require migration in the same way as any other saved Unreal data.</p>
+<p><strong>Export To String</strong> converts the struct type and field values to text. Store that text in your own save or configuration system. Use <strong>Parse From String</strong> to create an Instanced Struct from it.</p>
+<p>Check the Parse result before using the value. Parsing fails if the text is invalid or Unreal Engine cannot find the stored struct type.</p>
+<p>If you rename a struct or change its fields, existing saved text may need an update. Plan how older saves will be read when you make those changes.</p>
 <h1 id="arrays-by-type">Arrays by type</h1>
-<p>The array nodes take an array of Instanced Struct values and a Struct Type:</p>
+<p>These nodes take an array of Instanced Struct values and a <strong>Struct Type</strong>:</p>
 <table>
 <tr><th>Node</th><th>Result</th></tr>
-<tr><td>Find First Of Type</td><td>The first matching value and its index, or -1 when absent.</td></tr>
-<tr><td>Filter By Type</td><td>Every matching value in the original order.</td></tr>
-<tr><td>Contains Type</td><td>Whether at least one matching value exists.</td></tr>
-<tr><td>Count Of Type</td><td>The number of matching entries.</td></tr>
-<tr><td>Remove All Of Type</td><td>Removes matches in place and returns how many were removed.</td></tr>
+<tr><td>Find First Of Type</td><td>Returns the first matching value and its index. The index is -1 if no match exists.</td></tr>
+<tr><td>Filter By Type</td><td>Returns all matching values in their original order.</td></tr>
+<tr><td>Contains Type</td><td>Checks whether at least one matching entry exists.</td></tr>
+<tr><td>Count Of Type</td><td>Returns the number of matching entries.</td></tr>
+<tr><td>Remove All Of Type</td><td>Removes matching entries from the input array and returns how many were removed.</td></tr>
 </table>
-<p>Matches follow the same native inheritance rule as Is Struct Type. Use Contains Type instead of Filter By Type when only a yes-or-no answer is needed.</p>
+<p>Type checks follow the inheritance rules described above. Use <strong>Contains Type</strong> when you only need a yes-or-no answer. Use <strong>Filter By Type</strong> when you need the matching values.</p>
 <h1 id="recipes">Recipes</h1>
+<p>These examples show how to use the nodes in common Blueprint tasks.</p>
 <h2 id="build-an-event-queue-with-different-payloads">Build an event queue with different payloads</h2>
-<p>Define one struct per event payload and store Instanced Struct values in an array. A dispatcher can use Is Struct Type to select a handler, then Get Struct Value as that handler&#x27;s expected type. Use a native base struct only when inherited payload matching is required.</p>
+<p>A payload is the data carried by an event. For example, a damage event can carry a damage amount and a target, while a healing event carries a healing amount.</p>
+<ol>
+<li>Create a struct for each event type.</li>
+<li>Put event values into an array of Instanced Struct values.</li>
+<li>Use <strong>Is Struct Type</strong> to choose the logic for each event.</li>
+<li>Use <strong>Get Struct Value</strong> to read the event&#x27;s data.</li>
+</ol>
+<p>Use a C++ parent struct if several event types need to match the same parent type check.</p>
 <h2 id="store-different-inventory-data-in-one-list">Store different inventory data in one list</h2>
-<p>Keep common identity fields in the inventory entry and its specialized data in an Instanced Struct. Weapon, potion and quest-item structs can coexist in the same array without a large union struct full of unused members.</p>
+<p>Keep shared fields, such as an item ID, in your inventory entry. Store each item&#x27;s specific data in an Instanced Struct.</p>
+<p>Weapon, potion and quest-item structs can share one array. Each struct only needs the fields used by that kind of item.</p>
 <h2 id="copy-a-value-through-text">Copy a value through text</h2>
-<p>Export To String, store or transmit the result, then Parse From String into a new Instanced Struct. Branch on the Parse result before using the value, then inspect its type or retrieve it with Get Struct Value.</p>
+<ol>
+<li>Use <strong>Export To String</strong> on the value.</li>
+<li>Store or send the resulting text through your own system.</li>
+<li>Use <strong>Parse From String</strong> to read the text.</li>
+<li>Check the Parse result, then read the value with <strong>Get Struct Value</strong>.</li>
+</ol>
 <h2 id="create-a-typed-default-from-a-data-driven-selection">Create a typed default from a data-driven selection</h2>
-<p>Store a Struct Type in data, pass it to Make Default Of Type and then route the resulting value by type. This is useful when authoring chooses the type but runtime code constructs the payload.</p>
+<p>Store a <strong>Struct Type</strong> in your project data and pass it to <strong>Make Default Of Type</strong>. The node creates a value with that type&#x27;s defaults.</p>
+<p>Use this when a designer chooses the struct type in data and the game creates the value later.</p>
 <h1 id="troubleshooting">Troubleshooting</h1>
 <h2 id="get-struct-value-takes-the-failure-path">Get Struct Value takes the failure path</h2>
-<p>The container is empty or the selected output type is incompatible with the held type. Print the value with To String or inspect Get Script Struct. For Blueprint-authored structs, the selected type must match exactly.</p>
+<p>Check whether the value is empty and whether its type matches the selected output type. Use <strong>To String</strong> to print it or <strong>Get Script Struct</strong> to check its type. For structs made in Blueprint, the types must match exactly.</p>
 <h2 id="the-wildcard-pin-has-the-wrong-type">The wildcard pin has the wrong type</h2>
-<p>Check both the node picker and connected pins. A typed connection always wins. Disconnect it before choosing a different type in the picker.</p>
+<p>Check the picker and any connected struct pin. The connected pin sets the type. Disconnect it before choosing a different type in the picker.</p>
 <h2 id="an-array-will-not-connect-to-a-wildcard-struct-pin">An array will not connect to a wildcard struct pin</h2>
-<p>That is intentional. Get, Set and Make accept one struct value. Use an array of Instanced Struct containers and the array query nodes instead of treating an array as one struct&#x27;s memory.</p>
+<p>Make, Get and Set accept one struct at a time. Use an array of Instanced Struct values for multiple entries. Use the array nodes to find, filter, count or remove them.</p>
 <h2 id="parsed-text-fails-after-a-type-was-renamed">Parsed text fails after a type was renamed</h2>
-<p>The exported form includes the struct type. Add the appropriate Unreal redirect or migrate the saved text when a type moves or changes name.</p>
+<p>The exported text includes the struct type. If its name or path changes, add an Unreal Engine redirect from the old type to the new one, or update the type information in the saved text.</p>
 <h2 id="i-see-similar-nodes-elsewhere-in-the-menu">I see similar nodes elsewhere in the menu</h2>
-<p>The engine also offers several basic Instanced Struct operations. This plugin keeps its own consistent Make, Get, Set, validity, reset and comparison surface under one category alongside the additional nodes.</p>
+<p>Unreal Engine also provides some basic Instanced Struct nodes. This plugin groups its Make, Get, Set, validity, reset and comparison nodes with its additional tools under <strong>Instanced Struct</strong>.</p>
 <h1 id="support">Support</h1>
-<p>Questions and bug reports: <strong>tomasz.klin@gmail.com</strong>.</p>
-<p>Include the engine version and the plugin version - this manual documents 1.0.0 - plus the held struct type and a screenshot of the relevant graph when possible.</p>
+<p>For help or bug reports, contact <strong>tomasz.klin@gmail.com</strong>.</p>
+<p>Include your Unreal Engine version, plugin version and the struct type involved. A screenshot of the relevant graph is helpful. This manual covers plugin version 1.0.0.</p>
 </body>
 </html>
