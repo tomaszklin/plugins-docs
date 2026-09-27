@@ -86,6 +86,7 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <li class="toc2"><a href="#saving-from-a-blueprint">Saving from a Blueprint</a></li>
 <li class="toc2"><a href="#the-section-name">The section name</a></li>
 <li class="toc2"><a href="#the-page">The page</a></li>
+<li class="toc2"><a href="#settings-that-build-on-other-settings">Settings that build on other settings</a></li>
 <li class="toc2"><a href="#reset-to-defaults">Reset to Defaults</a></li>
 <li class="toc2"><a href="#reacting-to-values">Reacting to values</a></li>
 <li class="toc2"><a href="#config-variables-on-any-object">Config variables on any object</a></li>
@@ -110,7 +111,7 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <p>This example creates a page called <strong>Game Config</strong>. It holds connection settings, save options and debug options for a small online game.</p>
 <h2 id="1-create-the-settings-blueprint">1. Create the settings Blueprint</h2>
 <p>Enable <strong>Blueprint Project Settings</strong> in <strong>Edit &gt; Plugins</strong>. Restart the editor if prompted.</p>
-<p>In the Content Browser, choose <strong>Add &gt; Blueprint &gt; Blueprint Project Settings</strong>. Keep <strong>Blueprint Project Settings</strong> as the parent class and name the asset <code>BP_GameConfig</code>.</p>
+<p>In the Content Browser, choose <strong>Add &gt; Blueprint &gt; Blueprint Project Settings</strong>. The asset is created at once, with its name ready to type: name it <code>BP_GameConfig</code>.</p>
 <h2 id="2-add-the-variables">2. Add the variables</h2>
 <p>Open <code>BP_GameConfig</code> and add the variables below. In each variable&#x27;s details, open <strong>Advanced</strong> and enable <strong>Config Variable</strong>. This marks the variable as a setting to store in an ini file.</p>
 <table>
@@ -148,7 +149,7 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <p>Changing a setting on the page does not change the Blueprint&#x27;s original defaults. The page&#x27;s <strong>Reset to Defaults</strong> button restores the values set in <strong>Class Defaults</strong>.</p>
 <h2 id="5-read-the-values-in-any-blueprint">5. Read the values in any Blueprint</h2>
 <ol>
-<li>Add <strong>Get Settings</strong> to a graph.</li>
+<li>Right-click in a graph, type <code>Get Settings</code> and press <strong>Enter</strong>.</li>
 <li>Select <code>BP_GameConfig</code> in <strong>Settings Class</strong>.</li>
 <li>Drag from <strong>Return Value</strong> and choose the variable you want to read.</li>
 </ol>
@@ -225,6 +226,14 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <p>Changes on the page are saved through the same process as <strong>Save Settings</strong>. The page&#x27;s <strong>Reset to Defaults</strong> button performs the same reset as the node.</p>
 <p>Set the original defaults in <strong>Class Defaults</strong> or in each variable&#x27;s <strong>Default Value</strong> field. Saving, duplicating or packaging the Blueprint keeps those defaults separate from the current values on your machine.</p>
 <p>Disable <strong>Show a page in the settings panel</strong> to hide the page while keeping the settings available to Blueprints.</p>
+<h2 id="settings-that-build-on-other-settings">Settings that build on other settings</h2>
+<p>To start from an existing settings Blueprint, right-click it in the Content Browser and choose <strong>Create Child Blueprint Class</strong>. The child has its parent&#x27;s variables and defaults, and you can add variables of its own.</p>
+<p>The child is a separate set of settings. It gets its own page, stores all of its values in its own section, including the ones it inherits, and Get Settings returns a different object for it.</p>
+<p>The child also inherits the parent&#x27;s page and section options. In its <strong>Class Defaults</strong>:</p>
+<ul>
+<li>Give it its own <strong>Settings Display Name</strong>, so the two pages do not share a title.</li>
+<li>If the parent sets a <strong>Section Id</strong>, give the child a different one. See <a href="#the-section-name">The section name</a>.</li>
+</ul>
 <h2 id="reset-to-defaults">Reset to Defaults</h2>
 <p><strong>Reset Settings To Defaults</strong> restores the values set in the Blueprint&#x27;s Class Defaults. This includes later edits to those defaults. It then saves the restored values to the ini file. The <strong>Reset to Defaults</strong> button on the settings page does the same thing.</p>
 <p>Check the returned result:</p>
