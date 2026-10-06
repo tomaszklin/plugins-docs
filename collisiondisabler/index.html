@@ -68,7 +68,7 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <body>
 <h1 id="collision-disabler">Collision Disabler</h1>
 <img class="banner" src="images/CollisionDisabler/banner.png" alt="Collision Disabler">
-<p class="byline">Author: <strong>Tomasz Klin</strong><br>Version: <strong>1.10</strong></p>
+<p class="byline">Author: <strong>Tomasz Klin</strong><br>Version: <strong>1.10.1</strong></p>
 <nav class="toc">
 <h2>Contents</h2>
 <ul>
@@ -92,58 +92,63 @@ nav.toc .toc3 { padding-left: 2.4em; }
 </ul>
 </nav>
 <h1 id="introduction">Introduction</h1>
-<p>Thanks to this plugin you will be able to turn off collisions between the indicated pairs of physical objects.</p>
+<p>This plugin lets you disable collisions between the pairs of physical objects that you specify.</p>
 <p>Video: <a href="https://www.youtube.com/watch?v=WUuV6wXR_3M&amp;list=PLoYWDChOaJ081AkM6MHGzHX4gv6WAdnf_&amp;index=4&amp;t=0s">Collision Disabler</a></p>
-<p>The Unreal Engine provides several methods to disable collisions between objects.</p>
+<p>Unreal Engine has several methods to disable collisions between objects.</p>
 <ol>
-<li><a href="https://www.unrealengine.com/en-US/blog/collision-filtering?sessionInvalidated=true">Collision channels</a> switch collisions off between groups of objects, <strong>but not between specific objects</strong>.</li>
-<li><a href="https://api.unrealengine.com/INT/BlueprintAPI/Collision/IgnoreActorwhenMoving/index.html">Ignore Actor When Moving</a> tells a component to ignore collision with all components of a specific Actor while that component is moved, <strong>but it does not apply to the physics simulation</strong>.</li>
-<li><a href="https://docs.nvidia.com/gameworks/content/gameworkslibrary/physx/guide/Manual/AdvancedCollisionDetection.html#contact-modification">Contact Modification</a> modifies the properties of the generated contact points, but <strong>requires knowledge of PhysX and C++</strong>.</li>
+<li><a href="https://www.unrealengine.com/en-US/blog/collision-filtering?sessionInvalidated=true">Collision channels</a> disable collisions between groups of objects, <strong>but not between specific objects</strong>.</li>
+<li><a href="https://api.unrealengine.com/INT/BlueprintAPI/Collision/IgnoreActorwhenMoving/index.html">Ignore Actor When Moving</a> tells a component to ignore collision with all components of a specific Actor while that component moves. <strong>But this does not apply to the physics simulation</strong>.</li>
+<li><a href="https://docs.nvidia.com/gameworks/content/gameworkslibrary/physx/guide/Manual/AdvancedCollisionDetection.html#contact-modification">Contact Modification</a> changes the properties of the generated contact points. <strong>But to use it, you must know PhysX and C++</strong>.</li>
 </ol>
-<p>Collision Disabler uses the last method to provide a very simple and convenient way to disable collision between objects using physics simulation.</p>
-<p>Features list:</p>
+<p>Collision Disabler uses the last method. It gives you a very simple and easy way to disable collision between objects in the physics simulation.</p>
+<p>Features:</p>
 <ul>
-<li>Disable collision between physical objects</li>
+<li>Disables collision between physical objects</li>
 <li>Works with CCD</li>
 <li>Works with Substepping</li>
 <li>Works with many physical scenes</li>
 <li>Works with both C++ and Blueprint-only projects</li>
 </ul>
 <h1 id="plugin-installation">Plugin Installation</h1>
-<p>In order to enable the plugin go to Edit -&gt; Plugins, select <strong>Physics</strong> category and check <strong>Enabled</strong> for Collision Disabler</p>
+<p>To enable the plugin, do these steps:</p>
+<ol>
+<li>Open Edit -&gt; Plugins.</li>
+<li>Select the <strong>Physics</strong> category.</li>
+<li>For Collision Disabler, select the <strong>Enabled</strong> check box.</li>
+</ol>
 <img src="images/CollisionDisabler/image7.png" alt="">
 <h1 id="using-in-blueprint">Using in Blueprint</h1>
 <h2 id="disable-collision">Disable Collision</h2>
 <h3 id="single-body-vs-single-body">Single Body vs Single Body</h3>
-<p>Disable collision between two primitive components with one PhysicalBody e.g. StaticMesh. Pins:</p>
+<p>This node disables collision between two primitive components that each have one PhysicalBody, for example a StaticMesh. Pins:</p>
 <ul>
-<li><strong>SingleBodyA</strong> (UPrimitiveComponent): Input representing the first component for which collisions should be disabled.</li>
-<li><strong>SingleBodyB</strong> (UPrimitiveComponent): Input representing the second component for which collisions should be disabled.</li>
-<li><strong>TimeToExpiration</strong>: Input representing an optional duration for disabling collisions (in seconds). After this time, collisions will automatically be re-enabled.</li>
+<li><strong>SingleBodyA</strong> (UPrimitiveComponent): Input for the first component for which the node disables collisions.</li>
+<li><strong>SingleBodyB</strong> (UPrimitiveComponent): Input for the second component for which the node disables collisions.</li>
+<li><strong>TimeToExpiration</strong>: Input for an optional time (in seconds) during which the collisions stay disabled. After this time, the plugin enables the collisions again automatically.</li>
 </ul>
 <img src="images/CollisionDisabler/image1.png" alt="">
 <h3 id="skeletal-mesh-vs-single-body">Skeletal Mesh vs Single Body</h3>
-<p>This node allows you to disable collisions between a SkeletalMeshComponent and a PrimitiveComponent. You have to specify which bones in the SkeletalMeshComponent should be considered when disabling collisions. Pins:</p>
+<p>This node lets you disable collisions between a SkeletalMeshComponent and a PrimitiveComponent. You must specify the bones in the SkeletalMeshComponent for which the node disables collisions. Pins:</p>
 <ul>
-<li><strong>SkeletalMesh</strong> (USkeletalMeshComponent): Input representing a SkeletalMesh component for which collisions should be disabled.</li>
-<li><strong>SkeletalMeshBones</strong> (array of FName): Input representing an array of bone names in the SkeletalMeshComponent</li>
-<li><strong>SingleBody</strong> (UPrimitiveComponent): Input representing the second component for which collisions should be disabled.</li>
-<li><strong>TimeToExpiration</strong>: Input representing an optional duration for disabling collisions (in seconds). After this time, collisions will automatically be re-enabled.</li>
+<li><strong>SkeletalMesh</strong> (USkeletalMeshComponent): Input for a SkeletalMesh component for which the node disables collisions.</li>
+<li><strong>SkeletalMeshBones</strong> (array of FName): Input for an array of bone names in the SkeletalMeshComponent.</li>
+<li><strong>SingleBody</strong> (UPrimitiveComponent): Input for the second component for which the node disables collisions.</li>
+<li><strong>TimeToExpiration</strong>: Input for an optional time (in seconds) during which the collisions stay disabled. After this time, the plugin enables the collisions again automatically.</li>
 </ul>
 <img src="images/CollisionDisabler/image9.png" alt="">
 <h3 id="skeletal-mesh-vs-skeletal-mesh">Skeletal Mesh vs Skeletal Mesh</h3>
-<p>This node allows you to disable collisions between two SkeletalMeshComponents. You have to specify which bones in both components should be considered when disabling collisions.</p>
+<p>This node lets you disable collisions between two SkeletalMeshComponents. You must specify the bones in both components for which the node disables collisions.</p>
 <p>Pins:</p>
 <ul>
-<li><strong>SkeletalMeshA</strong> (USkeletalMeshComponent): Input representing the first SkeletalMeshComponent in which collisions should be disabled.</li>
-<li><strong>SkeletalMeshBonesA</strong> (array of FName): Input representing an array of bone names in the first SkeletalMeshComponent</li>
-<li><strong>SkeletalMeshB</strong> (USkeletalMeshComponent): Input representing the second SkeletalMeshComponent in which collisions should be disabled.</li>
-<li><strong>SkeletalMeshBonesB</strong> (array of FName): Input representing an array of bone names in the second SkeletalMeshComponent</li>
-<li><strong>TimeToExpiration</strong>: Input representing an optional duration for disabling collisions (in seconds). After this time, collisions will automatically be re-enabled.</li>
+<li><strong>SkeletalMeshA</strong> (USkeletalMeshComponent): Input for the first SkeletalMeshComponent in which the node disables collisions.</li>
+<li><strong>SkeletalMeshBonesA</strong> (array of FName): Input for an array of bone names in the first SkeletalMeshComponent.</li>
+<li><strong>SkeletalMeshB</strong> (USkeletalMeshComponent): Input for the second SkeletalMeshComponent in which the node disables collisions.</li>
+<li><strong>SkeletalMeshBonesB</strong> (array of FName): Input for an array of bone names in the second SkeletalMeshComponent.</li>
+<li><strong>TimeToExpiration</strong>: Input for an optional time (in seconds) during which the collisions stay disabled. After this time, the plugin enables the collisions again automatically.</li>
 </ul>
 <img src="images/CollisionDisabler/image4.png" alt="">
 <h2 id="re-enable-collision">Re-enable Collision</h2>
-<p>There are corresponding nodes for enabling collisions in the &quot;Collision Disabler&quot; plugin. These nodes allow you to re-enable collisions between the specified components or types of components, essentially reversing the action of the &quot;Disable Collision&quot; nodes. The parameters and functionality of these nodes are similar to the &quot;Disable Collision&quot; nodes, but they enable collisions instead of disabling them.</p>
+<p>For each &quot;Disable Collision&quot; node, the &quot;Collision Disabler&quot; plugin has a related node that enables collisions. These nodes let you enable collisions again between the specified components or types of components. Thus they reverse the action of the &quot;Disable Collision&quot; nodes. Their parameters and functions are similar to those of the &quot;Disable Collision&quot; nodes. But these nodes enable collisions, and do not disable them.</p>
 <h3 id="single-body-vs-single-body">Single Body vs Single Body</h3>
 <img src="images/CollisionDisabler/image11.png" alt="">
 <h3 id="skeletal-mesh-vs-single-body">Skeletal Mesh vs Single Body</h3>
@@ -151,43 +156,43 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <h3 id="skeletal-mesh-vs-skeletal-mesh">Skeletal Mesh vs Skeletal Mesh</h3>
 <img src="images/CollisionDisabler/image2.png" alt="">
 <h2 id="is-collision-disabled">Is Collision Disabled</h2>
-<p>Check that a given pair of bodies has a disabled collision.</p>
+<p>This node checks if a given pair of bodies has a disabled collision.</p>
 <img src="images/CollisionDisabler/image8.png" alt="">
 <h2 id="gather-all-physical-bones">Gather All Physical Bones</h2>
-<p>This node helps to easily list all bones that have any physics representation</p>
+<p>This node gives you an easy way to list all the bones that have any physics representation.</p>
 <img src="images/CollisionDisabler/image6.png" alt="">
 <h2 id="gather-all-physical-bones-from">Gather All Physical Bones From</h2>
-<p>This node returns a list of physical bones from a given bone</p>
+<p>This node returns a list of the physical bones that are below a given bone in the bone hierarchy.</p>
 <img src="images/CollisionDisabler/image10.png" alt="">
 <h1 id="using-in-c">Using in C++</h1>
-<p>Using a plugin in C++ is quite straightforward. All functions described above are located in the <strong>UCollisionDisablerFunctionLibrary</strong> Functions:</p>
+<p>It is easy to use the plugin in C++. All the functions above are in the <strong>UCollisionDisablerFunctionLibrary</strong>. Functions:</p>
 <table>
 <tr><th>Return</th><th>Name</th><th>Description</th></tr>
-<tr><td>void</td><td><strong>DisableCollision_SingleBodyVsSingleBody</strong>( UPrimitiveComponent* SingleBodyA, UPrimitiveComponent* SingleBodyB, float TimeToExpiration = -1)</td><td>Disable collision between two primitive components with one PhysicalBody e.g. StaticMesh.</td></tr>
-<tr><td>void</td><td><strong>DisableCollision_SkeletalVsSingleBody</strong>( USkeletalMeshComponent* SkeletalMesh, const TArray&lt;FName&gt; SkeletalMeshBones, UPrimitiveComponent* SingleBody, float TimeToExpiration = -1)</td><td>Disable collisions between a SkeletalMeshComponent and a PrimitiveComponent. You have to specify which bones in the SkeletalMeshComponent should be considered when disabling collisions.</td></tr>
-<tr><td>void</td><td><strong>DisableCollision_SkeletalVsSkeletal</strong>( USkeletalMeshComponent* SkeletalMeshA, const TArray&lt;FName&gt; SkeletalMeshBonesA, USkeletalMeshComponent* SkeletalMeshB, const TArray&lt;FName&gt; SkeletalMeshBonesB, float TimeToExpiration = -1)</td><td>Disable collisions between two SkeletalMeshComponents. You have to specify which bones in both components should be considered when disabling collisions.</td></tr>
-<tr><td>void</td><td><strong>EnableCollision_SingleBodyVsSingleBody</strong>( UPrimitiveComponent* SingleBodyA, UPrimitiveComponent* SingleBodyB)</td><td>Re-enable collision between two primitive components with one PhysicalBody, such as StaticMesh.</td></tr>
-<tr><td>void</td><td><strong>EnableCollision_SkeletalVsSingleBody</strong>( USkeletalMeshComponent* SkeletalMesh, const TArray&lt;FName&gt; SkeletalMeshBones, UPrimitiveComponent* SingleBody)</td><td>Re-enable collisions between a SkeletalMeshComponent and a PrimitiveComponent. You have to specify which bones in the SkeletalMeshComponent should be considered when enabling collisions.</td></tr>
-<tr><td>void</td><td><strong>EnableCollision_SkeletalVsSkeletal</strong>( USkeletalMeshComponent* SkeletalMeshA, const TArray&lt;FName&gt; SkeletalMeshBonesA, USkeletalMeshComponent* SkeletalMeshB, const TArray&lt;FName&gt; SkeletalMeshBonesB)</td><td>Re-enable collisions between two SkeletalMeshComponents. Specify which bones in both components should be considered when enabling collisions.</td></tr>
-<tr><td>bool</td><td><strong>IsCollisionDisabled</strong>( UPrimitiveComponent* ComponentA, UPrimitiveComponent* ComponentB, FName BoneNameA = NAME_None, FName BoneNameB = NAME_None)</td><td>Check that a given pair of bodies has a disabled collision.</td></tr>
-<tr><td>void</td><td><strong>GatherAllPhysicalComponents</strong>( AActor* Actor, TArray&lt;UPrimitiveComponent*&gt;&amp; OutComponents)</td><td>Return a list of all components in given actor that have physics representation</td></tr>
-<tr><td>void</td><td><strong>GatherAllPhysicalBones</strong>( USkeletalMeshComponent* SkeletalMesh, TArray&lt;FName&gt;&amp; OutBones)</td><td>Return a list of all bones that have any physics representation</td></tr>
-<tr><td>void</td><td><strong>GatherAllPhysicalBonesFrom</strong>( USkeletalMeshComponent* SkeletalMesh, FName StartBone, bool bIncudeStartBone, TArray&lt;FName&gt;&amp; OutBones)</td><td>Returns a list of physical bones from a given bone</td></tr>
+<tr><td>void</td><td><strong>DisableCollision_SingleBodyVsSingleBody</strong>( UPrimitiveComponent* SingleBodyA, UPrimitiveComponent* SingleBodyB, float TimeToExpiration = -1)</td><td>Disables collision between two primitive components that each have one PhysicalBody, for example a StaticMesh.</td></tr>
+<tr><td>void</td><td><strong>DisableCollision_SkeletalVsSingleBody</strong>( USkeletalMeshComponent* SkeletalMesh, const TArray&lt;FName&gt; SkeletalMeshBones, UPrimitiveComponent* SingleBody, float TimeToExpiration = -1)</td><td>Disables collisions between a SkeletalMeshComponent and a PrimitiveComponent. You must specify the bones in the SkeletalMeshComponent for which the function disables collisions.</td></tr>
+<tr><td>void</td><td><strong>DisableCollision_SkeletalVsSkeletal</strong>( USkeletalMeshComponent* SkeletalMeshA, const TArray&lt;FName&gt; SkeletalMeshBonesA, USkeletalMeshComponent* SkeletalMeshB, const TArray&lt;FName&gt; SkeletalMeshBonesB, float TimeToExpiration = -1)</td><td>Disables collisions between two SkeletalMeshComponents. You must specify the bones in both components for which the function disables collisions.</td></tr>
+<tr><td>void</td><td><strong>EnableCollision_SingleBodyVsSingleBody</strong>( UPrimitiveComponent* SingleBodyA, UPrimitiveComponent* SingleBodyB)</td><td>Enables collision again between two primitive components that each have one PhysicalBody, for example a StaticMesh.</td></tr>
+<tr><td>void</td><td><strong>EnableCollision_SkeletalVsSingleBody</strong>( USkeletalMeshComponent* SkeletalMesh, const TArray&lt;FName&gt; SkeletalMeshBones, UPrimitiveComponent* SingleBody)</td><td>Enables collisions again between a SkeletalMeshComponent and a PrimitiveComponent. You must specify the bones in the SkeletalMeshComponent for which the function enables collisions.</td></tr>
+<tr><td>void</td><td><strong>EnableCollision_SkeletalVsSkeletal</strong>( USkeletalMeshComponent* SkeletalMeshA, const TArray&lt;FName&gt; SkeletalMeshBonesA, USkeletalMeshComponent* SkeletalMeshB, const TArray&lt;FName&gt; SkeletalMeshBonesB)</td><td>Enables collisions again between two SkeletalMeshComponents. You must specify the bones in both components for which the function enables collisions.</td></tr>
+<tr><td>bool</td><td><strong>IsCollisionDisabled</strong>( UPrimitiveComponent* ComponentA, UPrimitiveComponent* ComponentB, FName BoneNameA = NAME_None, FName BoneNameB = NAME_None)</td><td>Checks if a given pair of bodies has a disabled collision.</td></tr>
+<tr><td>void</td><td><strong>GatherAllPhysicalComponents</strong>( AActor* Actor, TArray&lt;UPrimitiveComponent*&gt;&amp; OutComponents)</td><td>Returns a list of all the components in a given actor that have a physics representation.</td></tr>
+<tr><td>void</td><td><strong>GatherAllPhysicalBones</strong>( USkeletalMeshComponent* SkeletalMesh, TArray&lt;FName&gt;&amp; OutBones)</td><td>Returns a list of all the bones that have any physics representation.</td></tr>
+<tr><td>void</td><td><strong>GatherAllPhysicalBonesFrom</strong>( USkeletalMeshComponent* SkeletalMesh, FName StartBone, bool bIncudeStartBone, TArray&lt;FName&gt;&amp; OutBones)</td><td>Returns a list of the physical bones that are below a given bone in the bone hierarchy.</td></tr>
 </table>
 <h1 id="performance">Performance</h1>
-<p>Collision Disabler is very efficient. The performance cost is Zero for objects that are not managed by CollisionDisabler. And a very small constant cost for every collision with objects that have a disabled collision. This means that only the number of actual colliding objects have an influence on performance.</p>
+<p>Collision Disabler is very efficient. For objects that Collision Disabler does not manage, the performance cost is zero. For each collision with objects that have a disabled collision, the cost is very small and constant. Thus, only the number of objects that actually collide has an effect on performance.</p>
 <h1 id="interaction-matrix">Interaction Matrix</h1>
-<p>The table below shows whether the Collision Disabler can disable collisions.</p>
-<p>Static Geometry - Not movable geometry e.g. buildings, rocks</p>
-<p>Kinematic Body - Movable objects without enabled physics e.g. characters, projectiles</p>
-<p>Dynamic Body - Simulate by physics object (enabled Simulate Physics) e.g. ragdolls</p>
+<p>The table below shows if Collision Disabler can disable collisions.</p>
+<p>Static Geometry - Geometry that cannot move, for example buildings and rocks.</p>
+<p>Kinematic Body - Objects that can move, but that do not have physics enabled, for example characters and projectiles.</p>
+<p>Dynamic Body - Objects that the physics engine simulates (Simulate Physics is enabled), for example ragdolls.</p>
 <table>
 <tr><th>Body vs Body</th><th>Static Geometry</th><th>Kinematic Body</th><th>Dynamic Body</th></tr>
 <tr><td>Static Geometry</td><td>N/A</td><td class="no">No<sup>1</sup></td><td class="yes">Yes</td></tr>
 <tr><td>Kinematic Body</td><td class="no">No<sup>1</sup></td><td class="no">No<sup>1</sup></td><td class="yes">Yes<sup>2</sup></td></tr>
 <tr><td>Dynamic Body</td><td class="yes">Yes</td><td class="yes">Yes<sup>2</sup></td><td class="yes">Yes</td></tr>
 </table>
-<p><sup>1</sup> - Kinematic and Static bodies don’t generate collisions (Hit Events) because they are not simulated by the Physics Engine. For some object classes like characters or projectiles, you can use IgnoreActorWhenMoving or IgnoreComponentWhenMoving to prevent blocking objects.</p>
-<p><sup>2</sup> - Physical collision will be disabled, but still, kinematic objects may be blocked. In this case, also use IgnoreActorWhenMoving or IgnoreComponentWhenMoving nodes along with DisableCollision.</p>
+<p><sup>1</sup> - Kinematic and Static bodies do not generate collisions (Hit Events), because the physics engine does not simulate them. For some object classes, for example characters or projectiles, you can use IgnoreActorWhenMoving or IgnoreComponentWhenMoving so that the objects are not blocked.</p>
+<p><sup>2</sup> - The plugin disables the physical collision, but kinematic objects can still be blocked. In this case, also use the IgnoreActorWhenMoving or IgnoreComponentWhenMoving nodes together with DisableCollision.</p>
 </body>
 </html>

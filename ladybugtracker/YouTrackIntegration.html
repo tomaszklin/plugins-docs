@@ -81,58 +81,34 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <h2 id="youtrack">YouTrack</h2>
 <p><em>“A project management tool that can be adapted to your processes to help you deliver great products. Track projects and tasks, use agile boards, plan sprints and releases, keep a knowledge base, work with reports and dashboards, and create workflows that follow your business processes. Never force your process to fit the limits of a tool again. Unlike other project management tools, YouTrack can be customized to your needs!”</em></p>
 <h3 id="authentication">Authentication</h3>
-<p>To log in from the plugin you need to generate a token first. Follow these steps to do this</p>
+<p>To log in from the plugin, you must first make a token. To make a token, do these steps:</p>
 <ol>
-<li>Open user profile</li>
+<li>Open your user profile. <img src="images/YouTrackIntegration/image8.png" alt=""></li>
+<li>Open the <strong>Account Security</strong> tab. <img src="images/YouTrackIntegration/image4.png" alt=""></li>
+<li>Click <strong>New token...</strong>. <img src="images/YouTrackIntegration/image1.png" alt=""></li>
+<li>Enter any name, then click <strong>Create</strong>. <img src="images/YouTrackIntegration/image5.png" alt=""></li>
+<li>In the login window, use your user name and the token to log in. <img src="images/YouTrackIntegration/image6.png" alt=""></li>
 </ol>
-<img src="images/YouTrackIntegration/image8.png" alt="">
-<ol>
-<li>Navigate to the “Account Security” tab</li>
-</ol>
-<img src="images/YouTrackIntegration/image4.png" alt="">
-<ol>
-<li>Click “New Token”</li>
-</ol>
-<img src="images/YouTrackIntegration/image1.png" alt="">
-<ol>
-<li>Enter any name, and click “Create”</li>
-</ol>
-<img src="images/YouTrackIntegration/image5.png" alt="">
-<ol>
-<li>In the plugin use your username and token to login</li>
-</ol>
-<img src="images/YouTrackIntegration/image6.png" alt="">
 <h3 id="project-setup">Project setup</h3>
 <ol>
-<li>Open the project tab</li>
+<li>Open the <strong>Projects</strong> tab. <img src="images/YouTrackIntegration/image3.png" alt=""></li>
+<li>Make a new project, or select a project that you already have. <img src="images/YouTrackIntegration/image9.png" alt=""></li>
+<li>Open the <strong>Fields</strong> section. <img src="images/YouTrackIntegration/image2.png" alt=""></li>
+<li>Add the <strong>Camera</strong> and <strong>Level</strong> fields. <img src="images/YouTrackIntegration/image10.png" alt=""> <img src="images/YouTrackIntegration/image7.png" alt=""></li>
 </ol>
-<img src="images/YouTrackIntegration/image3.png" alt="">
-<ol>
-<li>Create a new project or select an existing one</li>
-</ol>
-<img src="images/YouTrackIntegration/image9.png" alt="">
-<ol>
-<li>Go to the “Fields” section</li>
-</ol>
-<img src="images/YouTrackIntegration/image2.png" alt="">
-<ol>
-<li>Add Camera and Level fields</li>
-</ol>
-<img src="images/YouTrackIntegration/image10.png" alt="">
-<img src="images/YouTrackIntegration/image7.png" alt="">
 <h3 id="downloading-only-part-of-the-project">Downloading only part of the project</h3>
-<p>By default every issue in the project is downloaded. <strong>Project Settings &gt; Plugins &gt; LadyBug Tracker &gt; YouTrack Settings &gt; Issue Query Filter</strong> narrows that: whatever you write there is added to the <code>project:{ProjectName}</code> query the plugin sends, using YouTrack&#x27;s own search syntax.</p>
-<p>A few that come up often:</p>
+<p>By default, the plugin downloads all the issues in the project. To download fewer issues, use <strong>Project Settings &gt; Plugins &gt; LadyBug Tracker &gt; YouTrack Settings &gt; Issue Query Filter</strong>. The plugin adds the text of this setting to the <code>project:{ProjectName}</code> query that it sends. Write the filter in the YouTrack search syntax.</p>
+<p>These are some frequent filters:</p>
 <table>
-<tr><th>Filter</th><th>What comes down</th></tr>
-<tr><td><code>#Unresolved</code></td><td>open issues only</td></tr>
-<tr><td><code>Type: Bug</code></td><td>bugs, leaving out features and tasks</td></tr>
-<tr><td><code>Assignee: me</code></td><td>issues assigned to you</td></tr>
-<tr><td><code>created: {This week}</code></td><td>issues raised this week</td></tr>
+<tr><th>Filter</th><th>What the plugin downloads</th></tr>
+<tr><td><code>#Unresolved</code></td><td>Only open issues</td></tr>
+<tr><td><code>Type: Bug</code></td><td>Bugs, but not features or tasks</td></tr>
+<tr><td><code>Assignee: me</code></td><td>Issues that are assigned to you</td></tr>
+<tr><td><code>created: {This week}</code></td><td>Issues that were reported this week</td></tr>
 </table>
-<p>Leave the field empty to download everything. The filter applies when issues are downloaded, so change it and download again to see the effect.</p>
+<p>To download all the issues, keep the field empty. The plugin applies the filter when it downloads the issues. Thus, after you change the filter, download the issues again to see the result.</p>
 <h3 id="subtasks">Subtasks</h3>
-<p>Where the project has a subtask link type, an issue carries a <strong>Subtask of</strong> field, listing the issues that can be its parent. Pick one to file the bug under it, or leave the field at <strong>No parent</strong> to keep it standalone. The field can be changed later, which moves the issue under a different parent.</p>
-<p>The field is only shown when the YouTrack project actually defines a subtask link type; a project without one has nothing to file under, and the field stays out of the way.</p>
+<p>If the project has a subtask link type, an issue has a <strong>Subtask of</strong> field. This field shows a list of the issues that can be its parent. To put the bug under one of these issues, select that issue. To keep the bug independent, keep <strong>No parent</strong> in the field. You can change the field later. The issue then moves under the new parent.</p>
+<p>The plugin shows the field only when the YouTrack project has a subtask link type. In a project without this link type, you cannot put a bug under a parent. Thus the plugin does not show the field.</p>
 </body>
 </html>

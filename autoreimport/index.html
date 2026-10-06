@@ -68,7 +68,7 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <body>
 <h1 id="smart-auto-reimport">Smart Auto Reimport</h1>
 <img class="banner" src="images/AutoReimport/banner.png" alt="Smart Auto Reimport">
-<p class="byline">Author: <strong>Tomasz Klin</strong><br>Version: <strong>1.1.2</strong></p>
+<p class="byline">Author: <strong>Tomasz Klin</strong><br>Version: <strong>1.1.3</strong></p>
 <nav class="toc">
 <h2>Contents</h2>
 <ul>
@@ -79,30 +79,40 @@ nav.toc .toc3 { padding-left: 2.4em; }
 </ul>
 </nav>
 <h1 id="introduction">Introduction</h1>
-<p>This plugin has been created with asset creators in mind, who frequently check the results of their work in the game engine. Thanks to this plugin, the reimporting process occurs automatically, saving you time. Additionally, it allows you to treat the editor&#x27;s window as an asset preview. You don&#x27;t need to leave your asset creation program; just export the asset to the same location from which it was previously imported, and this plugin will take care of the rest.</p>
+<p>This plugin is for asset creators who often examine the results of their work in the game engine. With this plugin, the reimport occurs automatically, and this saves you time. You can also use the editor window as an asset preview. You do not need to leave the program that you use to make the asset. Export the asset to the same location from which you imported it before. The plugin does all the other steps.</p>
 <img src="images/AutoReimport/image4.gif" alt="">
 <h1 id="enabling-plugin">Enabling Plugin</h1>
-<p>In order to enable the plugin go to Edit -&gt; Plugins, select <strong>Editor</strong> category, and check <strong>Enabled</strong> for Smart Auto Reimport</p>
+<p>To enable the plugin, do these steps:</p>
+<ol>
+<li>Go to Edit -&gt; Plugins.</li>
+<li>Select the <strong>Editor</strong> category.</li>
+<li>Select the <strong>Enabled</strong> check box for Smart Auto Reimport.</li>
+</ol>
 <img src="images/AutoReimport/image3.png" alt="">
 <h1 id="how-to-use-it">How to use it</h1>
-<p>Select the assets you want to monitor. In the Content Browser, right-click on the asset and choose &quot;Auto Reimport&quot; from the context menu, and then tick the &quot;Auto Reimport&quot; checkbox.</p>
+<p>To monitor assets, do these steps:</p>
+<ol>
+<li>In the Content Browser, select the assets that you want to monitor.</li>
+<li>Right-click one of the selected assets, then select &quot;Auto Reimport&quot; in the context menu.</li>
+<li>Select the &quot;Auto Reimport&quot; check box.</li>
+</ol>
 <img src="images/AutoReimport/image5.gif" alt="">
-<p>The monitoring status is displayed in the lower-left corner of the asset icon as well as in the context menu.</p>
+<p>The Auto Reimport status of an asset shows in the lower-left corner of the asset icon. It also shows in the context menu.</p>
 <img src="images/AutoReimport/image1.png" alt="">
-<p>From now on, every time the source file of an asset is modified, it will be automatically reimported in the editor.</p>
+<p>After this, each time the source file of an asset changes, the editor reimports the asset automatically.</p>
 <h1 id="faq">FAQ</h1>
-<p><strong>What types of assets are supported?</strong></p>
-<p><strong>All types</strong> of assets that can be imported into the editor are supported. This plugin serves as an overlay on the existing reimport functionality, covering all compatible asset types.</p>
-<p><strong>Can this plugin be used in Standalone Game mode?</strong></p>
-<p><strong>No</strong>, the reimporting functionality only works within the editor.</p>
-<p><strong>Does the plugin work during Play-In-Editor (PIE) mode?</strong></p>
-<p><strong>Yes</strong>, but not for all types of assets. Textures and static meshes will be refreshed, while sounds, for example, will not. The plugin&#x27;s behavior depends on the implementation of the specific assets.</p>
-<p><strong>Why isn&#x27;t the selection of monitored assets retained after restarting the editor?</strong></p>
-<p>To avoid certain peculiar use cases that haven&#x27;t been decided on how to handle yet.</p>
-<p><strong>Why don&#x27;t I see the &quot;Auto Reimport&quot; option?</strong></p>
+<p><strong>Which types of assets does the plugin support?</strong></p>
+<p><strong>All types</strong> of assets that you can import into the editor work with the plugin. The plugin is a layer on the reimport function that the editor already has. Thus it works with all compatible asset types.</p>
+<p><strong>Can I use this plugin in Standalone Game mode?</strong></p>
+<p><strong>No</strong>. The reimport function works only in the editor.</p>
+<p><strong>Does the plugin work in Play-In-Editor (PIE) mode?</strong></p>
+<p><strong>Yes</strong>, but not for all types of assets. Textures and static meshes refresh. Sounds, for example, do not refresh. The behavior of the plugin depends on the implementation of each asset type.</p>
+<p><strong>Why does the plugin not keep the list of monitored assets after the editor restarts?</strong></p>
+<p>This prevents some unusual use cases. There is no decision yet about how the plugin must handle them.</p>
+<p><strong>Why do I not see the &quot;Auto Reimport&quot; option?</strong></p>
 <ul>
-<li>Check if the plugin is enabled.</li>
-<li>Ensure that selected assets have reimport functionality.</li>
+<li>Make sure that the plugin is enabled.</li>
+<li>Make sure that the editor can reimport the selected assets.</li>
 </ul>
 </body>
 </html>

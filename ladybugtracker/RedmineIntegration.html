@@ -79,33 +79,33 @@ nav.toc .toc3 { padding-left: 2.4em; }
 </ul>
 </nav>
 <h2 id="redmine">Redmine</h2>
-<p>Redmine is an open-source project management and issue tracking software. It provides support for multiple projects, tasks, time tracking, and version control systems. It also allows for the creation of custom reports and integration with numerous other tools.</p>
+<p>Redmine is open-source software for project management and issue tracking. It supports many projects, tasks, time tracking and version control systems. It also lets you make custom reports and connect Redmine to many other tools.</p>
 <h2 id="supported-versions">Supported Versions</h2>
-<p>The Redmine API evolves from version to version, therefore there is no guarantee that a plugin which worked on an older version will function correctly on a later one.</p>
-<p>Currently, the supported and only tested version is 4.x.</p>
-<p>Version 5.x should theoretically also work, however, this has not been tested.</p>
+<p>The Redmine API changes from version to version. Thus it is possible that a plugin that works with an older version does not work correctly with a later version.</p>
+<p>At this time, version 4.x is the only supported version and the only tested version.</p>
+<p>In theory, version 5.x also works, but it is not tested.</p>
 <h2 id="authentication">Authentication</h2>
-<p>Redmine integration uses simple login password authentication</p>
+<p>The Redmine integration uses a login and a password.</p>
 <img src="images/RedmineIntegration/image2.png" alt="">
 <h2 id="project-setup-redmine-service">Project setup (Redmine service)</h2>
-<p>LadyBug Tracker requires adding two custom fields to the project: &quot;Level&quot; and &quot;Camera&quot;. Both fields must be of type &quot;Text&quot;.</p>
-<p>To add these fields:</p>
+<p>LadyBug Tracker needs two custom fields in the project: <strong>Level</strong> and <strong>Camera</strong>. Both fields must have the type <strong>Text</strong>.</p>
+<p>To add these fields, do these steps:</p>
 <ol>
-<li>Go to the Administration panel, then Custom Fields.</li>
-<li>Click on &quot;New Custom Field&quot; and select &quot;Issue&quot;, then click &quot;Next&quot;.</li>
-<li>Set the format to &quot;Text&quot; and the name to &quot;Level&quot;.</li>
-<li>Select the project to which this field should be added.</li>
-<li>Choose the appropriate Trackers. Most likely, you would want to use &quot;Bug&quot;.</li>
-<li>Click &quot;Create&quot;.</li>
+<li>Open the <strong>Administration</strong> panel, then open <strong>Custom fields</strong>.</li>
+<li>Click <strong>New Custom Field</strong>, select <strong>Issues</strong>, then click <strong>Next</strong>.</li>
+<li>Set <strong>Format</strong> to <strong>Text</strong>, and set <strong>Name</strong> to <strong>Level</strong>.</li>
+<li>Select the project that gets this field.</li>
+<li>Select the applicable <strong>Trackers</strong>. Usually, this is <strong>Bug</strong>.</li>
+<li>Click <strong>Create</strong>.</li>
 </ol>
-<p>Then, repeat these steps for the &quot;Camera&quot; field.</p>
+<p>Then do these steps again for the <strong>Camera</strong> field.</p>
 <img src="images/RedmineIntegration/image1.png" alt="">
 <h2 id="project-setup-unreal-engine">Project setup (Unreal Engine)</h2>
-<p>Due to limitations regarding the ability to fetch Custom Fields definitions from the server, only users with admin accounts can access this data. This information is crucial for the proper functioning of the entire plugin, therefore, these definitions should also be provided in the project settings (under the LadyBug Tracker - Redmine section).</p>
-<p>If you do not have admin rights, you must fill in this data manually. However, if you have an admin account, this data is automatically fetched from the server and saved in the project settings. These data are stored in project settings (Config/DefaultBugTracker.ini), allowing you to share them with the entire team.</p>
+<p>The Redmine server gives the definitions of custom fields only to users with admin accounts. The plugin needs these definitions to work correctly. Thus the project settings must also contain these definitions, in the LadyBug Tracker - Redmine section.</p>
+<p>If you do not have admin rights, you must enter this data manually. If you have an admin account, the plugin gets this data from the server automatically, and saves it in the project settings. The project settings are in Config/DefaultBugTracker.ini. Thus you can share this data with the team.</p>
 <img src="images/RedmineIntegration/image3.png" alt="">
-<p>Unfortunately, not all data can be fetched even with an admin account.</p>
-<p>The User Role field (only for fields of type user) must always be filled in manually.</p>
-<p>The same goes for the Version Status field for fields of type Version.</p>
+<p>Even with an admin account, the plugin cannot get all of the data.</p>
+<p>For fields of the type user, you must always enter the <strong>User Role</strong> field manually.</p>
+<p>For fields of the type Version, you must also always enter the <strong>Version Status</strong> field manually.</p>
 </body>
 </html>

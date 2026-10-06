@@ -83,51 +83,61 @@ nav.toc .toc3 { padding-left: 2.4em; }
 </ul>
 </nav>
 <h1 id="enabling-plugin">Enabling Plugin</h1>
-<p>In order to enable the plugin go to Edit -&gt; Plugins, select <strong>Blueprints</strong> category, and check <strong>Enabled</strong> for Component Timeline</p>
+<p>To enable the plugin, do these steps:</p>
+<ol>
+<li>Open Edit -&gt; Plugins.</li>
+<li>Select the <strong>Blueprints</strong> category.</li>
+<li>For Component Timeline, select the <strong>Enabled</strong> check box.</li>
+</ol>
 <img src="images/ComponentTimeline/image2.png" alt="Component Timeline enabled in the Blueprints category of the Plugins window">
 <h1 id="adding-timeline-node">Adding Timeline node</h1>
-<p>Right-click in a component blueprint and type Add Component Timeline</p>
+<p>Right-click in a component blueprint, then type Add Component Timeline.</p>
 <img src="images/ComponentTimeline/image3.png" alt="Adding a Component Timeline node from the blueprint context menu">
 <h1 id="initializing-timelines-very-important">Initializing Timelines (Very Important!!!)</h1>
-<p>To ensure that your timelines function properly, they must be initialized at the beginning of your component&#x27;s operation. Without initialization, the timelines will not work as intended. To initialize your component timelines, call &quot;Initialize Component Timelines&quot; during Begin Play.</p>
+<p>For your timelines to work correctly, you must initialize them when your component starts to operate. If you do not initialize them, the timelines do not work as intended. To initialize your component timelines, call &quot;Initialize Component Timelines&quot; during Begin Play.</p>
 <img src="images/ComponentTimeline/image5.png" alt="Initialize Component Timelines called from the component&#x27;s Begin Play">
 <p>Component timeline node</p>
 <img src="images/ComponentTimeline/image4.png" alt="A Component Timeline node with its input and output pins">
-<p><strong>Component Timeline nodes</strong> are special nodes within Blueprints that provide time-based animation to be quickly designed and played back based on <strong>events</strong>, <strong>floats</strong>, <strong>vectors</strong>, or <strong>colors</strong> that can be triggered at keyframes along the timeline.</p>
-<p>Timelines can be edited directly inside the Blueprint editor by <strong>Double-clicking</strong> on the Timeline in the Graph tab or in the My Blueprint tab. They are specifically built for handling simple, non-cinematic tasks such as opening doors, altering lights, or performing other time-centric manipulations to Actors within a scene. They are similar to <a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/sequencer-cinematic-editor-unreal-engine">level sequences</a> as they both provide values such as floats, vectors, and colors to be interpolated between keyframes along the timeline.</p>
+<p><strong>Component Timeline nodes</strong> are special nodes in Blueprints. They let you quickly design time-based animation and play it. The animation is based on <strong>events</strong>, <strong>floats</strong>, <strong>vectors</strong> or <strong>colors</strong> that can be triggered at keyframes along the timeline.</p>
+<p>You can edit a Timeline directly in the Blueprint editor. To do this, <strong>Double-click</strong> it in the Graph tab or in the My Blueprint tab. Timelines are specially made for simple tasks that are not cinematic. For example, they can open doors, change lights or make other time-based changes to Actors in a scene. They are similar to <a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/sequencer-cinematic-editor-unreal-engine">level sequences</a>, because both interpolate values between keyframes along the timeline, for example floats, vectors and colors.</p>
 <h1 id="inputs-and-outputs">Inputs and Outputs</h1>
-<p>Timelines come with the following input and output pins:</p>
+<p>Timelines have these input and output pins:</p>
 <p><strong>Input Pins</strong></p>
 <table>
 <tr><th><strong>Item</strong></th><th><strong>Description</strong></th></tr>
-<tr><td><strong>Play</strong></td><td>Causes the Timeline to play forward from its current time.</td></tr>
-<tr><td><strong>Play from Start</strong></td><td>Causes the Timeline to play forward from the beginning.</td></tr>
-<tr><td><strong>Stop</strong></td><td>Freezes the playback of the Timeline at the current time.</td></tr>
+<tr><td><strong>Play</strong></td><td>Plays the Timeline forward from its current time.</td></tr>
+<tr><td><strong>Play from Start</strong></td><td>Plays the Timeline forward from the start.</td></tr>
+<tr><td><strong>Stop</strong></td><td>Stops the playback of the Timeline at the current time.</td></tr>
 <tr><td><strong>Reverse</strong></td><td>Plays the Timeline backwards from its current time.</td></tr>
-<tr><td><strong>Reverse from End</strong></td><td>Plays the Timeline backwards starting from the end.</td></tr>
-<tr><td><strong>Set New Time</strong></td><td>Sets the current time to the value set (or input) in the New Time input.</td></tr>
-<tr><td><strong>New Time</strong></td><td>This data pin takes a float value representing time in seconds, to which the Timeline can jump when the Set New Time input is called.</td></tr>
+<tr><td><strong>Reverse from End</strong></td><td>Plays the Timeline backwards from the end.</td></tr>
+<tr><td><strong>Set New Time</strong></td><td>Sets the current time to the value of the New Time input.</td></tr>
+<tr><td><strong>New Time</strong></td><td>This data pin takes a float value, which is a time in seconds. When the Set New Time input is called, the Timeline can jump to this time.</td></tr>
 </table>
 <p><strong>Output Pins</strong></p>
 <table>
 <tr><th><strong>Item</strong></th><th><strong>Description</strong></th></tr>
-<tr><td><strong>Update</strong></td><td>Outputs an execution signal as soon as the Timeline is called.</td></tr>
-<tr><td><strong>Finished</strong></td><td>Outputs an execution signal when playback ends. This is not triggered by the Stop function.</td></tr>
-<tr><td><strong>Direction</strong></td><td>Outputs enum data indicating the direction the Timeline is playing.</td></tr>
+<tr><td><strong>Update</strong></td><td>Sends an execution signal as soon as the Timeline is called.</td></tr>
+<tr><td><strong>Finished</strong></td><td>Sends an execution signal when the playback ends. The Stop input does not trigger this signal.</td></tr>
+<tr><td><strong>Direction</strong></td><td>Gives enum data that shows the direction in which the Timeline plays.</td></tr>
 </table>
-<p>Timelines may have any number of additional output data pins reflecting the types of tracks created within them. These include Float, Vector, and Event tracks.</p>
+<p>Timelines can have any number of additional output data pins. These pins show the types of the tracks that you make in the Timeline. The track types include Float, Vector and Event tracks.</p>
 <h1 id="timeline-in-other-blueprints-experimental">Timeline in other blueprints (experimental)</h1>
-<p><strong>This is an experimental feature</strong>, added at the request of one of the users. I have made every effort to make it work well, but I am not able to anticipate all use cases. It should not be used if one does not understand all the limitations it imposes.</p>
+<p><strong>This is an experimental feature</strong>. I added it because a user asked for it. I did as much as possible to make it work well, but I cannot know all the use cases in advance. Do not use it if you do not understand all of its limitations.</p>
 <h2 id="how-does-it-work">How does it work?</h2>
-<p>The timeline functionality is implemented by the TimelineComponent, so in order to use it, we need an actor for which we can create the component.</p>
-<p>The lifespan of the blueprint in which we place the timeline and the actor that manages it should be related. For example, timelines used in widgets on the screen can be linked to the HUD, which is an actor.</p>
-<p>It is also not a good practice to use PlayerPawn as a solution for everything. In most cases, it will work, but it will create a lot of clutter in the PlayerPawn.</p>
+<p>The TimelineComponent does the work of a timeline. Thus, to use a timeline, you need an actor. The plugin makes the component for this actor.</p>
+<p>Use an actor whose lifespan is related to the lifespan of the blueprint that contains the timeline. For example, you can link the timelines in on-screen widgets to the HUD, which is an actor.</p>
+<p>It is also not good practice to use the PlayerPawn as the solution for all cases. In most cases this works, but it adds a lot of clutter to the PlayerPawn.</p>
 <h2 id="enable-timelines-in-all-blueprints">Enable timelines in all blueprints</h2>
-<p>By default, this functionality is disabled. To enable it, you need to check the &quot;Enable timelines in all blueprints&quot; option in Project settings, under Plugins -&gt; Component Timeline.</p>
+<p>This feature is disabled by default. To enable it, select the &quot;Enable timelines in all blueprints&quot; check box in Project settings, under Plugins -&gt; Component Timeline.</p>
 <img src="images/ComponentTimeline/image1.png" alt="The Enable timelines in all blueprints option in Project settings">
-<p>The option only takes effect after the editor is restarted, so restart it before looking for the node.</p>
+<p>The option has an effect only after the editor restarts. Thus, restart the editor before you look for the node.</p>
 <h2 id="how-to-use-it">How to use it?</h2>
-<p>To use the timeline functionality, you can insert a timeline into a blueprint as usual. Then, you can initialize the timelines in the blueprint&#x27;s event that begins blueprint work (e.g. BeginPlay/Construct) using the &quot;Initialize Timelines&quot; node. Give that node the actor that is to own the timelines - the one whose lifespan the blueprint&#x27;s own follows.</p>
+<p>To use timelines in a blueprint, do these steps:</p>
+<ol>
+<li>Add a timeline to the blueprint in the usual way.</li>
+<li>Find the event that starts the work of the blueprint, for example BeginPlay/Construct. In this event, initialize the timelines with the &quot;Initialize Timelines&quot; node.</li>
+<li>Give that node the actor that owns the timelines. This is the actor whose lifespan the blueprint follows.</li>
+</ol>
 <img src="images/ComponentTimeline/image6.png" alt="Initialize Timelines called with the owning actor">
 </body>
 </html>

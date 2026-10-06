@@ -81,49 +81,49 @@ nav.toc .toc3 { padding-left: 2.4em; }
 </ul>
 </nav>
 <h2 id="clickup"><strong>ClickUp</strong></h2>
-<p>ClickUp is a project management and task tracking service. It organises work into workspaces (teams), spaces, folders and lists, and supports custom fields, checklists, comments and attachments. LadyBug Tracker reports bugs into a single ClickUp list.</p>
-<p>This integration is currently in the <strong>beta</strong> stage.</p>
+<p>ClickUp is a service for project management and task tracking. It divides work into workspaces (teams), spaces, folders and lists. It supports custom fields, checklists, comments and attachments. LadyBug Tracker reports bugs into one ClickUp list.</p>
+<p>At this time, this integration is in the <strong>beta</strong> stage.</p>
 <h2 id="authentication"><strong>Authentication</strong></h2>
-<p>ClickUp uses personal API tokens. In the login window enter:</p>
+<p>ClickUp uses personal API tokens. In the login window, enter these values:</p>
 <ul>
 <li><strong>Username or Email</strong> — your ClickUp account.</li>
 <li><strong>API Token</strong> — a personal API token.</li>
 </ul>
-<p>To generate the token, open <strong>Settings &gt; Apps &gt; API Token</strong> in ClickUp (https://app.clickup.com/settings/apps), click to generate it, and copy it into the API Token field. The <strong>Generate API Token</strong> button in the login window opens that page for you.</p>
-<p>The host address is fixed to https://app.clickup.com and does not normally need changing.</p>
+<p>To get the token, open <strong>Settings &gt; Apps &gt; API Token</strong> in ClickUp (https://app.clickup.com/settings/apps), then make the token. Copy the token into the <strong>API Token</strong> field. In the login window, the <strong>Generate API Token</strong> button opens this page.</p>
+<p>The host address is always https://app.clickup.com. You do not need to change it.</p>
 <h2 id="project-setup-clickup-service"><strong>Project setup (ClickUp service)</strong></h2>
-<p>The plugin works against one ClickUp <strong>list</strong>. In the project settings:</p>
+<p>The plugin uses one ClickUp <strong>list</strong>. The project settings have these two items:</p>
 <ul>
 <li><strong>Workspace</strong> selects the ClickUp team.</li>
-<li><strong>Project</strong> selects the list. Both folderless lists and lists inside a folder are found.</li>
+<li><strong>Project</strong> selects the list. The plugin finds lists without a folder and lists in a folder.</li>
 </ul>
-<p>LadyBug Tracker stores the position a bug was reported from in two custom fields, which have to exist on the list:</p>
+<p>LadyBug Tracker keeps the position from which you reported a bug in two custom fields. These fields must be on the list. To make them, do these steps:</p>
 <ol>
-<li>Open the list, then <strong>Custom Fields</strong>.</li>
-<li>Create a field named <strong>Level</strong> of type <strong>Text</strong>.</li>
-<li>Create a field named <strong>Camera</strong> of type <strong>Text</strong>.</li>
+<li>Open the list, then open <strong>Custom Fields</strong>.</li>
+<li>Make a field with the name <strong>Level</strong> and the type <strong>Text</strong>.</li>
+<li>Make a field with the name <strong>Camera</strong> and the type <strong>Text</strong>.</li>
 </ol>
-<p>The names must match exactly. If a field is missing, the plugin reports it when the project is verified, rather than failing silently.</p>
+<p>The names must be exactly the same. If a field is missing, the plugin tells you when it verifies the project. It does not fail silently.</p>
 <h2 id="free-plan-behaviour"><strong>Free plan behaviour</strong></h2>
-<p>A free ClickUp workspace runs out of custom field usages. When the plugin detects a free plan — or when ClickUp refuses a custom field write — it writes the Level and Camera values into the <strong>task description</strong> instead, so reporting keeps working without a paid plan. Custom fields are still read, so tasks created earlier under a paid plan stay complete.</p>
-<p>Because the values then live in the description, a task written that way can no longer have those values updated separately — they travel with the description.</p>
+<p>A free ClickUp workspace has a limit on custom field uses, and it reaches this limit. The plugin can find that the workspace has a free plan, or ClickUp can refuse to write a custom field. In these cases, the plugin writes the Level and Camera values into the <strong>task description</strong>, not into custom fields. Thus you can report bugs without a paid plan. The plugin still reads custom fields. Thus the tasks from an earlier paid plan stay complete.</p>
+<p>When the plugin writes the values into the description of a task, the values are part of the description. Thus it is not possible to update the values separately from the description.</p>
 <h2 id="task-status"><strong>Task status</strong></h2>
-<p>The completed state of a task is derived from the ClickUp status <em>type</em>: a task counts as completed when its status type is <strong>done</strong> or <strong>closed</strong>. The list therefore needs at least one open status and at least one done or closed status.</p>
+<p>The plugin gets the completed state of a task from the ClickUp status <em>type</em>. A task is completed when its status type is <strong>done</strong> or <strong>closed</strong>. Thus the list needs at least one open status, and at least one done or closed status.</p>
 <h2 id="known-limitations"><strong>Known limitations</strong></h2>
 <ul>
-<li>The ClickUp API (v2) cannot delete attachments, so attachments can be added and viewed but not removed.</li>
+<li>The ClickUp API (v2) cannot delete attachments. Thus you can add and view attachments, but you cannot delete them.</li>
 <li>Issue history is not available.</li>
-<li>Custom field usage on the free plan is limited — see Free plan behaviour above.</li>
+<li>The free plan has a limit on custom field uses. See Free plan behaviour above.</li>
 </ul>
 <h2 id="project-setup-unreal-engine"><strong>Project setup (Unreal Engine)</strong></h2>
-<p>Open <strong>Project Settings &gt; Plugins &gt; LadyBug Tracker</strong> and set:</p>
+<p>Open <strong>Project Settings &gt; Plugins &gt; LadyBug Tracker</strong>. Then do these steps:</p>
 <ol>
-<li><strong>Provider</strong> — ClickUp.</li>
-<li><strong>Host</strong> — leave at https://app.clickup.com.</li>
-<li><strong>Change Login Settings</strong> — enter your account and API token.</li>
-<li><strong>Workspace</strong> — pick your ClickUp team.</li>
-<li><strong>Project</strong> — pick the list bugs should be reported to.</li>
+<li><strong>Provider</strong> — select ClickUp.</li>
+<li><strong>Host</strong> — keep https://app.clickup.com.</li>
+<li><strong>Change Login Settings</strong> — enter your account and your API token.</li>
+<li><strong>Workspace</strong> — select your ClickUp team.</li>
+<li><strong>Project</strong> — select the list that gets the bug reports.</li>
 </ol>
-<p>These settings are stored in Config/DefaultBugTracker.ini and can be shared with the team. Your login and token are stored separately, per user, and only when <strong>Remember Me</strong> is enabled.</p>
+<p>The plugin keeps these settings in Config/DefaultBugTracker.ini. You can share them with the team. The plugin keeps your login and your API token separately for each user. It keeps them only when <strong>Remember Me</strong> is enabled.</p>
 </body>
 </html>

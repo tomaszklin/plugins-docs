@@ -17,6 +17,9 @@ h4 { font-size: 11.5pt; }
 p { margin: 0.7em 0; }
 img { max-width: 100%; height: auto; display: block; margin: 1.2em auto;
       border: 1px solid #d8d8d8; }
+img.banner { border: 0; margin: 1.2em 0 0.9em; }
+p.byline { font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt;
+           color: #444; margin: 0 0 0.4em; }
 table { border-collapse: collapse; margin: 1.2em 0; font-size: 10pt;
         font-family: Arial, Helvetica, sans-serif; }
 th, td { border: 1px solid #bbb; padding: 5px 9px; text-align: left;
@@ -64,9 +67,8 @@ nav.toc .toc3 { padding-left: 2.4em; }
 </head>
 <body>
 <h1 id="ultimate-to-do-list">Ultimate To-Do List</h1>
-<img src="images/UltimateToDoList/banner.png" alt="">
-<p>Author: <strong>Tomasz Klin</strong></p>
-<p>Version: <strong>2.0.1</strong></p>
+<img class="banner" src="images/UltimateToDoList/banner.png" alt="Ultimate To-Do List">
+<p class="byline">Author: <strong>Tomasz Klin</strong><br>Version: <strong>2.0.2</strong></p>
 <nav class="toc">
 <h2>Contents</h2>
 <ul>
@@ -104,38 +106,54 @@ nav.toc .toc3 { padding-left: 2.4em; }
 </ul>
 </nav>
 <h1 id="introduction">Introduction</h1>
-<p>The Ultimate To-Do List plugin for Unreal Engine is an efficient task management tool that allows users to create, view, and edit tasks directly from the editor. The plugin features Sticky Notes that allow you to view tasks on a level, and a &quot;Go to&quot; button for quick access to the task location. Additionally, the plugin includes powerful sorting and filtering options and the ability to capture and edit screenshots. Users can also add comments and utilize a draft mode for completing new task details before submitting.</p>
-<p>Your tasks stay in the service your team already uses. Ultimate To-Do List works with Trello, YouTrack, Jira Software, Asana, HacknPlan, ClickUp and Notion, each of which has a free plan, and the comparison below shows what each one gives you (see <a href="#integrations-comparison">Integrations comparison</a>). Whichever you pick, the plugin stores nothing of its own: tasks live in that service, so the rest of your team keeps working with them in a browser or a mobile app, and what you change in the editor is what they see.</p>
+<p>The Ultimate To-Do List plugin for Unreal Engine is an efficient tool to manage tasks. It lets you make, view and edit tasks directly in the editor. The plugin has Sticky Notes, which show tasks on a level. It also has a &quot;Go to&quot; button that gives you quick access to the location of a task.</p>
+<p>The plugin also has powerful options to sort and filter tasks, and you can capture and edit screenshots. You can also add comments, and use a draft mode to complete the details of a new task before you submit it.</p>
+<p>Your tasks stay in the service that your team already uses. Ultimate To-Do List works with these services, and each of them has a free plan:</p>
+<ul>
+<li>Trello</li>
+<li>YouTrack</li>
+<li>Jira Software</li>
+<li>Asana</li>
+<li>HacknPlan</li>
+<li>ClickUp</li>
+<li>Notion</li>
+</ul>
+<p>The comparison below shows what each service gives you (see <a href="#integrations-comparison">Integrations comparison</a>). Whichever service you select, the plugin keeps nothing of its own. The tasks are in that service. Thus the other members of your team can continue to work with them in a browser or in a mobile app. They see the changes that you make in the editor.</p>
 <h2 id="features-list">Features list</h2>
 <ul>
-<li>Creating new tasks from the editor and game.</li>
-<li>Sticky Notes. Display tasks on a level.</li>
-<li>&quot;Go to&quot; button. One-click to open the level associated with the task location.</li>
-<li>Editing task in place details. All changes are automatically saved</li>
-<li>Filtering task.</li>
-<li>Sorting tasks by column.</li>
-<li>Capturing screenshots.</li>
-<li>Editing screenshots.</li>
-<li>Adding comments.</li>
-<li>Draft mode. Complete new task details before submitting.</li>
+<li>Make new tasks in the editor and in the game.</li>
+<li>Sticky Notes. Show tasks on a level.</li>
+<li>&quot;Go to&quot; button. With one click, open the level that is related to the task location.</li>
+<li>Edit the details of a task in place. The plugin saves all changes automatically.</li>
+<li>Filter tasks.</li>
+<li>Sort tasks by column.</li>
+<li>Capture screenshots.</li>
+<li>Edit screenshots.</li>
+<li>Add comments.</li>
+<li>Draft mode. Complete the details of a new task before you submit it.</li>
 <li>Integration with Trello, YouTrack, Jira Software, Asana, HacknPlan, ClickUp and Notion.</li>
-<li>Collaboration with your team members.</li>
+<li>Work together with the members of your team.</li>
 </ul>
 <h1 id="getting-started">Getting Started</h1>
 <h2 id="enabling-plugin">Enabling Plugin</h2>
-<p>In order to enable the plugin go to Edit -&gt; Plugins, select <strong>Other</strong> category and check <strong>Enabled</strong> for Ultimate To-Do List</p>
+<p>To enable the plugin, do these steps:</p>
+<ol>
+<li>Go to Edit -&gt; Plugins.</li>
+<li>Select the <strong>Other</strong> category.</li>
+<li>For Ultimate To-Do List, select <strong>Enabled</strong>.</li>
+</ol>
 <img src="images/UltimateToDoList/image20.png" alt="">
 <h2 id="opening-tool-window">Opening Tool Window</h2>
-<p>Ultimate To-Do List is available as a tab for Unreal Editor. The tab can be accessed from the Window menu.</p>
+<p>Ultimate To-Do List is available as a tab in Unreal Editor. You can open the tab from the Window menu.</p>
 <img src="images/UltimateToDoList/image12.png" alt="">
 <h2 id="supported-integrations">Supported Integrations</h2>
-<p>The Ultimate To-Do List is designed to support many services</p>
+<p>Ultimate To-Do List supports many services.</p>
 <h3 id="trello">Trello</h3>
 <ul>
 <li><strong><a href="../ladybugtracker/TrelloIntegration.html">Integration Documentation</a></strong></li>
 <li><a href="https://trello.com/">https://trello.com/</a></li>
-<li>Free up to 15 users</li>
-<li>Very popular software in game dev</li>
+<li>Free for a maximum of 15 users</li>
+<li>Very popular software in game development</li>
 </ul>
 <h3 id="youtrack">YouTrack</h3>
 <ul>
@@ -143,21 +161,21 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <li><a href="https://www.jetbrains.com/youtrack/">https://www.jetbrains.com/youtrack/</a></li>
 </ul>
 <ul>
-<li>Free up to 10 users</li>
+<li>Free for a maximum of 10 users</li>
 <li>Project management tool</li>
 </ul>
 <h3 id="jira-software">Jira Software</h3>
 <ul>
 <li><strong><a href="../ladybugtracker/JiraSoftwareIntegration.html">Integration Documentation</a></strong></li>
 <li><a href="https://www.atlassian.com/software/jira">https://www.atlassian.com/software/jira</a></li>
-<li>Free up to 10 users</li>
+<li>Free for a maximum of 10 users</li>
 <li>Project management tool</li>
 </ul>
 <h3 id="asana">Asana</h3>
 <ul>
 <li><strong><a href="../ladybugtracker/AsanaIntegration.html">Integration Documentation</a></strong></li>
 <li><a href="https://asana.com">https://asana.com</a></li>
-<li>Free up to 10 users</li>
+<li>Free for a maximum of 10 users</li>
 <li>Project management tool</li>
 </ul>
 <h3 id="hacknplan">HacknPlan</h3>
@@ -170,46 +188,45 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <ul>
 <li><strong><a href="../ladybugtracker/ClickUpIntegration.html">Integration Documentation</a></strong></li>
 <li><a href="https://clickup.com/">https://clickup.com/</a></li>
-<li>Free plan available</li>
-<li>Project management tool. On a free plan the Level and Camera values are stored in the task description instead of custom fields</li>
+<li>Has a free plan</li>
+<li>Project management tool. On a free plan, the plugin keeps the Level and Camera values in the task description, not in custom fields.</li>
 </ul>
 <h3 id="notion">Notion</h3>
 <ul>
 <li><strong><a href="../ladybugtracker/NotionIntegration.html">Integration Documentation</a></strong></li>
 <li><a href="https://www.notion.so/">https://www.notion.so/</a></li>
-<li>Free plan available</li>
+<li>Has a free plan</li>
 <li>Workspace and documentation tool.</li>
 </ul>
-<p>---</p>
 <h1 id="integrations-comparison">Integrations comparison</h1>
 <table>
 <tr><th></th><th><strong>YouTrack</strong></th><th><strong>Trello</strong></th><th><strong>Jira Software</strong></th><th><strong>Asana</strong></th><th><strong>HacknPlan</strong></th><th><strong>ClickUp</strong></th><th><strong>Notion</strong></th></tr>
-<tr><td>View issues</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
-<tr><td>Edit issues</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
-<tr><td>Report issues</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
+<tr><td>View tasks</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
+<tr><td>Edit tasks</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
+<tr><td>Add tasks</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
 <tr><td>Custom fields</td><td class="yes">Yes</td><td class="yes">Yes<sup>1</sup></td><td class="yes">Yes</td><td class="yes">Yes<sup>1</sup></td><td class="no">No<sup>2</sup></td><td class="yes">Yes<sup>1</sup></td><td class="yes">Yes</td></tr>
-<tr><td>Sorting by columns</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
-<tr><td>Filtering</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
+<tr><td>Sort by columns</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
+<tr><td>Filter</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
 <tr><td>Sticky Notes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
 <tr><td>View attachments</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
 <tr><td>Add attachments</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
 <tr><td>Delete attachments</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="no">No<sup>2</sup></td><td class="yes">Yes</td></tr>
 <tr><td>View comments</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
-<tr><td>Add comment</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
-<tr><td>Delete comment</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="no">No<sup>2</sup></td></tr>
+<tr><td>Add comments</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
+<tr><td>Delete comments</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="no">No<sup>2</sup></td></tr>
 <tr><td>View checklists</td><td class="no">No<sup>2</sup></td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
 <tr><td>Edit checklists</td><td class="no">No<sup>2</sup></td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
-<tr><td>Create project</td><td class="no">No</td><td class="yes">Yes</td><td class="no">No</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="no">No<sup>2</sup></td></tr>
+<tr><td>Make projects</td><td class="no">No</td><td class="yes">Yes</td><td class="no">No</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="no">No<sup>2</sup></td></tr>
 <tr><td>Free version users</td><td>10</td><td>15</td><td>10</td><td>10</td><td>unlimited</td><td>unlimited</td><td>unlimited<sup>4</sup></td></tr>
-<tr><td>Free version storagetotal/per file</td><td>30 GB /500 MB</td><td>unlimited / 10 MB</td><td>2 GB / 2GB</td><td>unlimited / 25MB</td><td>500 MB / 5 MB</td><td>1 GB / 100 MB</td><td>unlimited / 5 MB</td></tr>
+<tr><td>Free version storage total/per file</td><td>30 GB /500 MB</td><td>unlimited / 10 MB</td><td>2 GB / 2GB</td><td>unlimited / 25MB</td><td>500 MB / 5 MB</td><td>1 GB / 100 MB</td><td>unlimited / 5 MB</td></tr>
 <tr><td>Free version projects</td><td>unlimited</td><td>10</td><td>unlimited</td><td>unlimited</td><td>unlimited</td><td>unlimited lists (max 5 Spaces)</td><td>unlimited</td></tr>
 </table>
-<p><sup>1</sup> Available in the paid version of the service</p>
-<p><sup>2</sup> Feature not provided by the service</p>
-<p><sup>3</sup> Not yet implemented</p>
-<p><sup>4</sup> Notion applies a 1,000-block limit once a workspace has more than one member</p>
+<p><sup>1</sup> Available in the paid version of the service.</p>
+<p><sup>2</sup> The service does not have this feature.</p>
+<p><sup>3</sup> The plugin does not have this feature yet.</p>
+<p><sup>4</sup> When a workspace has more than one member, Notion sets a limit of 1,000 blocks.</p>
 <h1 id="interface">Interface</h1>
-<p>The Ultimate To-Do List user interface is made up of the following components:</p>
+<p>The user interface of Ultimate To-Do List has these components:</p>
 <img src="images/UltimateToDoList/image10.png" alt="">
 <ol>
 <li><a href="#toolbar">Toolbar</a></li>
@@ -220,110 +237,111 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <h2 id="toolbar">Toolbar</h2>
 <img src="images/UltimateToDoList/image16.png" alt="">
 <ol>
-<li>Project Task - Create a new task</li>
-<li>Level Task - Create a new task with a sticky note on level</li>
-<li>Delete Completed - Delete all completed tasks</li>
-<li>Refresh - Reinitialize the connection to the server and refresh task list</li>
-<li>Settings - open the <a href="#project-settings">Plugin Settings</a> window.</li>
-<li>Login Settings - open the <a href="#login-dialog-box">Login window</a>.</li>
-<li>Sticky Notes - show/hide sticky notes in the Level Viewport (see <a href="#level-tasks">Sticky Notes</a>)</li>
+<li>Project Task - Makes a new task.</li>
+<li>Level Task - Makes a new task with a sticky note on the level.</li>
+<li>Delete Completed - Deletes all completed tasks.</li>
+<li>Refresh - Initializes the connection to the server again and refreshes the Tasks List.</li>
+<li>Settings - Opens the <a href="#project-settings">Plugin Settings</a> window.</li>
+<li>Login Settings - Opens the <a href="#login-dialog-box">Login window</a>.</li>
+<li>Sticky Notes - Shows or hides the sticky notes in the level viewport (see <a href="#level-tasks">Sticky Notes</a>).</li>
 </ol>
 <h2 id="tasks-list">Tasks List</h2>
 <img src="images/UltimateToDoList/image21.png" alt="">
-<p>After successfully downloading all tasks from the server, they will be displayed on the task list. You can narrow down the entries to the ones of your interest by filtering the tasks. The Task List filter allows you to search for tasks using an advanced syntax similar to the Content Browser. This advanced search syntax enables you to perform sophisticated search queries and look for tasks based on key-value pairs from their properties. For more information, please refer to the Advanced Search Syntax page.</p>
-<p>Example usage:</p>
+<p>When the plugin has downloaded all the tasks from the server, the Tasks List shows them. To see only the tasks that interest you, filter the tasks. The filter of the Tasks List uses an advanced search syntax, similar to the syntax of the Content Browser. With this syntax, you can write complex search queries. You can also find tasks by the key-value pairs of their properties. For more information, see the Advanced Search Syntax page.</p>
+<p>Examples:</p>
 <table>
 <tr><th><strong>Filter Phrase</strong></th><th><strong>Description</strong></th></tr>
-<tr><td>hello</td><td>issues containing the word &#x27;hello&#x27; in the summary, description, or additional information fields</td></tr>
-<tr><td>...llo</td><td>issues containing a summary, description or additional information ended with ‘llo&#x27;</td></tr>
+<tr><td>hello</td><td>tasks that contain the word &#x27;hello&#x27; in the summary, description or additional information fields</td></tr>
+<tr><td>...llo</td><td>tasks with a summary, description or additional information that ends with &#x27;llo&#x27;</td></tr>
 <tr><td>updated &gt;= 2017</td><td>updated in 2017 or later</td></tr>
 <tr><td>updated = 201712</td><td>updated in December of 2017</td></tr>
 <tr><td>updated = 20171224</td><td>updated on 24 December of 2017</td></tr>
-<tr><td>updated &lt; 20171224.13</td><td>updated before 1 pm 24 December of 2017</td></tr>
-<tr><td>status != resolved</td><td>all unresolved issues</td></tr>
+<tr><td>updated &lt; 20171224.13</td><td>updated before 1 pm on 24 December of 2017</td></tr>
+<tr><td>status != resolved</td><td>all tasks that are not resolved</td></tr>
 <tr><td>severity &gt; minor</td><td>severity greater than minor</td></tr>
 <tr><td>assignedto = john_smith</td><td>assigned to john smith</td></tr>
-<tr><td>submitted = 2018 &amp; status = new</td><td>new issues submitted in 2018</td></tr>
+<tr><td>submitted = 2018 &amp; status = new</td><td>new tasks submitted in 2018</td></tr>
 </table>
 <h2 id="task-details">Task Details</h2>
-<p>Tasks Details panel presents all the information available for the selected task.</p>
+<p>The Task Details panel shows all the information about the selected task.</p>
 <img src="images/UltimateToDoList/image18.png" alt="">
 <ol>
-<li>A link that navigates to the selected task in the web browser</li>
+<li>A link that opens the selected task in the web browser</li>
 <li>Property list (see <a href="#property-list">Property List</a>)</li>
 <li>Toolbar</li>
 </ol>
 <h3 id="property-list">Property List</h3>
-<p>Contains all the most crucial information for the selected task.</p>
+<p>The Property List has all the most important information about the selected task.</p>
 <h4 id="general">General</h4>
-<p>Standard properties are available by default in the Mantis.</p>
+<p>The standard properties are available by default in Mantis.</p>
 <img src="images/UltimateToDoList/image15.png" alt="">
 <h4 id="attachments">Attachments</h4>
-<p>The Attachments section presents a list of attachments. For images in PNG, BMP, and JPG formats, the plugin can display thumbnails.</p>
+<p>The Attachments section shows a list of attachments. For images in PNG, BMP and JPG format, the plugin can show thumbnails.</p>
 <img src="images/UltimateToDoList/image14.png" alt="">
 <h4 id="comments">Comments</h4>
-<p>The Comments section presents all notes added to the issue. Here you can also add new notes.</p>
+<p>The Comments section shows all the comments on the task. You can also add new comments here.</p>
 <img src="images/UltimateToDoList/image13.png" alt="">
 <h2 id="output">Output</h2>
-<p>The Output panel is the central hub for gathering the log output of plugin operations. In case of any troubles, this is the first place where you should look for causes.</p>
+<p>The Output panel collects the log output of the plugin operations in one place. If a problem occurs, look here first for the cause.</p>
 <img src="images/UltimateToDoList/image5.png" alt="">
 <img src="images/UltimateToDoList/image24.png" alt="">
 <h2 id="message-log">Message Log</h2>
-<p>The same logs that appear in the <a href="#output">Output panel</a> you can also find in the Message Log tab in the Ultimate To-Do List section. You can increase logs verbose in the project settings in the section “Debug”</p>
+<p>In the Message Log tab, the Ultimate To-Do List section shows the same logs as the <a href="#output">Output panel</a>. You can make the logs more detailed in the “Debug” section of the project settings.</p>
 <img src="images/UltimateToDoList/image9.png" alt="">
 <h2 id="login-dialog-box">Login Dialog Box</h2>
 <img src="images/UltimateToDoList/image19.png" alt="">
-<p>This window may be different dependent on chosen provider.</p>
+<p>This window can be different for each provider.</p>
 <h1 id="project-settings">Project Settings</h1>
-<p>Ultimate To-Do List settings can be edited in the Editor Settings tab. Or directly from the main tool window. Settings are divided into three sections</p>
+<p>You can edit the Ultimate To-Do List settings in the Editor Settings tab, or directly in the main tool window. The settings have three sections.</p>
 <img src="images/UltimateToDoList/image25.png" alt="">
 <h2 id="general-settings">General Settings</h2>
 <img src="images/UltimateToDoList/image4.png" alt="">
 <ol>
-<li>Provider - for now, only Trello is available</li>
-<li>Host - Address to service.</li>
-<li>Test - Test connection to the host.</li>
+<li>Provider - At this time, only Trello is available.</li>
+<li>Host - The address of the service.</li>
+<li>Test - Tests the connection to the host.</li>
 </ol>
 <img src="images/UltimateToDoList/image26.png" alt="">
 <ol>
-<li>Change Login Settings - Open login window (see <a href="#login-dialog-box">Login Dialog Box</a>).</li>
-<li>Logged user details</li>
-<li>Project - Here you can select an available project for the logged-in user.</li>
-<li>Constructor Class - Task constructor class (see <a href="#task-constructor">Issue Constructor</a>)</li>
-<li>Profiles default values for each of the task types (see the Profiles section of the settings).</li>
-<li>Additional columns definition</li>
-<li>Task item size. Small, Medium, Large, and Large Detailed.</li>
+<li>Change Login Settings - Opens the login window (see <a href="#login-dialog-box">Login Dialog Box</a>).</li>
+<li>The details of the logged-in user.</li>
+<li>Project - Select one of the projects that are available to the logged-in user.</li>
+<li>Constructor Class - The Task Constructor class (see <a href="#task-constructor">Task Constructor</a>).</li>
+<li>The default values of the profiles, for each task type (see the Profiles section of the settings).</li>
+<li>The definition of the additional columns.</li>
+<li>Task item size: Small, Medium, Large or Large Detailed.</li>
 </ol>
 <h2 id="sticky-notes-settings">Sticky Notes Settings</h2>
 <img src="images/UltimateToDoList/image8.png" alt="">
 <h2 id="provider-settings">Provider Settings</h2>
 <img src="images/UltimateToDoList/image7.png" alt="">
 <h1 id="level-tasks">Level Tasks</h1>
-<p>When a level task is created, the plugin automatically adds the level name, location, and orientation to the task. Each task that has this information is marked on the Tasks List in a column with</p>
+<p>When you make a level task, the plugin automatically adds the level name, the location and the orientation to the task. On the Tasks List, a column shows this symbol for each task that has this information:</p>
 <img src="images/UltimateToDoList/image23.png" alt="">
-<p>a symbol.</p>
-<p>Thanks to the location information stored in a task, we can jump very fast to the level in the location associated with the task. To do this, just click the button</p>
+<p>A task keeps its location information. Thus you can go very quickly to the level, at the location of the task. To do this, click this button on the toolbar of the Task Details panel:</p>
 <img src="images/UltimateToDoList/image11.png" alt="">
-<p>on the details panel toolbar.</p>
 <h2 id="sticky-notes">Sticky Notes</h2>
-<p>All task markers associated with the currently opened level can be displayed in the level viewport. To enable this feature check</p>
+<p>The level viewport can show all the task markers of the level that is open. To enable this feature, select this button in the <a href="#toolbar">Toolbar</a>:</p>
 <img src="images/UltimateToDoList/image17.png" alt="">
-<p>in <a href="#toolbar">Toolbar</a>.</p>
-<p>Selecting a sticky note on the level viewport opens the issue in the Details panel. Double-click on a marker jumps to the sticky note location.</p>
+<p>When you select a sticky note in the level viewport, the task opens in the Task Details panel. When you double-click a marker, the level viewport moves to the location of the sticky note.</p>
 <img src="images/UltimateToDoList/image2.png" alt="">
 <h1 id="editing-screenshots">Editing Screenshots</h1>
-<p>Before submitting an task, all screenshots can be edited in a user-defined image editor e.g paint.</p>
+<p>Before you submit a task, you can edit all its screenshots in an image editor that you select, for example Paint.</p>
 <img src="images/UltimateToDoList/image1.png" alt="">
-<p>By checking <strong>Upload</strong> checkbox you can decide what files should be attached.</p>
+<p>Use the <strong>Upload</strong> check box to select the files to attach.</p>
 <h1 id="reporting-automation">Reporting Automation</h1>
-<p>To increase QA team efficiency, some of the tedious work can be done automatically for them.</p>
+<p>To make the QA team more efficient, you can let the plugin do some of their repetitive work automatically.</p>
 <h2 id="task-constructor">Task Constructor</h2>
-<p>Task Constructor is a blueprint class that can modify any task parameters. E.g. you can add additional information like current quest name or player character skills.</p>
-<p>To create your own Task Constructor you need to create a blueprint that inherits from <strong>TaskConstructor</strong> and overrides <strong>Construct Task</strong> function. Function <strong>Construct Task</strong> will be called for all taskss just after the issue will be reported.</p>
-<p>In the example below for all tasks added in the game, information about the current level, the game time, and some steps to reproduce will be added.</p>
+<p>Task Constructor is a Blueprint class that can change all the parameters of a task. For example, you can add more information, such as the name of the current quest or the skills of the player character.</p>
+<p>To make your own Task Constructor, do these steps:</p>
+<ol>
+<li>Make a Blueprint that inherits from <strong>TaskConstructor</strong>.</li>
+<li>In the Blueprint, override the <strong>Construct Task</strong> function.</li>
+</ol>
+<p>The plugin calls <strong>Construct Task</strong> for each task immediately after you add it.</p>
+<p>The example below is for the tasks that you add in the game. It adds this information to each of these tasks: the current level, the game time and some steps to reproduce.</p>
 <img src="images/UltimateToDoList/image6.png" alt="">
-<p>To set your Task Constructor, select an TaskConstructor class from the combo box in <a href="#project-settings">Project Settings</a>.</p>
+<p>To set your Task Constructor, select a TaskConstructor class in the combo box in <a href="#project-settings">Project Settings</a>.</p>
 <img src="images/UltimateToDoList/image3.png" alt="">
-<p>---</p>
 </body>
 </html>

@@ -82,20 +82,20 @@ nav.toc .toc3 { padding-left: 2.4em; }
 </ul>
 </nav>
 <h2 id="notion"><strong>Notion</strong></h2>
-<p>Notion is a workspace and documentation service whose databases can be used as an issue tracker. LadyBug Tracker treats a Notion <strong>database</strong> as the project and each <strong>page</strong> inside it as an issue.</p>
-<p>This integration is currently in the <strong>beta</strong> stage.</p>
+<p>Notion is a workspace and documentation service. You can use its databases as an issue tracker. LadyBug Tracker uses a Notion <strong>database</strong> as the project, and each <strong>page</strong> in it as an issue.</p>
+<p>At this time, this integration is in the <strong>beta</strong> stage.</p>
 <h2 id="authentication"><strong>Authentication</strong></h2>
-<p>Notion does not use a user name and password. It authenticates with an <strong>internal integration secret</strong>:</p>
+<p>Notion does not use a user name and a password. It uses an <strong>internal integration secret</strong>. To connect the plugin to Notion, do these steps:</p>
 <ol>
-<li>Go to https://www.notion.so/my-integrations and create a new internal integration. The **Create Integration** button in the login window opens that page.</li>
-<li>Copy its secret into the <strong>Internal Integration Secret</strong> field in the login window.</li>
-<li>Open the database you want to use, and <strong>share it with that integration</strong> (Share menu &gt; select your integration).</li>
+<li>Open https://www.notion.so/my-integrations, then make a new internal integration. In the login window, the <strong>Create Integration</strong> button opens this page.</li>
+<li>Copy the secret of the integration into the <strong>Internal Integration Secret</strong> field in the login window.</li>
+<li>Open the database that you want to use. Then <strong>share it with the integration</strong> (Share menu &gt; select your integration).</li>
 </ol>
-<p>Step 3 is essential. Until the database is shared with the integration it is invisible to the API, and Notion reports it as <em>not found</em> rather than as forbidden — so a missing share looks like a wrong database name.</p>
-<p>The host address is fixed to https://www.notion.so. The integration secret is already scoped to one workspace.</p>
+<p>Step 3 is necessary. If you do not share the database with the integration, the API cannot see the database. Notion then reports the database as <em>not found</em>, not as forbidden. Thus a missing share looks like an incorrect database name.</p>
+<p>The host address is always https://www.notion.so. The integration secret already applies to only one workspace.</p>
 <h2 id="project-setup-notion-service"><strong>Project setup (Notion service)</strong></h2>
 <p><strong>Project</strong> selects the database by its title.</p>
-<p>Notion database properties are user defined, so the plugin matches them to its own fields <strong>by name and type</strong>. Properties that are missing are simply not offered as fields, and the project verification reports which ones were not found instead of failing. The mapping is:</p>
+<p>The user defines the properties of a Notion database. Thus the plugin matches them to its own fields <strong>by name and type</strong>. If a property is missing, the plugin does not show it as a field. The project verification tells you which properties it did not find. It does not fail. This is the mapping:</p>
 <table>
 <tr><th><strong>Notion property</strong></th><th><strong>Type</strong></th><th><strong>Plugin field</strong></th></tr>
 <tr><td>title property</td><td>title</td><td>Summary</td></tr>
@@ -107,32 +107,32 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <tr><td>Level</td><td>text</td><td>Level</td></tr>
 <tr><td>Camera</td><td>text</td><td>Camera</td></tr>
 </table>
-<p><strong>Level</strong> and <strong>Camera</strong> are the two properties LadyBug Tracker uses to store where a bug was reported from; add them as <strong>Text</strong> properties for 3D markers and the Goto button to work.</p>
-<p>Created and Updated come from the page&#x27;s own timestamps and are always available.</p>
+<p>LadyBug Tracker uses the <strong>Level</strong> and <strong>Camera</strong> properties to keep the position from which you reported a bug. Add these two properties as <strong>Text</strong> properties. The 3D markers and the Goto button need them.</p>
+<p>The Created and Updated fields come from the timestamps of the page. They are always available.</p>
 <h2 id="integration-capabilities"><strong>Integration capabilities</strong></h2>
-<p>Notion never reports which capabilities an integration was granted, so the plugin probes them and shows the result in the settings window.</p>
-<p><strong>Comment reading is off by default in Notion.</strong> Without it the plugin skips reading comments rather than failing the whole fetch, so fields and attachments still load. To enable it, open the integration at notion.so/my-integrations and grant the read comments capability.</p>
+<p>Notion does not tell which capabilities an integration has. Thus the plugin tests each capability and shows the result in the settings window.</p>
+<p><strong>By default, Notion does not let an integration read comments.</strong> Without this capability, the plugin does not read comments, but the rest of the download does not fail. Thus the fields and attachments still load. To enable this capability, open the integration at notion.so/my-integrations. Then give it the read comments capability.</p>
 <h2 id="attachments"><strong>Attachments</strong></h2>
-<p>Attachments are stored as blocks in the page body (image, video, audio, pdf or file), not in a files property. Appending never rewrites existing blocks, so a concurrent edit cannot drop earlier attachments.</p>
-<p>Free Notion workspaces reject a file larger than <strong>5 MB</strong>. Consider setting <strong>Max Screenshot Size</strong> in the project settings so large captures are downscaled before upload.</p>
+<p>The plugin keeps attachments as blocks in the page body (image, video, audio, pdf or file), not in a files property. When the plugin adds an attachment, it does not write the existing blocks again. Thus a different edit at the same time cannot remove earlier attachments.</p>
+<p>A free Notion workspace refuses a file that is larger than <strong>5 MB</strong>. To prevent this problem, you can set <strong>Max Screenshot Size</strong> in the project settings. Then the plugin makes large screenshots smaller before it uploads them.</p>
 <h2 id="subtasks"><strong>Subtasks</strong></h2>
-<p>The subtask checklist is built from the to-do blocks of the page body. A Notion page has no checklist container, so all of its to-do items form a single checklist named <em>Subtasks</em>. Items can be added, renamed, ticked and removed; the checklist itself cannot be created or deleted.</p>
+<p>The plugin makes the subtask checklist from the to-do blocks in the page body. A Notion page has no checklist container. Thus all the to-do items of the page are in one checklist with the name <strong>Subtasks</strong>. You can add, rename, tick and delete items. You cannot make or delete the checklist.</p>
 <h2 id="known-limitations"><strong>Known limitations</strong></h2>
 <ul>
-<li>Comments can be created and read, but the Notion API cannot delete them.</li>
-<li>Issue history and workflow status transitions are not supported.</li>
-<li>Creating a new database from the plugin is not possible, because the API cannot choose a parent page. Create the database in Notion first.</li>
-<li>Deleting an issue archives the page, which is what Notion exposes instead of a hard delete.</li>
-<li>A plain <strong>select</strong> property carries no completion information; use a <strong>status</strong> property if completion state matters.</li>
+<li>You can add and read comments, but the Notion API cannot delete them.</li>
+<li>Issue history and workflow status transitions are not available.</li>
+<li>You cannot make a new database from the plugin, because the API cannot select a parent page. First, make the database in Notion.</li>
+<li>When you delete an issue, the plugin archives the page. Notion gives this operation in place of a permanent delete.</li>
+<li>A plain <strong>select</strong> property has no completion information. If the completion state is important, use a <strong>status</strong> property.</li>
 </ul>
 <h2 id="project-setup-unreal-engine"><strong>Project setup (Unreal Engine)</strong></h2>
-<p>Open <strong>Project Settings &gt; Plugins &gt; LadyBug Tracker</strong> and set:</p>
+<p>Open <strong>Project Settings &gt; Plugins &gt; LadyBug Tracker</strong>. Then do these steps:</p>
 <ol>
-<li><strong>Provider</strong> — Notion.</li>
-<li><strong>Host</strong> — leave at https://www.notion.so.</li>
+<li><strong>Provider</strong> — select Notion.</li>
+<li><strong>Host</strong> — keep https://www.notion.so.</li>
 <li><strong>Change Login Settings</strong> — paste the internal integration secret.</li>
-<li><strong>Project</strong> — pick the database you shared with the integration.</li>
+<li><strong>Project</strong> — select the database that you shared with the integration.</li>
 </ol>
-<p>These settings are stored in Config/DefaultBugTracker.ini and can be shared with the team. The integration secret is stored separately, per user, and only when <strong>Remember Me</strong> is enabled.</p>
+<p>The plugin keeps these settings in Config/DefaultBugTracker.ini. You can share them with the team. The plugin keeps the integration secret separately for each user. It keeps the secret only when <strong>Remember Me</strong> is enabled.</p>
 </body>
 </html>

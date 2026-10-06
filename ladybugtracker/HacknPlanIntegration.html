@@ -82,53 +82,53 @@ nav.toc .toc3 { padding-left: 2.4em; }
 </ul>
 </nav>
 <h2 id="hacknplan"><strong>HacknPlan</strong></h2>
-<p>HacknPlan is a project management service built for game development. It organises work into projects, each with a board of work items that can carry comments, attachments and subtasks. LadyBug Tracker reports bugs as work items in a single HacknPlan project.</p>
-<p>HacknPlan&#x27;s free plan has no user limit.</p>
+<p>HacknPlan is a project management service for game development. It divides work into projects. Each project has a board of work items, and a work item can have comments, attachments and subtasks. LadyBug Tracker reports bugs as work items in one HacknPlan project.</p>
+<p>The free plan of HacknPlan has no limit on the number of users.</p>
 <h2 id="authentication"><strong>Authentication</strong></h2>
-<p>HacknPlan uses API keys. In the login window enter:</p>
+<p>HacknPlan uses API keys. In the login window, enter this value:</p>
 <ul>
-<li><strong>Api Key</strong> — a key generated in your HacknPlan account.</li>
+<li><strong>Api Key</strong> — a key that you make in your HacknPlan account.</li>
 </ul>
-<p>To generate one, open <strong>Settings &gt; API</strong> in HacknPlan (https://app.hacknplan.com/settings?section=api) and create a key. The <strong>Create API Key</strong> button in the login window opens that page for you.</p>
-<p>The key has to be granted two scopes, or the plugin cannot list anything to work with:</p>
+<p>To get a key, open <strong>Settings &gt; API</strong> in HacknPlan (https://app.hacknplan.com/settings?section=api), then make a key. In the login window, the <strong>Create API Key</strong> button opens this page.</p>
+<p>The key must have these two scopes. If the key does not have them, the plugin cannot list anything that it can use:</p>
 <ul>
 <li><strong>Workspaces Read</strong></li>
 <li><strong>Projects Read</strong></li>
 </ul>
-<p>No user name is asked for: the key identifies the account on its own.</p>
+<p>The login window does not ask for a user name, because the key alone identifies the account.</p>
 <h2 id="host"><strong>Host</strong></h2>
-<p>The host address is fixed to <strong>https://api.hacknplan.com</strong> and the plugin refuses anything else, saying so when the project is verified rather than failing later against an address that cannot answer. Note that this is the API address, not <code>app.hacknplan.com</code>, which is the web interface.</p>
+<p>The host address is always <strong>https://api.hacknplan.com</strong>. The plugin does not accept a different address. It tells you about a different address when it verifies the project. Thus it does not fail later, with an address that cannot answer. This is the API address. It is not <code>app.hacknplan.com</code>, which is the web interface.</p>
 <h2 id="project-setup-hacknplan-service"><strong>Project setup (HacknPlan service)</strong></h2>
-<p>The plugin works against one HacknPlan <strong>project</strong>, and offers the projects your key can see. A project is only offered when both of these hold:</p>
+<p>The plugin uses one HacknPlan <strong>project</strong>. It shows the projects that your key can see. The plugin shows a project only if these two conditions are true:</p>
 <ul>
-<li>it is <strong>not closed</strong> — a project with a closing date is left out;</li>
-<li>its <strong>Work Items module is enabled</strong> — the plugin reports bugs as work items, so a project without that module has nowhere to put them.</li>
+<li>The project is <strong>not closed</strong>. The plugin does not show a project that has a closing date.</li>
+<li>The <strong>Work Items module is enabled</strong> in the project. The plugin reports bugs as work items. Thus a project without this module has no place for them.</li>
 </ul>
-<p>A project missing from the list is almost always one of those two, and both are changed in HacknPlan&#x27;s own project settings. You can also let the plugin create a project for you.</p>
+<p>If a project is not in the list, the cause is almost always one of these two conditions. You can change both of them in the project settings of HacknPlan. You can also let the plugin make a project for you.</p>
 <h2 id="where-the-position-is-stored"><strong>Where the position is stored</strong></h2>
-<p>Every reported bug carries the level it was reported from and the camera it was reported at. HacknPlan work items have no custom fields, so the plugin writes both into the <strong>work item description</strong> and reads them back from there. They travel with the description: editing it by hand in HacknPlan can lose them.</p>
+<p>Each bug that you report keeps the level and the camera from which you reported it. HacknPlan work items have no custom fields. Thus the plugin writes these two values into the <strong>work item description</strong>, and reads them from there. The values are part of the description. If you edit the description manually in HacknPlan, you can lose them.</p>
 <h2 id="integration-capabilities"><strong>Integration capabilities</strong></h2>
 <ul>
-<li>Attachments can be added, viewed and deleted; they are fetched when an issue is opened rather than with the list.</li>
-<li>Comments can be added, viewed and deleted, and are fetched the same way.</li>
-<li>Subtasks are read and edited as a checklist, shown under the name <strong>Subtasks</strong>. A work item has one such list rather than several.</li>
-<li>Issues are downloaded 100 at a time, newest activity first.</li>
+<li>You can add, view and delete attachments. The plugin gets the attachments when you open an issue, not with the list.</li>
+<li>You can add, view and delete comments. The plugin gets them in the same way.</li>
+<li>Subtasks appear as a checklist that you can edit. The name of the checklist is <strong>Subtasks</strong>. A work item has only one checklist.</li>
+<li>The plugin downloads issues 100 at a time. The issues with the newest activity come first.</li>
 </ul>
 <h2 id="known-limitations"><strong>Known limitations</strong></h2>
 <ul>
-<li><strong>Custom fields are not available.</strong> HacknPlan work items have no user-defined fields, which is why the level and camera live in the description.</li>
+<li><strong>Custom fields are not available.</strong> HacknPlan work items have no user-defined fields. This is why the level and the camera are in the description.</li>
 <li><strong>Issue history is not available.</strong> The History tab stays empty.</li>
-<li><strong>Status transitions are not offered.</strong> The plugin sets the completed state directly rather than moving an item through a workflow.</li>
-<li>The free plan allows 500 MB of storage in total and 5 MB per file.</li>
+<li><strong>Status transitions are not available.</strong> The plugin sets the completed state directly. It does not move an item through a workflow.</li>
+<li>The free plan gives 500 MB of storage in total, and 5 MB for each file.</li>
 </ul>
 <h2 id="project-setup-unreal-engine"><strong>Project setup (Unreal Engine)</strong></h2>
-<p>Open <strong>Project Settings &gt; Plugins &gt; LadyBug Tracker</strong> and set:</p>
+<p>Open <strong>Project Settings &gt; Plugins &gt; LadyBug Tracker</strong>. Then do these steps:</p>
 <ol>
-<li><strong>Provider</strong> — HacknPlan.</li>
-<li><strong>Host</strong> — leave at https://api.hacknplan.com.</li>
+<li><strong>Provider</strong> — select HacknPlan.</li>
+<li><strong>Host</strong> — keep https://api.hacknplan.com.</li>
 <li><strong>Change Login Settings</strong> — paste your API key.</li>
-<li><strong>Project</strong> — pick the project bugs should be reported to.</li>
+<li><strong>Project</strong> — select the project that gets the bug reports.</li>
 </ol>
-<p>These settings are stored in Config/DefaultBugTracker.ini and can be shared with the team. Your key is stored separately, per user, and only when <strong>Remember Me</strong> is enabled.</p>
+<p>The plugin keeps these settings in Config/DefaultBugTracker.ini. You can share them with the team. The plugin keeps your key separately for each user. It keeps the key only when <strong>Remember Me</strong> is enabled.</p>
 </body>
 </html>

@@ -68,7 +68,7 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <body>
 <h1 id="editor-web-browser">Editor Web Browser</h1>
 <img class="banner" src="images/EditorWebBrowser/banner.png" alt="Editor Web Browser">
-<p class="byline">Author: <strong>Tomasz Klin</strong><br>Version: <strong>1.5.1</strong></p>
+<p class="byline">Author: <strong>Tomasz Klin</strong><br>Version: <strong>1.6.0</strong></p>
 <nav class="toc">
 <h2>Contents</h2>
 <ul>
@@ -83,43 +83,58 @@ nav.toc .toc3 { padding-left: 2.4em; }
 </ul>
 </nav>
 <h1 id="what-it-is">What it is</h1>
-<p>Editor Web Browser puts a web browser inside the Unreal Editor, as an ordinary tab you can dock, float and arrange like any other. Up to four browsers can be open at once, and they remember your session: a site you signed into today is still signed in tomorrow, after the editor has been closed and reopened.</p>
+<p>Editor Web Browser puts a web browser in the Unreal Editor. The browser is a normal editor tab. You can dock it, float it and arrange it like all other tabs.</p>
+<p>A maximum of four browsers can be open at the same time. The browsers keep your session. If you sign in to a site today, you are still signed in tomorrow, after you close the editor and open it again.</p>
 <h1 id="how-to-install">How to install</h1>
 <ol>
 <li>Install the plugin into your engine version from the store. <img src="images/EditorWebBrowser/image3.png" alt=""></li>
-<li>Open your project and enable the plugin. Go to <strong>Edit -&gt; Plugins</strong>, select the <strong>Other</strong> category, and then check <strong>Enabled</strong> for Editor Web Browser. <img src="images/EditorWebBrowser/image4.png" alt=""></li>
+<li>Open your project. Go to <strong>Edit -&gt; Plugins</strong> and select the <strong>Other</strong> category. Then select the <strong>Enabled</strong> check box for Editor Web Browser. <img src="images/EditorWebBrowser/image4.png" alt=""></li>
 <li>Restart the editor.</li>
 </ol>
 <h1 id="how-to-use">How to use</h1>
 <h2 id="opening-a-browser">Opening a browser</h2>
-<p>Open a browser from <strong>Tools -&gt; Web Browser</strong>. Four are available, <strong>Web Browser 1</strong> through <strong>Web Browser 4</strong>.</p>
+<p>To open a browser, select <strong>Tools -&gt; Web Browser</strong>. There are four browsers: <strong>Web Browser 1</strong> to <strong>Web Browser 4</strong>.</p>
 <img src="images/EditorWebBrowser/image2.png" alt="">
-<p>Each one is a normal editor tab: dock it beside the viewport, drag it onto a second monitor, or leave it floating, and the editor layout remembers where you put it. With a single browser open the tab is simply called <strong>Web Browser</strong> — the numbers appear only once a second one is open, so there is nothing to think about until you need it.</p>
-<p>All four share one browsing session, so a site you sign into in one is signed in in the others.</p>
+<p>Each browser is a normal editor tab. You can dock it next to the viewport, drag it to a second monitor, or let it float. The editor layout keeps the tab where you put it.</p>
+<p>When only one browser is open, the name of the tab is <strong>Web Browser</strong>. The numbers appear only when a second browser is open. Thus you see the numbers only when you need them.</p>
+<p>All four browsers use one session. Thus, if you sign in to a site in one browser, you are also signed in to it in the other browsers.</p>
 <h2 id="the-toolbar">The toolbar</h2>
 <img src="images/EditorWebBrowser/image5.png" alt="">
-<p>From the left: <strong>back</strong> and <strong>forward</strong> through the pages you have visited, <strong>home</strong> to return to your homepage, and <strong>reload</strong>, which turns into a stop button while a page is still loading. Then the address bar — type a URL and press Enter to go there.</p>
-<p>The <strong>star</strong> on the right of the address bar adds the current page to your favourites, and removes it again if it is already there.</p>
-<h2 id="favourites-and-history">Favourites and history</h2>
-<p>The menu button at the far right of the toolbar opens the rest:</p>
+<p>The toolbar has these controls, from the left:</p>
 <ul>
-<li><strong>Favorite</strong> lists the pages you have starred. Pick one to go to it.</li>
-<li><strong>History</strong> lists the pages you have visited most recently, with <strong>Clear History</strong> at the bottom to empty the list.</li>
-<li><strong>Open in System Browser</strong> hands the current page to your normal desktop browser.</li>
-<li><strong>Set As Homepage</strong> makes the current page the one the home button goes to.</li>
-<li><strong>Capture Editor Shortcuts</strong> decides who gets your keystrokes — see below.</li>
+<li><strong>back</strong> and <strong>forward</strong> go through the pages that you visited.</li>
+<li><strong>home</strong> goes to your homepage.</li>
+<li><strong>reload</strong> changes to a stop button while a page loads.</li>
+<li>The address bar. To go to a page, type its URL and press Enter.</li>
 </ul>
-<p>Favourites and history are saved as you go, and are there the next time you open the editor.</p>
+<p>The <strong>star</strong> on the right side of the address bar adds the current page to your favourites. If the page is already in your favourites, the <strong>star</strong> removes it.</p>
+<h2 id="favourites-and-history">Favourites and history</h2>
+<p>The menu button at the far right of the toolbar opens a menu with the other items:</p>
+<ul>
+<li><strong>Favorite</strong> shows the pages that you added with the <strong>star</strong>. To go to a page, select it.</li>
+<li><strong>History</strong> shows the pages that you visited most recently. To empty the list, select <strong>Clear History</strong> at the bottom.</li>
+<li><strong>Open in System Browser</strong> opens the current page in your usual desktop browser.</li>
+<li><strong>Set As Homepage</strong> makes the current page your homepage. The <strong>home</strong> button then goes to this page.</li>
+<li><strong>Capture Editor Shortcuts</strong> sets which one gets your keystrokes: the page or the editor. See <a href="#capture-editor-shortcuts">Capture Editor Shortcuts</a>.</li>
+</ul>
+<p>The plugin saves your favourites and your history each time that they change. They are there the next time that you open the editor.</p>
 <h2 id="staying-signed-in">Staying signed in</h2>
-<p>The browser keeps its cookies between sessions. Sign into a wiki, a task tracker, a documentation site or your own web tools once, and you stay signed in across editor restarts — which is the difference between this and keeping a separate browser window next to the editor.</p>
-<p>The session is stored outside your project, so it is not something that can end up in your project&#x27;s source control.</p>
+<p>The browser keeps its cookies when you close the editor. Sign in to a site one time, and you stay signed in when the editor restarts. This is the difference between this plugin and a separate browser window next to the editor.</p>
+<p>For example, you can sign in to:</p>
+<ul>
+<li>A wiki.</li>
+<li>A task tracker.</li>
+<li>A documentation site.</li>
+<li>Your own web tools.</li>
+</ul>
+<p>The plugin keeps the session outside your project. Thus the source control of your project cannot contain the session.</p>
 <h2 id="capture-editor-shortcuts">Capture Editor Shortcuts</h2>
-<p>While you are typing into a web page, a keystroke like <strong>Ctrl+S</strong> is ambiguous: the page may want it, and so may the editor. <strong>Capture Editor Shortcuts</strong>, in the toolbar menu, decides which one wins.</p>
+<p>When you type in a web page, a keystroke such as <strong>Ctrl+S</strong> can have two meanings. The page can use it, and the editor can also use it. <strong>Capture Editor Shortcuts</strong>, in the toolbar menu, sets which one gets the keystroke.</p>
 <table>
-<tr><th>Setting</th><th>What happens</th></tr>
-<tr><td>On (default)</td><td>The page receives the keystroke. Editor shortcuts do not fire while you are using the browser.</td></tr>
-<tr><td>Off</td><td>The editor&#x27;s shortcuts keep working, and the page only receives keys the editor does not claim.</td></tr>
+<tr><th>Setting</th><th>Result</th></tr>
+<tr><td>On (default)</td><td>The page receives the keystroke. Editor shortcuts do not operate while you use the browser.</td></tr>
+<tr><td>Off</td><td>The editor shortcuts continue to operate. The page receives only the keys that the editor does not use.</td></tr>
 </table>
-<p>Leave it on if you use web applications in the browser; turn it off if you mostly read pages and would rather keep your editor shortcuts to hand.</p>
+<p>If you use web applications in the browser, keep the setting On. If you usually only read pages and you want your editor shortcuts available, set it to Off.</p>
 </body>
 </html>

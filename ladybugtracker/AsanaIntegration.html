@@ -81,46 +81,55 @@ nav.toc .toc3 { padding-left: 2.4em; }
 </ul>
 </nav>
 <h2 id="asana"><strong>Asana</strong></h2>
-<p>Asana is a work management service. It organises work into workspaces, and each workspace into projects made of tasks; a project can be divided into sections, and a task can carry custom fields, subtasks, comments and attachments. LadyBug Tracker reports bugs as tasks in a single Asana project.</p>
+<p>Asana is a work management service. It divides work into workspaces, and each workspace into projects of tasks. You can divide a project into sections. A task can have custom fields, subtasks, comments and attachments. LadyBug Tracker reports bugs as tasks in one Asana project.</p>
 <p>Asana is free for up to 10 users.</p>
 <h2 id="authentication"><strong>Authentication</strong></h2>
-<p>Asana uses personal access tokens. In the login window enter:</p>
+<p>Asana uses personal access tokens. In the login window, enter this value:</p>
 <ul>
 <li><strong>Token</strong> — a personal access token from your Asana account.</li>
 </ul>
-<p>To generate one, open <strong>My Settings &gt; Apps &gt; Developer apps</strong> in Asana (https://app.asana.com/0/my-apps) and create a personal access token. The token is shown once, so copy it straight into the Token field. The <strong>Create Token</strong> button in the login window opens that page for you.</p>
-<p>No user name is asked for: the token identifies the account on its own.</p>
-<p>The host address is fixed to Asana&#x27;s own service and does not need changing.</p>
+<p>To get a token, open <strong>My Settings &gt; Apps &gt; Developer apps</strong> in Asana (https://app.asana.com/0/my-apps), then make a personal access token. Asana shows the token only one time. Copy it immediately into the <strong>Token</strong> field. In the login window, the <strong>Create Token</strong> button opens this page.</p>
+<p>The login window does not ask for a user name, because the token alone identifies the account.</p>
+<p>The host address is always the Asana service. You do not need to change it.</p>
 <h2 id="project-setup-asana-service"><strong>Project setup (Asana service)</strong></h2>
-<p>The plugin works against one Asana <strong>project</strong> inside one <strong>workspace</strong>. In the project settings:</p>
+<p>The plugin uses one Asana <strong>project</strong> in one <strong>workspace</strong>. The project settings have these two items:</p>
 <ul>
 <li><strong>Workspace</strong> selects the Asana workspace.</li>
-<li><strong>Project</strong> selects the project bugs are reported into. Archived projects are not offered.</li>
+<li><strong>Project</strong> selects the project that gets the bug reports. The list does not show archived projects.</li>
 </ul>
-<p>You can point the plugin at a project you already have, or let it create one for you. A project created by the plugin comes divided into the sections a game team usually wants: <strong>General</strong>, <strong>Gameplay</strong>, <strong>Art</strong>, <strong>Sound</strong>, <strong>Level Design</strong>, <strong>UI</strong> and <strong>Other</strong>.</p>
+<p>You can use a project that you already have, or the plugin can make a project for you. A project that the plugin makes has the sections that a game team usually needs:</p>
+<ul>
+<li><strong>General</strong></li>
+<li><strong>Gameplay</strong></li>
+<li><strong>Art</strong></li>
+<li><strong>Sound</strong></li>
+<li><strong>Level Design</strong></li>
+<li><strong>UI</strong></li>
+<li><strong>Other</strong></li>
+</ul>
 <h2 id="where-the-position-is-stored"><strong>Where the position is stored</strong></h2>
-<p>Every reported bug carries the level it was reported from and the camera it was reported at. Asana has no field of its own for these, so the plugin writes them into the <strong>task description</strong>, from where it reads them back. They travel with the description: editing it by hand in Asana can lose them, which is worth knowing before rewriting a description in the web interface.</p>
+<p>Each bug that you report keeps the level and the camera from which you reported it. Asana has no field for these values. Thus the plugin writes them into the <strong>task description</strong>, and reads them from there. The values are part of the description. If you edit the description manually in Asana, you can lose them. Remember this before you write a new description in the web interface.</p>
 <h2 id="integration-capabilities"><strong>Integration capabilities</strong></h2>
 <ul>
-<li>Attachments can be added, viewed and deleted.</li>
-<li>Comments can be added, viewed and deleted.</li>
-<li>Subtasks are read and edited as a checklist. Asana gives a task one list of subtasks, so a bug has one checklist rather than several.</li>
-<li>Custom fields already defined on the project are read and shown with the issue.</li>
+<li>You can add, view and delete attachments.</li>
+<li>You can add, view and delete comments.</li>
+<li>Subtasks appear as a checklist that you can edit. Asana gives a task one list of subtasks. Thus a bug has only one checklist.</li>
+<li>The plugin reads the custom fields that the project already has, and shows them with the issue.</li>
 </ul>
 <h2 id="known-limitations"><strong>Known limitations</strong></h2>
 <ul>
-<li><strong>Issue history is not available.</strong> Asana&#x27;s API does not expose the change log the way the plugin needs, so the History tab stays empty.</li>
-<li><strong>Status transitions are not offered.</strong> A task is either completed or it is not, and the plugin sets that directly rather than moving it through a workflow.</li>
-<li>The free plan is limited to 10 users; project and storage limits are Asana&#x27;s own.</li>
+<li><strong>Issue history is not available.</strong> The Asana API does not give the change log in the form that the plugin needs. Thus the History tab stays empty.</li>
+<li><strong>Status transitions are not available.</strong> A task is completed or not completed. The plugin sets this state directly. It does not move the task through a workflow.</li>
+<li>The free plan has a limit of 10 users. Asana sets the limits for projects and storage.</li>
 </ul>
 <h2 id="project-setup-unreal-engine"><strong>Project setup (Unreal Engine)</strong></h2>
-<p>Open <strong>Project Settings &gt; Plugins &gt; LadyBug Tracker</strong> and set:</p>
+<p>Open <strong>Project Settings &gt; Plugins &gt; LadyBug Tracker</strong>. Then do these steps:</p>
 <ol>
-<li><strong>Provider</strong> — Asana.</li>
+<li><strong>Provider</strong> — select Asana.</li>
 <li><strong>Change Login Settings</strong> — paste your personal access token.</li>
-<li><strong>Workspace</strong> — pick your Asana workspace.</li>
-<li><strong>Project</strong> — pick the project bugs should be reported to.</li>
+<li><strong>Workspace</strong> — select your Asana workspace.</li>
+<li><strong>Project</strong> — select the project that gets the bug reports.</li>
 </ol>
-<p>These settings are stored in Config/DefaultBugTracker.ini and can be shared with the team. Your token is stored separately, per user, and only when <strong>Remember Me</strong> is enabled.</p>
+<p>The plugin keeps these settings in Config/DefaultBugTracker.ini. You can share them with the team. The plugin keeps your token separately for each user. It keeps the token only when <strong>Remember Me</strong> is enabled.</p>
 </body>
 </html>
