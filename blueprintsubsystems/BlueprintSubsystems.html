@@ -44,31 +44,31 @@ nav.toc a { text-decoration: none; }
 nav.toc .toc1 { padding-left: 0; font-weight: bold; }
 nav.toc .toc2 { padding-left: 1.2em; }
 nav.toc .toc3 { padding-left: 2.4em; }
-.home { display: flex; align-items: center; gap: 0.75em;
-        font-family: Arial, Helvetica, sans-serif; font-size: 10pt;
+.home { font-family: Arial, Helvetica, sans-serif; font-size: 10pt;
         margin-bottom: 1.5em; }
-.back-button { display: inline-block; padding: 0.45em 0.8em;
-               border: 1px solid #0b3d59; border-radius: 4px;
-               text-decoration: none; }
-.plugin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(18em, 1fr));
-               gap: 1.25em; margin: 1.5em 0; }
-.plugin-card { display: block; overflow: hidden; border: 1px solid #ccd7de;
-               border-radius: 6px; color: #1a1a1a; text-decoration: none;
-               background: #fff; }
-.plugin-card:hover { border-color: #10559a; box-shadow: 0 3px 12px #0002; }
-.plugin-card img { width: 100%; aspect-ratio: 894 / 488; object-fit: cover;
-                   margin: 0; border: 0; }
-.plugin-card-body { display: block; padding: 0.85em 1em 1em; }
-.plugin-card h2 { margin: 0; font-size: 15pt; }
-.plugin-version { display: block; margin-top: 0.35em; color: #555;
-                  font-family: Arial, Helvetica, sans-serif; font-size: 9.5pt; }
+
+@media print {
+  /* A screenshot split across a page break is worse than a short page, and a
+     heading stranded at the foot of one is worse still. */
+  /* A browser drops background colours when printing unless told not to, and
+     the comparison table is the one place here where the colour is the
+     content: without it every cell prints the same shade of nothing. */
+  body { margin: 0; max-width: none; font-size: 10.5pt;
+         print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  h1, h2, h3, h4 { break-after: avoid; page-break-after: avoid; }
+  img, table, tr { break-inside: avoid; page-break-inside: avoid; }
+  h1 { break-before: page; page-break-before: page; }
+  h1:first-of-type { break-before: auto; page-break-before: auto; }
+  a { color: #10559a; text-decoration: none; }
+  .home { display: none; }
+}
+@page { margin: 18mm 16mm; }
 </style>
 </head>
 <body>
-<nav class="home"><a class="back-button" href="../index.html">&#8592; All plugins</a></nav>
 <h1 id="blueprint-subsystems">Blueprint Subsystems</h1>
 <img class="banner" src="images/BlueprintSubsystems/banner.png" alt="Blueprint Subsystems">
-<p class="byline">Author: <strong>Tomasz Klin</strong><br>Version: <strong>1.0.0</strong></p>
+<p class="byline">Author: <strong>Tomasz Klin</strong><br>Version: <strong>1.0.2</strong></p>
 <nav class="toc">
 <h2>Contents</h2>
 <ul>
@@ -93,6 +93,7 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <li class="toc2"><a href="#run-editor-validation-for-the-whole-session">Run editor validation for the whole session</a></li>
 <li class="toc1"><a href="#troubleshooting">Troubleshooting</a></li>
 <li class="toc2"><a href="#my-subsystem-works-in-the-editor-but-is-missing-from-a-build">My subsystem works in the editor but is missing from a build</a></li>
+<li class="toc2"><a href="#a-level-opened-by-name-is-missing-from-a-build">A level opened by name is missing from a build</a></li>
 <li class="toc2"><a href="#get-subsystem-returns-no-instance">Get Subsystem returns no instance</a></li>
 <li class="toc2"><a href="#initialize-runs-before-another-subsystem-is-ready">Initialize runs before another subsystem is ready</a></li>
 <li class="toc2"><a href="#recompiling-erased-state">Recompiling erased state</a></li>
@@ -107,12 +108,13 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <h1 id="getting-started">Getting started</h1>
 <ol>
 <li>Enable <strong>Blueprint Subsystems</strong> in <strong>Edit &gt; Plugins</strong>. Restart the editor if prompted.</li>
-<li>In the Content Browser, choose <strong>Add &gt; Blueprints &gt; Blueprint Subsystem</strong>.</li>
-<li>Choose a subsystem type from the table below and name the new asset.</li>
+<li>In the Content Browser, choose <strong>Add &gt; Blueprint &gt; Blueprint Subsystem</strong>.</li>
+<li>In <strong>Pick Parent Class</strong>, choose a subsystem type under <strong>Common</strong>, then name the new asset. Select <strong>?</strong> beside a type to open its section of <a href="#choosing-a-scope">Choosing a scope</a>.</li>
 <li>Open the Blueprint and add your setup logic to <strong>Initialize</strong>.</li>
 <li>Compile and save the Blueprint.</li>
 <li>In another compatible graph, search for <strong>Get</strong> followed by your Blueprint&#x27;s class name.</li>
 </ol>
+<p>To build on a subsystem Blueprint you already have, pick it under <strong>All Classes</strong> instead. Each subsystem Blueprint is listed there under the type it extends.</p>
 <p>With automatic discovery enabled, the plugin finds saved subsystem Blueprints and registers them with the engine. Restart the editor after changing discovery settings that require a restart.</p>
 <h1 id="choosing-a-scope">Choosing a scope</h1>
 <p>A subsystem&#x27;s scope decides how many instances exist and how long each one lasts. Choose the scope that matches the data and logic you want to keep.</p>
@@ -162,6 +164,7 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <p>The order in which classes are found does not guarantee their initialization order. If you only need the other subsystem later, get it when you need it.</p>
 <h1 id="discovery-and-packaging">Discovery and packaging</h1>
 <p>Automatic discovery finds subsystem Blueprint classes and registers them with Unreal Engine. It also includes their assets when packaging the game, even when no other asset references them.</p>
+<p>The plugin includes only subsystem Blueprints and the assets they use. A level that your game opens only by name must still be listed in the packaging settings. See <a href="#a-level-opened-by-name-is-missing-from-a-build">A level opened by name is missing from a build</a>.</p>
 <p>Open <strong>Project Settings &gt; Plugins &gt; Blueprint Subsystems</strong>:</p>
 <ul>
 <li><strong>Auto Discover Blueprint Subsystems</strong> enables the search for subsystem Blueprints.</li>
@@ -208,6 +211,15 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <h2 id="my-subsystem-works-in-the-editor-but-is-missing-from-a-build">My subsystem works in the editor but is missing from a build</h2>
 <p>Check that automatic discovery can find the Blueprint or add it to <strong>Additional Subsystem Classes</strong>. If <strong>Search Paths</strong> contains folders, the asset must be in one of them unless listed separately.</p>
 <p>Build with the source plugin. Copying only binaries generated by the editor is not enough for other build targets.</p>
+<h2 id="a-level-opened-by-name-is-missing-from-a-build">A level opened by name is missing from a build</h2>
+<p>Unreal Engine packages the maps listed in <strong>Project Settings &gt; Packaging &gt; List of maps to include in a packaged build</strong>, the default maps from <strong>Maps &amp; Modes</strong>, and everything those maps use. <strong>Open Level (by Name)</strong> names a level without referencing it, so that level is packaged only when it is listed.</p>
+<p>With an empty list, the engine packages all project content instead, but only when nothing asks for specific content. In Unreal Engine 5.6 to 5.8, the <strong>NNEDenoiser</strong> plugin is enabled by default and asks for its own content, so most projects never reach that step. Blueprint Subsystems includes your subsystems without such a request. Version 1.0.1 and earlier made one, which skipped that step in every project with a subsystem Blueprint.</p>
+<p>To package the level, do one of the following:</p>
+<ul>
+<li>Add it to <strong>List of maps to include in a packaged build</strong>, in the advanced options of the <strong>Packaging</strong> section.</li>
+<li>Open it with <strong>Open Level (by Object Reference)</strong>. The engine follows that reference when packaging.</li>
+</ul>
+<p>For other content that your game loads only by name or path, add its folder to <strong>Additional Asset Directories to Cook</strong>, or enable <strong>Cook everything in the project content directory (ignore list of maps below)</strong>.</p>
 <h2 id="get-subsystem-returns-no-instance">Get Subsystem returns no instance</h2>
 <p>Check that the Get node uses the correct scope and owner. Then check <strong>Should Create Subsystem</strong> and <strong>Supported World Types</strong>.</p>
 <p>A Local Player subsystem needs a local player; dedicated servers have none. An Editor subsystem is available only in the editor.</p>
@@ -220,6 +232,6 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <p>Check <strong>Tick Enabled</strong>, <strong>Is Tick Enabled</strong>, <strong>Supported World Types</strong> and <strong>Tick In Editor</strong>. To update while the game is paused, also enable <strong>Tick When Paused</strong>.</p>
 <h1 id="support">Support</h1>
 <p>For help or bug reports, contact <strong>tomasz.klin@gmail.com</strong>.</p>
-<p>Include your Unreal Engine version, plugin version, subsystem scope and world type. This manual covers plugin version 1.0.0.</p>
+<p>Include your Unreal Engine version, plugin version, subsystem scope and world type. This manual covers plugin version 1.0.2.</p>
 </body>
 </html>

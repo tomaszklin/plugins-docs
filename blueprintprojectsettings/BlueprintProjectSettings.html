@@ -44,31 +44,31 @@ nav.toc a { text-decoration: none; }
 nav.toc .toc1 { padding-left: 0; font-weight: bold; }
 nav.toc .toc2 { padding-left: 1.2em; }
 nav.toc .toc3 { padding-left: 2.4em; }
-.home { display: flex; align-items: center; gap: 0.75em;
-        font-family: Arial, Helvetica, sans-serif; font-size: 10pt;
+.home { font-family: Arial, Helvetica, sans-serif; font-size: 10pt;
         margin-bottom: 1.5em; }
-.back-button { display: inline-block; padding: 0.45em 0.8em;
-               border: 1px solid #0b3d59; border-radius: 4px;
-               text-decoration: none; }
-.plugin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(18em, 1fr));
-               gap: 1.25em; margin: 1.5em 0; }
-.plugin-card { display: block; overflow: hidden; border: 1px solid #ccd7de;
-               border-radius: 6px; color: #1a1a1a; text-decoration: none;
-               background: #fff; }
-.plugin-card:hover { border-color: #10559a; box-shadow: 0 3px 12px #0002; }
-.plugin-card img { width: 100%; aspect-ratio: 894 / 488; object-fit: cover;
-                   margin: 0; border: 0; }
-.plugin-card-body { display: block; padding: 0.85em 1em 1em; }
-.plugin-card h2 { margin: 0; font-size: 15pt; }
-.plugin-version { display: block; margin-top: 0.35em; color: #555;
-                  font-family: Arial, Helvetica, sans-serif; font-size: 9.5pt; }
+
+@media print {
+  /* A screenshot split across a page break is worse than a short page, and a
+     heading stranded at the foot of one is worse still. */
+  /* A browser drops background colours when printing unless told not to, and
+     the comparison table is the one place here where the colour is the
+     content: without it every cell prints the same shade of nothing. */
+  body { margin: 0; max-width: none; font-size: 10.5pt;
+         print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  h1, h2, h3, h4 { break-after: avoid; page-break-after: avoid; }
+  img, table, tr { break-inside: avoid; page-break-inside: avoid; }
+  h1 { break-before: page; page-break-before: page; }
+  h1:first-of-type { break-before: auto; page-break-before: auto; }
+  a { color: #10559a; text-decoration: none; }
+  .home { display: none; }
+}
+@page { margin: 18mm 16mm; }
 </style>
 </head>
 <body>
-<nav class="home"><a class="back-button" href="../index.html">&#8592; All plugins</a></nav>
 <h1 id="blueprint-project-settings">Blueprint Project Settings</h1>
 <img class="banner" src="images/BlueprintProjectSettings/banner.png" alt="Blueprint Project Settings">
-<p class="byline">Author: <strong>Tomasz Klin</strong><br>Version: <strong>1.0.0</strong></p>
+<p class="byline">Author: <strong>Tomasz Klin</strong><br>Version: <strong>1.0.2</strong></p>
 <nav class="toc">
 <h2>Contents</h2>
 <ul>
@@ -96,6 +96,7 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <li class="toc2"><a href="#get-settings-has-no-variables-to-drag-off">Get Settings has no variables to drag off</a></li>
 <li class="toc2"><a href="#save-settings-returns-false-in-the-editor">Save Settings returns false in the editor</a></li>
 <li class="toc2"><a href="#my-settings-work-in-the-editor-and-are-missing-from-a-build">My settings work in the editor and are missing from a build</a></li>
+<li class="toc2"><a href="#a-level-opened-by-name-is-missing-from-a-build">A level opened by name is missing from a build</a></li>
 <li class="toc2"><a href="#saving-does-nothing-in-a-packaged-game">Saving does nothing in a packaged game</a></li>
 <li class="toc2"><a href="#values-are-back-to-the-defaults-after-i-moved-the-asset">Values are back to the defaults after I moved the asset</a></li>
 <li class="toc2"><a href="#reset-to-defaults-does-nothing">Reset to Defaults does nothing</a></li>
@@ -254,6 +255,7 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <p><strong>Save Config Variables</strong> and <strong>Reload Config Variables</strong> also work on objects outside this plugin&#x27;s settings classes. Use them for Blueprint variables marked <strong>Config Variable</strong>.</p>
 <h2 id="packaging">Packaging</h2>
 <p>The plugin includes the settings Blueprints it discovers when packaging the game. You do not need another asset to reference each settings Blueprint.</p>
+<p>The plugin includes only settings Blueprints and the assets they use. A level that your game opens only by name must still be listed in the packaging settings. See <a href="#a-level-opened-by-name-is-missing-from-a-build">A level opened by name is missing from a build</a>.</p>
 <p>Packaging uses the defaults set in the Blueprint, not the current ini values on the build machine. This applies to builds made from the editor and from build scripts.</p>
 <p>Open <strong>Project Settings &gt; Plugins &gt; Blueprint Unchained — Project Settings</strong> to control discovery. By default, the search covers all available content folders, including plugin content. You can limit it to selected paths or list classes in <strong>Additional Settings Classes</strong>. Listed classes are configured even if they are outside the search paths or automatic discovery is off.</p>
 <h1 id="troubleshooting">Troubleshooting</h1>
@@ -266,6 +268,15 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <p>Check that the variables have <strong>Config Variable</strong> enabled. At least one config variable is needed to save values. Read the log if saving still fails.</p>
 <h2 id="my-settings-work-in-the-editor-and-are-missing-from-a-build">My settings work in the editor and are missing from a build</h2>
 <p>Check that the Blueprint is in a search folder or listed under <strong>Additional Settings Classes</strong>. If automatic discovery is disabled, only listed classes are configured.</p>
+<h2 id="a-level-opened-by-name-is-missing-from-a-build">A level opened by name is missing from a build</h2>
+<p>Unreal Engine packages the maps listed in <strong>Project Settings &gt; Packaging &gt; List of maps to include in a packaged build</strong>, the default maps from <strong>Maps &amp; Modes</strong>, and everything those maps use. <strong>Open Level (by Name)</strong> names a level without referencing it, so that level is packaged only when it is listed.</p>
+<p>With an empty list, the engine packages all project content instead, but only when nothing asks for specific content. In Unreal Engine 5.6 to 5.8, the <strong>NNEDenoiser</strong> plugin is enabled by default and asks for its own content, so most projects never reach that step. Blueprint Project Settings includes your settings Blueprints without such a request. Version 1.0.1 and earlier made one, which skipped that step in every project with a settings Blueprint.</p>
+<p>To package the level, do one of the following:</p>
+<ul>
+<li>Add it to <strong>List of maps to include in a packaged build</strong>, in the advanced options of the <strong>Packaging</strong> section.</li>
+<li>Open it with <strong>Open Level (by Object Reference)</strong>. The engine follows that reference when packaging.</li>
+</ul>
+<p>For other content that your game loads only by name or path, add its folder to <strong>Additional Asset Directories to Cook</strong>, or enable <strong>Cook everything in the project content directory (ignore list of maps below)</strong>.</p>
 <h2 id="saving-does-nothing-in-a-packaged-game">Saving does nothing in a packaged game</h2>
 <p>Use <strong>Storage = Saved</strong> for values the game needs to write. Project Default cannot be written by a packaged game.</p>
 <p>Also check <strong>Config File</strong>. Editor config files are available only in the editor. Read the log for the reason Save Settings returned false.</p>
@@ -276,6 +287,6 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <p>Check the node&#x27;s result and the log. Reset returns false if defaults were not recorded, as with a settings class written in C++, or if the restored values could not be saved.</p>
 <h1 id="support">Support</h1>
 <p>For help or bug reports, contact <strong>tomasz.klin@gmail.com</strong>.</p>
-<p>Include your Unreal Engine version, plugin version, Storage option and Config File option. This manual covers plugin version 1.0.0.</p>
+<p>Include your Unreal Engine version, plugin version, Storage option and Config File option. This manual covers plugin version 1.0.2.</p>
 </body>
 </html>

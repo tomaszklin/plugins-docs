@@ -44,36 +44,41 @@ nav.toc a { text-decoration: none; }
 nav.toc .toc1 { padding-left: 0; font-weight: bold; }
 nav.toc .toc2 { padding-left: 1.2em; }
 nav.toc .toc3 { padding-left: 2.4em; }
-.home { display: flex; align-items: center; gap: 0.75em;
-        font-family: Arial, Helvetica, sans-serif; font-size: 10pt;
+.home { font-family: Arial, Helvetica, sans-serif; font-size: 10pt;
         margin-bottom: 1.5em; }
-.back-button { display: inline-block; padding: 0.45em 0.8em;
-               border: 1px solid #0b3d59; border-radius: 4px;
-               text-decoration: none; }
-.plugin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(18em, 1fr));
-               gap: 1.25em; margin: 1.5em 0; }
-.plugin-card { display: block; overflow: hidden; border: 1px solid #ccd7de;
-               border-radius: 6px; color: #1a1a1a; text-decoration: none;
-               background: #fff; }
-.plugin-card:hover { border-color: #10559a; box-shadow: 0 3px 12px #0002; }
-.plugin-card img { width: 100%; aspect-ratio: 894 / 488; object-fit: cover;
-                   margin: 0; border: 0; }
-.plugin-card-body { display: block; padding: 0.85em 1em 1em; }
-.plugin-card h2 { margin: 0; font-size: 15pt; }
-.plugin-version { display: block; margin-top: 0.35em; color: #555;
-                  font-family: Arial, Helvetica, sans-serif; font-size: 9.5pt; }
+
+@media print {
+  /* A screenshot split across a page break is worse than a short page, and a
+     heading stranded at the foot of one is worse still. */
+  /* A browser drops background colours when printing unless told not to, and
+     the comparison table is the one place here where the colour is the
+     content: without it every cell prints the same shade of nothing. */
+  body { margin: 0; max-width: none; font-size: 10.5pt;
+         print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  h1, h2, h3, h4 { break-after: avoid; page-break-after: avoid; }
+  img, table, tr { break-inside: avoid; page-break-inside: avoid; }
+  h1 { break-before: page; page-break-before: page; }
+  h1:first-of-type { break-before: auto; page-break-before: auto; }
+  a { color: #10559a; text-decoration: none; }
+  .home { display: none; }
+}
+@page { margin: 18mm 16mm; }
 </style>
 </head>
 <body>
-<nav class="home"><a class="back-button" href="../index.html">&#8592; All plugins</a></nav>
 <h1 id="blueprint-unchained">Blueprint Unchained</h1>
 <img class="banner" src="images/BlueprintUnchained/banner.png" alt="Blueprint Unchained">
-<p class="byline">Author: <strong>Tomasz Klin</strong><br>Version: <strong>1.0.0</strong></p>
+<p class="byline">Author: <strong>Tomasz Klin</strong><br>Version: <strong>1.0.1</strong></p>
 <nav class="toc">
 <h2>Contents</h2>
 <ul>
 <li class="toc1"><a href="#introduction">Introduction</a></li>
 <li class="toc1"><a href="#getting-started">Getting started</a></li>
+<li class="toc1"><a href="#using-only-some-of-the-tools-in-a-project">Using only some of the tools in a project</a></li>
+<li class="toc2"><a href="#split-the-bundle">Split the bundle</a></li>
+<li class="toc2"><a href="#update-the-split-plugins">Update the split plugins</a></li>
+<li class="toc2"><a href="#undo-the-split">Undo the split</a></li>
+<li class="toc2"><a href="#before-you-change-the-engine-version">Before you change the engine version</a></li>
 <li class="toc1"><a href="#blueprint-quaternion">Blueprint Quaternion</a></li>
 <li class="toc1"><a href="#blueprint-subsystems">Blueprint Subsystems</a></li>
 <li class="toc1"><a href="#blueprint-instanced-struct">Blueprint Instanced Struct</a></li>
@@ -82,87 +87,189 @@ nav.toc .toc3 { padding-left: 2.4em; }
 <li class="toc2"><a href="#a-global-event-service">A global event service</a></li>
 <li class="toc2"><a href="#per-world-rotation-commands">Per-world rotation commands</a></li>
 <li class="toc2"><a href="#per-player-orientation-state">Per-player orientation state</a></li>
-<li class="toc2"><a href="#a-service-configured-in-project-settings">A service configured in Project Settings</a></li>
+<li class="toc2"><a href="#a-service-that-you-configure-in-project-settings">A service that you configure in Project Settings</a></li>
 <li class="toc1"><a href="#packaging-and-platforms">Packaging and platforms</a></li>
 <li class="toc1"><a href="#troubleshooting">Troubleshooting</a></li>
 <li class="toc2"><a href="#unreal-reports-a-duplicate-module-or-class">Unreal reports a duplicate module or class</a></li>
+<li class="toc2"><a href="#a-level-opened-by-name-is-missing-from-a-build">A level opened by name is missing from a build</a></li>
 <li class="toc2"><a href="#i-only-need-one-of-the-four-toolsets">I only need one of the four toolsets</a></li>
-<li class="toc2"><a href="#a-problem-belongs-to-one-toolset">A problem belongs to one toolset</a></li>
+<li class="toc2"><a href="#split-blueprint-unchained-reports-that-a-folder-already-exists">Split Blueprint Unchained reports that a folder already exists</a></li>
+<li class="toc2"><a href="#split-blueprint-unchained-reports-that-a-tool-is-also-installed-on-its-own">Split Blueprint Unchained reports that a tool is also installed on its own</a></li>
+<li class="toc2"><a href="#the-editor-reports-that-the-split-plugins-were-not-changed">The editor reports that the split plugins were not changed</a></li>
+<li class="toc2"><a href="#a-problem-occurs-in-one-toolset">A problem occurs in one toolset</a></li>
 <li class="toc1"><a href="#support">Support</a></li>
 </ul>
 </nav>
 <h1 id="introduction">Introduction</h1>
-<p>Blueprint Unchained gives you four tools for building your project in Blueprint:</p>
+<p>Blueprint Unchained gives you four tools for Blueprint:</p>
 <ul>
-<li><strong>Blueprint Quaternion</strong> helps you aim, turn and combine rotations.</li>
-<li><strong>Blueprint Subsystems</strong> lets you create systems for your game, worlds, local players and editor.</li>
-<li><strong>Blueprint Instanced Struct</strong> helps you work with different struct types in one variable or array.</li>
-<li><strong>Blueprint Project Settings</strong> lets you create your own settings pages and save their values in ini files.</li>
+<li><strong>Blueprint Quaternion</strong> helps you aim objects, turn them and combine rotations.</li>
+<li><strong>Blueprint Subsystems</strong> lets you make subsystems for your game, your worlds, your local players and the editor.</li>
+<li><strong>Blueprint Instanced Struct</strong> lets you keep different struct types in one variable or one array.</li>
+<li><strong>Blueprint Project Settings</strong> lets you make your own settings pages and keep their values in ini files.</li>
 </ul>
-<p>The bundle includes the full version of each plugin. You can use any tool on its own or combine them. No C++ is required.</p>
+<p>The bundle contains the full version of each plugin. You can use each tool alone or together with the other tools. You do not need C++.</p>
 <h1 id="getting-started">Getting started</h1>
 <ol>
-<li>Enable <strong>Blueprint Unchained</strong> in <strong>Edit &gt; Plugins</strong>.</li>
-<li>Restart the editor if prompted.</li>
-<li>Choose a tool below and follow its setup guide.</li>
+<li>In <strong>Edit &gt; Plugins</strong>, enable <strong>Blueprint Unchained</strong>.</li>
+<li>If the editor tells you to restart, restart it.</li>
+<li>Select a tool below and read its setup guide.</li>
 </ol>
-<p>Install only the bundle in a project that uses Blueprint Unchained. It already contains all four plugins. Adding separate copies creates duplicate modules and classes, which can prevent the project from loading.</p>
-<p>Each linked manual includes setup steps, a node reference, examples and troubleshooting.</p>
+<p>In a project that uses Blueprint Unchained, install only the bundle. The bundle contains all four plugins. If you also install a separate copy of a plugin, the project has two copies of the same modules and classes. Then the project can fail to open.</p>
+<p>Each linked manual has setup steps, a node reference, examples and troubleshooting.</p>
+<h1 id="using-only-some-of-the-tools-in-a-project">Using only some of the tools in a project</h1>
+<p>Fab sells one plugin for each product. Thus Blueprint Unchained is the four plugins in one plugin, and a project that enables it gets all four tools.</p>
+<p>To keep only some of the tools in a project, split the bundle in that project. The split makes four separate plugins in the project. Then you disable the tools that the project does not use. Your other projects keep the full bundle.</p>
+<h2 id="split-the-bundle">Split the bundle</h2>
+<p>Open the project. Then select <strong>Tools &gt; Split Blueprint Unchained</strong>.</p>
+<img src="images/BlueprintUnchained/split-menu.png" alt="The Split Blueprint Unchained item in the Tools menu">
+<p>Read the message, then click <strong>OK</strong>. The editor does these steps:</p>
+<ol>
+<li>It copies the four plugins into the <strong>Plugins</strong> folder of the project.</li>
+<li>It disables Blueprint Unchained in this project.</li>
+<li>It restarts.</li>
+</ol>
+<img src="images/BlueprintUnchained/split-confirm.png" alt="The message before the split">
+<p>Open <strong>Edit &gt; Plugins</strong>. The four tools are separate plugins now. <strong>Blueprint Unchained Split</strong> is also in the list. This plugin keeps the four tools up to date.</p>
+<img src="images/BlueprintUnchained/split-plugins.png" alt="The split plugins in the Plugins window">
+<p>For each tool that the project does not use, clear the <strong>Enabled</strong> check box. Then restart the editor.</p>
+<p>Keep <strong>Blueprint Unchained Split</strong> enabled. If you disable it, the project does not tell you about updates.</p>
+<p>If a Blueprint uses a tool that you disabled, the Blueprint does not compile. To use the tool again, enable it.</p>
+<h2 id="update-the-split-plugins">Update the split plugins</h2>
+<p>Fab updates Blueprint Unchained in the engine folder. Fab does not update the copies in your project. When a newer Blueprint Unchained is installed, the editor shows a notification when the project opens.</p>
+<img src="images/BlueprintUnchained/split-update-notification.png" alt="The notification about a newer Blueprint Unchained">
+<p>Click <strong>Update</strong>, then click <strong>OK</strong>. If you have changes that are not saved, the editor asks you to save them. Then the editor closes, replaces the copies and opens the project again. The tools that you disabled stay disabled.</p>
+<p>To look for an update at a different time, select <strong>Tools &gt; Check for Updates</strong>. The editor compares the version of the split plugins with the version of the installed Blueprint Unchained. If the installed version is newer, the editor asks you to update. If it is not newer, the editor tells you that the split plugins are up to date.</p>
+<img src="images/BlueprintUnchained/split-tools-menu.png" alt="The Check for Updates and Undo Split items in the Tools menu">
+<h2 id="undo-the-split">Undo the split</h2>
+<p>Select <strong>Tools &gt; Undo Split</strong>, then click <strong>OK</strong>. The editor does these steps:</p>
+<ol>
+<li>It asks you to save the changes that are not saved.</li>
+<li>It enables Blueprint Unchained again, and closes.</li>
+<li>It deletes the split plugins from the <strong>Plugins</strong> folder of the project.</li>
+<li>It opens the project again.</li>
+</ol>
+<p>The project then has all four tools again.</p>
+<h2 id="before-you-change-the-engine-version">Before you change the engine version</h2>
+<p>The split plugins work only with the engine version that the project had at the time of the split. Before you open the project in a different engine version, do these steps:</p>
+<ol>
+<li>In the current engine version, select <strong>Tools &gt; Undo Split</strong>.</li>
+<li>Open the project in the new engine version.</li>
+<li>Split the bundle again.</li>
+</ol>
+<p>If you already opened the project in the new engine version, do these steps:</p>
+<ol>
+<li>Close the editor.</li>
+<li>In the <strong>Plugins</strong> folder of the project, delete these folders: <code>BlueprintQuaternion</code>, <code>BlueprintSubsystems</code>, <code>BlueprintInstancedStruct</code>, <code>BlueprintProjectSettings</code> and <code>BlueprintUnchainedSplit</code>.</li>
+<li>Open the project. In <strong>Edit &gt; Plugins</strong>, enable <strong>Blueprint Unchained</strong>.</li>
+</ol>
 <h1 id="blueprint-quaternion">Blueprint Quaternion</h1>
-<p>Use these 85 nodes to control rotations in your graphs. For example, turn a turret towards a target, align an object with a surface or smooth rotation data from a tracked device.</p>
-<p>The nodes work with quaternions, which represent 3D rotations without gimbal lock. They cover creating, combining, comparing and blending rotations. All angle pins use degrees. Rotation operations normalize their inputs, and the library supports thread-safe Animation Blueprint updates through <code>BlueprintThreadSafe</code>.</p>
-<p>The Details panel lets you edit quaternion values as Euler angles, as an axis and angle, or as X, Y, Z and W components. You can turn this display off in Editor Preferences.</p>
+<p>Use these 85 nodes to control rotations in your graphs. For example, you can turn a turret to a target, align an object with a surface, or make the rotation data from a tracked device smooth.</p>
+<p>The nodes use quaternions. A quaternion is a 3D rotation that does not have gimbal lock. The nodes make, combine, compare and blend rotations. All angle pins use degrees. Each rotation operation normalizes its inputs. The library is thread-safe for Animation Blueprint updates (<code>BlueprintThreadSafe</code>).</p>
+<p>In the Details panel, you can edit a quaternion value in three forms:</p>
+<ul>
+<li>Euler angles</li>
+<li>An axis and an angle</li>
+<li>The X, Y, Z and W components</li>
+</ul>
+<p>To disable this display, use Editor Preferences.</p>
 <p>Read the <a href="../blueprintquaternion/BlueprintQuaternion.html">Blueprint Quaternion manual</a>.</p>
 <h1 id="blueprint-subsystems">Blueprint Subsystems</h1>
-<p>Use a subsystem for shared data and logic. A Game Instance subsystem can keep quest progress between level changes. A Local Player subsystem can hold separate data for each split-screen player.</p>
-<p>Create Engine, Editor, Game Instance, World, Tickable World or Local Player subsystems in Blueprint. Unreal Engine creates and removes their instances. Blueprint events let you control what happens when a subsystem starts, updates or stops.</p>
-<p>The plugin finds your subsystem Blueprints and includes them when packaging the game. Project Settings lets you choose search folders or list classes directly. Blueprint nodes also let you register classes and search for new ones while the game is running.</p>
+<p>Use a subsystem for data and logic that many Blueprints share. For example:</p>
+<ul>
+<li>A Game Instance subsystem can keep quest progress when the level changes.</li>
+<li>A Local Player subsystem can keep different data for each split-screen player.</li>
+</ul>
+<p>You can make these subsystems in Blueprint: Engine, Editor, Game Instance, World, Tickable World and Local Player. Unreal Engine makes and removes their instances. Use the Blueprint events to control what occurs when a subsystem starts, updates or stops.</p>
+<p>The plugin finds your subsystem Blueprints. It also adds them to the packaged game. In Project Settings, you can set the folders that the plugin searches, or you can list the classes. Blueprint nodes also let you register classes and search for new classes while the game runs.</p>
 <p>Read the <a href="../blueprintsubsystems/BlueprintSubsystems.html">Blueprint Subsystems manual</a>.</p>
 <h1 id="blueprint-instanced-struct">Blueprint Instanced Struct</h1>
-<p>Use an Instanced Struct when entries need different kinds of data. For example, weapons and potions can use different structs while sharing one inventory array.</p>
-<p>Each Instanced Struct value holds one struct at a time. An array can contain values of different types. The nodes use Unreal Engine&#x27;s own <code>FInstancedStruct</code> type, so existing data remains compatible.</p>
-<p>Choose the struct type directly on Get and Set nodes. Other nodes let you check types, create default values, compare values and find or filter array entries. You can also export a value to text and read it back. Structs made in Blueprint and C++ are supported.</p>
+<p>Use an Instanced Struct when the entries need different types of data. For example, weapons and potions can use different structs and stay in one inventory array.</p>
+<p>Each Instanced Struct value holds one struct. An array can hold values of different types. The nodes use the <code>FInstancedStruct</code> type of Unreal Engine, thus your current data stays compatible.</p>
+<p>On the Get and Set nodes, you select the struct type. Other nodes let you do these tasks:</p>
+<ul>
+<li>Check the type of a value.</li>
+<li>Make default values.</li>
+<li>Compare values.</li>
+<li>Find and filter array entries.</li>
+<li>Export a value to text, and read it back.</li>
+</ul>
+<p>Structs that you make in Blueprint and in C++ both work.</p>
 <p>Read the <a href="../blueprintinstancedstruct/BlueprintInstancedStruct.html">Blueprint Instanced Struct manual</a>.</p>
 <h1 id="blueprint-project-settings">Blueprint Project Settings</h1>
-<p>Create pages for project settings and editor tool preferences. For example, keep a server address in Project Settings or a placement tool&#x27;s grid size in Editor Preferences.</p>
-<p>Choose <strong>Add &gt; Blueprint &gt; Blueprint Project Settings</strong> in the Content Browser and add variables with <strong>Config Variable</strong> enabled. Compile it to create the page. Use <strong>Get Settings</strong> in other Blueprints to read the values.</p>
-<p>The values are stored in standard ini files. Choose shared project settings, personal settings for each developer, or <strong>Saved</strong> storage for values a packaged game needs to write. <strong>Save Settings</strong>, <strong>Reload Settings</strong> and <strong>Reset Settings To Defaults</strong> manage those values.</p>
-<p>Set a fixed <strong>Section Id</strong> to keep saved values when you move or rename the Blueprint. The plugin finds settings Blueprints and includes them when packaging the game.</p>
+<p>Make pages for project settings and for the preferences of editor tools. For example, keep a server address in Project Settings, or the grid size of a placement tool in Editor Preferences.</p>
+<p>To make a page, do these steps:</p>
+<ol>
+<li>In the Content Browser, select <strong>Add &gt; Blueprint &gt; Blueprint Project Settings</strong>.</li>
+<li>Add variables. For each variable, enable <strong>Config Variable</strong>.</li>
+<li>Compile the Blueprint. The page appears.</li>
+</ol>
+<p>To read the values in other Blueprints, use <strong>Get Settings</strong>.</p>
+<p>The values are in standard ini files. You can select one of these storage types:</p>
+<ul>
+<li>Shared project settings.</li>
+<li>Personal settings for each developer.</li>
+<li><strong>Saved</strong> storage, for values that a packaged game must write.</li>
+</ul>
+<p>Use <strong>Save Settings</strong>, <strong>Reload Settings</strong> and <strong>Reset Settings To Defaults</strong> to manage the values.</p>
+<p>Set a fixed <strong>Section Id</strong> to keep the saved values when you move or rename the Blueprint. The plugin finds settings Blueprints. It also adds them to the packaged game.</p>
 <p>Read the <a href="../blueprintprojectsettings/BlueprintProjectSettings.html">Blueprint Project Settings manual</a>.</p>
 <h1 id="using-the-toolsets-together">Using the toolsets together</h1>
 <h2 id="a-global-event-service">A global event service</h2>
 <ol>
-<li>Create a Game Instance subsystem.</li>
-<li>Add an array of Instanced Struct values to hold events.</li>
-<li>Give each event type its own struct, such as damage or healing.</li>
-<li>Check each value&#x27;s type and pass it to the Blueprint logic that handles that event.</li>
+<li>Make a Game Instance subsystem.</li>
+<li>Add an array of Instanced Struct values. The array keeps the events.</li>
+<li>Give each event type its own struct, for example damage or healing.</li>
+<li>Check the type of each value. Send the value to the Blueprint logic for that event type.</li>
 </ol>
-<p>The subsystem keeps the queue between level changes.</p>
+<p>The subsystem keeps the events when the level changes.</p>
 <h2 id="per-world-rotation-commands">Per-world rotation commands</h2>
-<p>Create a World subsystem to receive rotation commands. Store each command as an Instanced Struct. For example, one struct can hold a target quaternion and another can hold an axis and angle.</p>
-<p>Use quaternion nodes to apply the command. Keep the rotation as a quaternion between operations when you do not need a Rotator.</p>
+<p>Make a World subsystem that receives rotation commands. Keep each command in an Instanced Struct. For example, one struct can hold a target quaternion, and a different struct can hold an axis and an angle.</p>
+<p>Use quaternion nodes to apply the command. If you do not need a Rotator, keep the rotation as a quaternion between the operations.</p>
 <h2 id="per-player-orientation-state">Per-player orientation state</h2>
-<p>Create a Local Player subsystem to store each player&#x27;s tracking calibration. Use quaternion smoothing on incoming device rotations. If devices need different calibration data, keep each device&#x27;s data in an Instanced Struct.</p>
-<h2 id="a-service-configured-in-project-settings">A service configured in Project Settings</h2>
+<p>Make a Local Player subsystem. Keep the tracking calibration of each player in it. Use quaternion smoothing on the rotations from the devices. If the devices need different calibration data, keep the data of each device in an Instanced Struct.</p>
+<h2 id="a-service-that-you-configure-in-project-settings">A service that you configure in Project Settings</h2>
 <ol>
-<li>Create a settings Blueprint with a server address, retry interval and logging option.</li>
-<li>Read those values with <strong>Get Settings</strong> when a Game Instance subsystem initializes.</li>
-<li>Bind to <strong>On Settings Changed</strong> if the subsystem needs to respond when settings change.</li>
+<li>Make a settings Blueprint with a server address, a retry interval and a logging option.</li>
+<li>When a Game Instance subsystem starts, read these values with <strong>Get Settings</strong>.</li>
+<li>If the subsystem must react to changes, bind to <strong>On Settings Changed</strong>.</li>
 </ol>
-<p>The settings page saves the values to the selected ini file. With the default storage, they are in <code>DefaultGame.ini</code>, where your team can review changes in source control.</p>
+<p>The settings page saves the values to the ini file that you selected. With the default storage, the values are in <code>DefaultGame.ini</code>. Your team can examine the changes in source control.</p>
 <h1 id="packaging-and-platforms">Packaging and platforms</h1>
-<p>You can develop on Windows, macOS and Linux. The runtime modules also support Android. Editor and UncookedOnly modules are excluded from packaged games.</p>
-<p>Blueprint Subsystems and Blueprint Project Settings include the Blueprints they discover during packaging. Check their search settings if you limit discovery to specific folders.</p>
-<p>The Quaternion and Instanced Struct tools add code. They do not contain assets that need extra packaging rules. The bundle does not include an example project or ready-made Blueprint assets.</p>
+<p>You can develop on Windows, macOS and Linux. The runtime modules also support Android. Packaged games do not contain the Editor and UncookedOnly modules.</p>
+<p>Blueprint Subsystems and Blueprint Project Settings add the Blueprints that they find to the packaged game. If you limit the search to some folders, make sure that the search settings are correct.</p>
+<p>The packaged game gets only these Blueprints and the assets that they use. If your game opens a level only by its name, you must still list that level in the packaging settings. See <a href="#a-level-opened-by-name-is-missing-from-a-build">A level opened by name is missing from a build</a>.</p>
+<p>The Quaternion and Instanced Struct tools add code only. They do not have assets that need more packaging rules. The bundle does not have an example project or Blueprint assets.</p>
 <h1 id="troubleshooting">Troubleshooting</h1>
 <h2 id="unreal-reports-a-duplicate-module-or-class">Unreal reports a duplicate module or class</h2>
-<p>Check the project&#x27;s installed plugins. If you use Blueprint Unchained, remove the separate copies of Blueprint Quaternion, Blueprint Subsystems, Blueprint Instanced Struct and Blueprint Project Settings. Keep the bundle or the individual plugins in each project.</p>
+<p>Examine the plugins that are installed for the project. If you use Blueprint Unchained, remove the separate copies of Blueprint Quaternion, Blueprint Subsystems, Blueprint Instanced Struct and Blueprint Project Settings. In each project, use the bundle or the separate plugins, not both.</p>
+<h2 id="a-level-opened-by-name-is-missing-from-a-build">A level opened by name is missing from a build</h2>
+<p>Unreal Engine packages these maps and all the content that they use:</p>
+<ul>
+<li>The maps in <strong>Project Settings &gt; Packaging &gt; List of maps to include in a packaged build</strong>.</li>
+<li>The default maps in <strong>Maps &amp; Modes</strong>.</li>
+</ul>
+<p><strong>Open Level (by Name)</strong> gives the name of a level, but it does not reference the level. Thus the engine packages that level only if it is in the list.</p>
+<p>If the list is empty, the engine packages all the project content. But it does this only when no plugin requests specific content. In Unreal Engine 5.6 to 5.8, the <strong>NNEDenoiser</strong> plugin is enabled by default, and it requests its own content. Thus most projects do not get all the content.</p>
+<p>Blueprint Unchained adds your subsystem and settings Blueprints without such a request. Version 1.0.0 made a request. Thus in version 1.0.0, each project with such a Blueprint did not get all the content.</p>
+<p>To package the level, do one of these steps:</p>
+<ul>
+<li>Add the level to <strong>List of maps to include in a packaged build</strong>. This setting is in the advanced options of the <strong>Packaging</strong> section.</li>
+<li>Open the level with <strong>Open Level (by Object Reference)</strong>. The engine follows this reference when it packages the game.</li>
+</ul>
+<p>Your game can also load other content only by name or path. For this content, add its folder to <strong>Additional Asset Directories to Cook</strong>. Or enable <strong>Cook everything in the project content directory (ignore list of maps below)</strong>.</p>
 <h2 id="i-only-need-one-of-the-four-toolsets">I only need one of the four toolsets</h2>
-<p>You can use one tool without using the others. Each tool is also sold separately. The bundle includes the full features of every tool.</p>
-<h2 id="a-problem-belongs-to-one-toolset">A problem belongs to one toolset</h2>
-<p>Open that tool&#x27;s manual and read its Troubleshooting section. When reporting the problem, include the tool&#x27;s name, Unreal Engine version and plugin version.</p>
+<p>You can use one tool and not use the other tools. To remove the other tools from a project, split the bundle. Then disable the tools that you do not need. See <a href="#using-only-some-of-the-tools-in-a-project">Using only some of the tools in a project</a>.</p>
+<h2 id="split-blueprint-unchained-reports-that-a-folder-already-exists">Split Blueprint Unchained reports that a folder already exists</h2>
+<p>The <strong>Plugins</strong> folder of the project has a folder with the name of one of the tools. Delete this folder, or move it out of the project. Then split the bundle again.</p>
+<h2 id="split-blueprint-unchained-reports-that-a-tool-is-also-installed-on-its-own">Split Blueprint Unchained reports that a tool is also installed on its own</h2>
+<p>You also bought this tool separately, and it is installed for this engine. Two copies of one plugin cannot load together. Uninstall the separate copy in the Epic Games Launcher. Then split the bundle again.</p>
+<h2 id="the-editor-reports-that-the-split-plugins-were-not-changed">The editor reports that the split plugins were not changed</h2>
+<p>A different program used a file in the <strong>Plugins</strong> folder of the project when the editor closed, for example a file explorer window or a code editor. Thus the update or the undo could not move the folders, and the project stays as before. Close the other program. Then select the same item in the <strong>Tools</strong> menu again.</p>
+<h2 id="a-problem-occurs-in-one-toolset">A problem occurs in one toolset</h2>
+<p>Open the manual of that tool and read its Troubleshooting section. When you report the problem, give the name of the tool, the Unreal Engine version and the plugin version.</p>
 <h1 id="support">Support</h1>
-<p>For help, bug reports or feature requests, contact <strong>tomasz.klin+blueprintunchained@gmail.com</strong>.</p>
-<p>Include your Unreal Engine version, plugin version and the name of the tool you are using. This manual covers plugin version 1.0.0.</p>
+<p>For help, bug reports or feature requests, send an email to <strong>tomasz.klin+blueprintunchained@gmail.com</strong>.</p>
+<p>Give your Unreal Engine version, the plugin version and the name of the tool that you use. This manual is for plugin version 1.0.1.</p>
 </body>
 </html>
